@@ -19,7 +19,8 @@ const checkForAttr = (attr) => {
     
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
-    return new RegExp( attribute + `{1}\s?=\s?\'|\"{1}[^\'\"]?` + value +`{1}[^\'\"]?\'|\"`, 'gm' );
+    // return new RegExp( attribute + `{1}\\s?=\\s?\\'|\\"{1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?\\'|\\"`, 'gm' );
+    return new RegExp( `class{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
 const findEndOfTag = (tag, html) => {
@@ -36,8 +37,9 @@ const htmlParser = (tag, attr, body) => {
 
     templateArr = templateArr
                     .filter( el => {
-                        console.log( '', el.match(tempToFind) );
-                        return tempToFind.test(el) && el.match(tempToFind) < 30 
+                        console.log('');
+                        console.log( el.match(tempToFind) );
+                        return tempToFind.test(el) && el.match(tempToFind)
                     })
                     .map( el => el.trim() )
                     .sort((a,b)=>b.length-a.length);
@@ -54,7 +56,7 @@ const htmlParser = (tag, attr, body) => {
     // let html = (await needle('get', URL)).body;
 
     let html = `
-        <div class="b_items_list" cellspacing="0">
+        <div class = "b_items_list" cellspacing="0">
             <div></div>
             <div>
                 <div class="masha sasha" data-tr="tr">111111111</div>
