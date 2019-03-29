@@ -1,0 +1,25 @@
+{
+  "name": "work_with_files",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mokka86coffee/node_work_csv_blob_parse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mokka86coffee/node_work_csv_blob_parse/issues"
+  },
+  "homepage": "https://github.com/mokka86coffee/node_work_csv_blob_parse#readme",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "iconv-lite": "^0.4.24",
+    "needle": "^2.2.4"
+  }
+}
