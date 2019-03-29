@@ -19,7 +19,7 @@ const checkForAttr = (attr) => {
     
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
-    return new RegExp( attribute + `\s?=\s?\'|\"{1}[^\'\"]?` + value +`[^\'\"]?\'|\"`, 'gm' );
+    return new RegExp( attribute + `{1}\s?=\s?\'|\"{1}[^\'\"]?` + value +`{1}[^\'\"]?\'|\"`, 'gm' );
 } // creating RegExp to find attr in tag
 
 const findEndOfTag = (tag, html) => {
@@ -31,16 +31,20 @@ const htmlParser = (tag, attr, body) => {
     let templateArr = body.split('<' + tag).slice(1);
 
     let tempToFind = checkForAttr(attr);
+
     console.log(tempToFind);
 
     templateArr = templateArr
-                    .filter( el => tempToFind.test(el) )
+                    .filter( el => {
+                        console.log( '', el.match(tempToFind) );
+                        return tempToFind.test(el) && el.match(tempToFind) < 30 
+                    })
                     .map( el => el.trim() )
                     .sort((a,b)=>b.length-a.length);
     
     let resultedNode = templateArr[0];
-    console.log(resultedNode);
-    // fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
+    // console.log(resultedNode);
+    fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
     return templateArr;
 
 }
@@ -50,25 +54,26 @@ const htmlParser = (tag, attr, body) => {
     // let html = (await needle('get', URL)).body;
 
     let html = `
-        <table class="b_items_list" cellspacing="0">
-            <thead></thead>
-            <tbody>
-                <tr class="masha sasha" data-tr="tr">111111111</tr>
-                <tr>
-                    <tr>
-                        <tr>2222222</tr>
+        <div class="b_items_list" cellspacing="0">
+            <div></div>
+            <div>
+                <div class="masha sasha" data-tr="tr">111111111</div>
+                <div>
+                    <div>
+                        <div>2222222</div>
                         2222222
-                    </tr>
+                    </div>
                     2222222
-                </tr>
-                <tr>eeeeeeee</tr>
-            <tbody>
-        </table>
+                </div>
+                <div>eeeeeeee</div>
+            </div>
+            <div><p>aaaa</p></div>
+        </div>
     `;
 
-    let result = htmlParser('tr', '', html);
+    // let result = htmlParser('div', '', html);
 
-    // let result = htmlParser('table', 'class=b_items_list', html);
+    let result = htmlParser('div', 'class=b_items_list', html);
     
     // console.log(result);
 
