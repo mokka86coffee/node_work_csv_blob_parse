@@ -14,7 +14,7 @@ const iconv = require('iconv-lite'); // fonts lang converter
 {
 // /*
 
-const checkForAttr = (attr) => {
+const createRegExpForAttr = (attr) => {
     if (!attr) return new RegExp('.','gm');
     
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
@@ -22,23 +22,15 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-const findEndOfTag = (tag, html) => {
-}
-
 const htmlParser = (tag, attr, body) => {
 
     let templateArr = body.split('<' + tag).slice(1);
 
-    let tempToFind = checkForAttr(attr);
+    let tempToFind = createRegExpForAttr(attr); // creating RegExp to find attr in tag
 
-    templateArr = templateArr
-                    .filter( el => tempToFind.test(el) && el.match(tempToFind))
-                    .map( el => el.trim() )
-                    .sort((a,b)=>b.length-a.length);
-    console.log(templateArr);
+    templateArr = templateArr.filter( el => tempToFind.test(el) && el.match(tempToFind)) // filtering with created RegExp
     
     let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
-    console.log(resultedNode);
     fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
     return templateArr;
 
@@ -48,29 +40,7 @@ const htmlParser = (tag, attr, body) => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     let html = (await needle('get', URL)).body;
 
-    // let html = `
-    //     <div class = "b_items_list" cellspacing="0">
-    //         <div></div>
-    //         <div>
-    //             <div class="masha sasha" data-tr="tr">111111111</div>
-    //             <div>
-    //                 <div>
-    //                     <div>2222222</div>
-    //                     2222222
-    //                 </div>
-    //                 2222222
-    //             </div>
-    //             <div>eeeeeeee</div>
-    //         </div>
-    //         <div><p>aaaa</p></div>
-    //     </div>
-    // `;
-
-    // let result = htmlParser('div', '', html);
-
     let result = htmlParser('table', 'class=b_items_list', html);
-    
-    // console.log(result);
 
     
 })();
