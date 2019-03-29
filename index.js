@@ -20,19 +20,26 @@ const checkForAttr = (attr) => {
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
     return new RegExp( attribute + `\s?=\s?\'|\"{1}[^\'\"]?` + value +`[^\'\"]?\'|\"`, 'gm' );
+} // creating RegExp to find attr in tag
+
+const findEndOfTag = (tag, html) => {
+
 }
 
-const htmlParser = (node, attr, body) => {
+const htmlParser = (tag, attr, body) => {
 
-    let templateArr = body.split('<' + node).slice(1);
+    let templateArr = body.split('<' + tag).slice(1);
 
     let tempToFind = checkForAttr(attr);
     console.log(tempToFind);
 
-    templateArr = templateArr.filter( el => tempToFind.test(el) );
+    templateArr = templateArr
+                    .filter( el => tempToFind.test(el) )
+                    .map( el => el.trim() )
+                    .sort((a,b)=>b.length-a.length);
     
-    console.log(templateArr.length);
-    console.log(templateArr);
+    let resultedNode = templateArr[0];
+    console.log(resultedNode);
     // fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
     return templateArr;
 
@@ -42,9 +49,27 @@ const htmlParser = (node, attr, body) => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     // let html = (await needle('get', URL)).body;
 
-    let html = '<table class="b_items_list" cellspacing="0"><thead></thead><tr class="masha sasha" data-tr="tr">111111111</tr><tr>2222222</tr><tr>eeeeeeee</tr>';
+    let html = `
+        <table class="b_items_list" cellspacing="0">
+            <thead></thead>
+            <tbody>
+                <tr class="masha sasha" data-tr="tr">111111111</tr>
+                <tr>
+                    <tr>
+                        <tr>2222222</tr>
+                        2222222
+                    </tr>
+                    2222222
+                </tr>
+                <tr>eeeeeeee</tr>
+            <tbody>
+        </table>
+    `;
 
-    let result = htmlParser('tr', 'class=sasha', html);
+    let result = htmlParser('tr', '', html);
+
+    // let result = htmlParser('table', 'class=b_items_list', html);
+    
     // console.log(result);
 
     
