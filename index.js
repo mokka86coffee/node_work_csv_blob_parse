@@ -19,12 +19,10 @@ const checkForAttr = (attr) => {
     
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
-    // return new RegExp( attribute + `{1}\\s?=\\s?\\'|\\"{1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?\\'|\\"`, 'gm' );
-    return new RegExp( `class{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
+    return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
 const findEndOfTag = (tag, html) => {
-
 }
 
 const htmlParser = (tag, attr, body) => {
@@ -33,49 +31,44 @@ const htmlParser = (tag, attr, body) => {
 
     let tempToFind = checkForAttr(attr);
 
-    console.log(tempToFind);
-
     templateArr = templateArr
-                    .filter( el => {
-                        console.log('');
-                        console.log( el.match(tempToFind) );
-                        return tempToFind.test(el) && el.match(tempToFind)
-                    })
+                    .filter( el => tempToFind.test(el) && el.match(tempToFind))
                     .map( el => el.trim() )
                     .sort((a,b)=>b.length-a.length);
+    console.log(templateArr);
     
-    let resultedNode = templateArr[0];
-    // console.log(resultedNode);
-    fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
+    let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
+    console.log(resultedNode);
+    fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
     return templateArr;
 
 }
 
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-    // let html = (await needle('get', URL)).body;
+    let html = (await needle('get', URL)).body;
 
-    let html = `
-        <div class = "b_items_list" cellspacing="0">
-            <div></div>
-            <div>
-                <div class="masha sasha" data-tr="tr">111111111</div>
-                <div>
-                    <div>
-                        <div>2222222</div>
-                        2222222
-                    </div>
-                    2222222
-                </div>
-                <div>eeeeeeee</div>
-            </div>
-            <div><p>aaaa</p></div>
-        </div>
-    `;
+    // let html = `
+    //     <div class = "b_items_list" cellspacing="0">
+    //         <div></div>
+    //         <div>
+    //             <div class="masha sasha" data-tr="tr">111111111</div>
+    //             <div>
+    //                 <div>
+    //                     <div>2222222</div>
+    //                     2222222
+    //                 </div>
+    //                 2222222
+    //             </div>
+    //             <div>eeeeeeee</div>
+    //         </div>
+    //         <div><p>aaaa</p></div>
+    //     </div>
+    // `;
 
     // let result = htmlParser('div', '', html);
 
-    let result = htmlParser('div', 'class=b_items_list', html);
+    let result = htmlParser('table', 'class=b_items_list', html);
     
     // console.log(result);
 
