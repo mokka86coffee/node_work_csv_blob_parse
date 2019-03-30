@@ -26,14 +26,9 @@ const findNode = ( body, startedIdxs, endedIdxs, length ) => {
     let foundedParts = [];
     html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
 
-    for (let idx = 0; idx < startedIdxs.length; idx++) {
-        if (endedIdxs.length === 1) {
-            foundedParts.push(body.substring(startedIdxs[0]+1+length, endedIdxs[0]))
-        } 
-        else if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx+1]))
-
-            foundedParts.concat( findNode(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
+    for (let idx = 0; idx < startedIdxs.length; idx++) { 
+        if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
+            foundedParts.concat( findEntries(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
         } 
         else {
             foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
@@ -70,13 +65,13 @@ const htmlParser = (tag, attr, body) => {
 
 }
 
-let findEntries = (tag, html, idx = 0) => {
+let findEntries = (tag, html) => {
     let resultedArr = [];
 
     // Getting quanity of children entries
     let openPoints = [], endPoints = [];
-    let posStart = html.indexOf(`<${tag}`, idx);
-    let posEnd = html.indexOf(`<\/${tag}`, idx);
+    let posStart = html.indexOf(`<${tag}`);
+    let posEnd = html.indexOf(`<\/${tag}`);
 
     let cuttedHtml = html.substring(posStart+1, posEnd);
     
@@ -140,7 +135,7 @@ let findEntries = (tag, html, idx = 0) => {
     // html = '<a>1</a><a>2</a><a>3</a><a>4</a>';
     html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
 
-    // let result = htmlParser('a', '', html);
+    let result = htmlParser('a', '', html);
 	// console.log("TCL: result", result)
 
     // let result = htmlParser('div', 'class=b_items_list', html);
