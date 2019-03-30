@@ -1,5 +1,4 @@
 const fs = require('fs');
-const needle = require('needle'); // aka axios
 const iconv = require('iconv-lite'); // fonts lang converter (optional)
  
  
@@ -11,7 +10,7 @@ const iconv = require('iconv-lite'); // fonts lang converter (optional)
 
 
 const checkForAttr = (attr) => {
-    if (!attr) return new RegExp('.','gm');
+    if (!attr) return '';
 
     attr = attr.replace(/[\[\]\'\"]/gm,'');
 
@@ -109,7 +108,7 @@ const findPositions = (tag, body) => {
     return resultedArr;
 } // getting array of each position of tag ( separate for '<' & '</' )
 
-const htmlParser = (tag, attr, body, getText = false) => {
+const htmlParser = ( tag, attr, body, config ) => {
 
     let tempToFind = checkForAttr(attr),
         startedIdxs = findPositions('<' + tag, body), // getting positions of opened tags
@@ -118,27 +117,32 @@ const htmlParser = (tag, attr, body, getText = false) => {
 
     templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
 
-    templateArr = templateArr
-    .map( el => el.replace(/[\n]/gm,'') ) 
-    .map( el => el.replace(/[\s]{2,}/gm,'') )
-    .map( el => el.trim() ); 
-    // beauty in file (for test)
 
     templateArr = templateArr.filter( el => {
         let str = el.substring(0, el.indexOf('>'));
         return str.match(tempToFind);
     });
 
-    if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
+    if (config.text) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
 
-    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{}); //for test
+    
+    if (config.file) {
+        // beauty in file (for test)
+        templateArr = templateArr
+        .map( el => el.replace(/[\n]/gm,'') ) 
+        .map( el => el.replace(/[\s]{2,}/gm,'') )
+        .map( el => el.trim() ); 
+        // beauty in file (for test)
+        fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{}); //for test
+    }
+
     return templateArr;
 } // html parser itself
 
 const nodeHtml = (html)=>({ 
     html,
-    querySelector: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html, getText)[0] },
-    querySelectorAll: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html, getText) }
+    querySelector: function (tag, attr, config = {text: false, file: false}) { return htmlParser(tag, attr, this.html, config)[0] },
+    querySelectorAll: function (tag, attr, config = {text: false, file: false}) { return htmlParser(tag, attr, this.html, config) }
 });
 
 module.exports = nodeHtml;
