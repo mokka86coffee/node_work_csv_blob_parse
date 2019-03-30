@@ -35,11 +35,11 @@ const checkForAttr = (attr) => {
     
 } // creating RegExp to find attr inside tag
 
-const getHtmlFromPoints = (html, foundedPoints) => {
+const getHtmlFromPoints = (html, foundedPoints, tagLength) => {
     let resultedArr = [];
 
     foundedPoints.forEach( pointsObj => {
-        let node = html.substring( pointsObj.start, pointsObj.end );
+        let node = html.substring( pointsObj.start, pointsObj.end + tagLength + 3 );
         resultedArr.push(node);
     });
 
@@ -70,10 +70,10 @@ const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
     return resultedArr;
 } // return array of all start/end points
 
-const findNodes = ( html, startedIdxs, endedIdxs ) => {
+const findNodes = ( html, startedIdxs, endedIdxs, tagLength ) => {
 
     let foundedPoints = findEntriesUsingArrays(startedIdxs, endedIdxs);
-    let nodesArray = getHtmlFromPoints(html, foundedPoints);
+    let nodesArray = getHtmlFromPoints(html, foundedPoints, tagLength);
 
     return nodesArray;
 } // getting array of founded nodes
@@ -94,7 +94,7 @@ const htmlParser = ( tag, attr, html, config ) => {
         endedIdxs = findPositions('<\/' + tag, html) // getting positions of closed tags
     ;
 
-    let nodesArr = findNodes(html, startedIdxs, endedIdxs);
+    let nodesArr = findNodes(html, startedIdxs, endedIdxs, tag.length);
 
 
     nodesArr = nodesArr.filter( el => {
