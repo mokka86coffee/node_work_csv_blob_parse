@@ -21,14 +21,15 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-const findNode = ( body, startedIdxs, endedIdxs, length ) => {
+const findNode = ( body, tag, startedIdxs, endedIdxs, length ) => {
 
     let foundedParts = [];
     html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
 
     for (let idx = 0; idx < startedIdxs.length; idx++) { 
         if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
-            foundedParts.concat( findEntries(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
+            let newBody = body.substring(startedIdxs[idx]);
+            foundedParts.concat( findEntries(newBody,tag) )
         } 
         else {
             foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
@@ -57,7 +58,7 @@ const htmlParser = (tag, attr, body) => {
         endedIdxs = findPositions('<\/' + tag, body);
 
 
-    templateArr = findNode(body, startedIdxs, endedIdxs, tag.length);
+    templateArr = findNode(body, tag, startedIdxs, endedIdxs, tag.length);
     
     // let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
     // fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
