@@ -40,7 +40,7 @@ let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
 
 const html = `<div>level1start</div><div>level1start<div>level2start<div>level3</div><div>level3</div>level2end</div><div>level2start<div>level3</div><div>level3</div>level2end</div>level1end</div><div>level1start</div>`;
 
-let parsedHtml = parserHtml(html).querySelector('div', '', {file: true});
+let parsedHtml = parserHtml(html).querySelector('div', '', {file: true, text: true});
 // let parsedHtml = parserHtml(html).querySelector('table', '.b_items_list');
 // parsedHtml = parserHtml(parsedHtml).querySelector('tbody','');
 // let tableRows = parserHtml(parsedHtml).querySelectorAll('tr','');

@@ -102,7 +102,7 @@ const htmlParser = ( tag, attr, html, config ) => {
         return str.match(tempToFind);
     });
 
-    if (config.text) { nodesArr = nodesArr.map( el => el.substring( el.indexOf('>')+1) ); }
+    if (config.text) { nodesArr = nodesArr.map( el => el.substring( el.indexOf('>') + 1, el.lastIndexOf('<\/') ) ); }
 
     
     if (config.file) {
