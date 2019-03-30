@@ -25,14 +25,14 @@ const checkForAttr = (attr) => {
 
     if (~attribute.indexOf('\^')) { 
         attribute = attribute.replace('\^','');
-        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
      } // attr 'start from' founded
      if (~attribute.indexOf('\$')) { 
         attribute = attribute.replace('\$','');
-        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `(\\'|\\")`, 'gm' );
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `(\\'|\\")`, 'gm' );
     } // attr 'end with' founded
      else {
-        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
      }
     
 } // creating RegExp to find attr inside tag
@@ -77,7 +77,7 @@ let findEntries = (tag, html) => {
     return resultedArr;
     // return array of founded nodes
 
-} // finding all nested tag's entries (includes parent's closed tag)
+} // return all nested tag's entries (includes parent's closed tag) as array
 
 const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
 
@@ -94,7 +94,7 @@ const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
             endedIdxs.splice(idx+1, arrToAdd.length-1); // removing quanity of nested elements, except current
         } 
         else {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+1, endedIdxs[idx]))
+            foundedParts.push(body.substring(startedIdxs[idx] + length + 1, endedIdxs[idx]))
         }
     } // adding each node to 'foundedParts' array
 
@@ -126,7 +126,10 @@ const htmlParser = (tag, attr, body, getText = false) => {
     .map( el => el.trim() ); 
     // beauty in file (for test)
 
-    templateArr = templateArr.filter( el => el.match(tempToFind) );
+    templateArr = templateArr.filter( el => {
+        let str = el.substring(0, el.indexOf('>'));
+        return str.match(tempToFind);
+    });
 
     if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
 
@@ -139,6 +142,9 @@ const htmlParser = (tag, attr, body, getText = false) => {
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     let html = (await needle('get', URL)).body;
+    html = `
+        <table><table masya="vasya" class="aist"><table class="aist"></table></table></table>
+    `
     html = htmlParser('table', '[class$="ist"]', html)[0];
     // html = htmlParser('span', 'itemprop=name', html, true);
 })();
