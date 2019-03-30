@@ -18,10 +18,10 @@ const checkForAttr = (attr) => {
     
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
-    return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
+    return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-const findNode = ( body, tag, startedIdxs, endedIdxs, length ) => {
+const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
 
     let foundedParts = [];
 
@@ -38,7 +38,6 @@ const findNode = ( body, tag, startedIdxs, endedIdxs, length ) => {
         }
     }
 
-    console.log("TCL: findNode -> foundedParts", foundedParts)
     return foundedParts;
 }
 
@@ -60,15 +59,23 @@ const htmlParser = (tag, attr, body) => {
         endedIdxs = findPositions('<\/' + tag, body);
 
 
-    templateArr = findNode(body, tag, startedIdxs, endedIdxs, tag.length);
-    
-    // fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
+    templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
+
+    templateArr = templateArr
+    .map( el => el.replace(/[\n]/gm,'') )
+    .map( el => el.replace(/[\s]{2,}/gm,'') )
+    .map( el => el.trim() )
+    .filter( el => {
+        // console.log( el.match(tempToFind) );
+        return el.match(tempToFind);
+    });
+
+    fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
     return templateArr;
 
 }
 
 let findEntries = (tag, html) => {
-	console.log("TCL: findEntries -> html", html)
     let resultedArr = [];
 
     // Getting quanity of children entries
@@ -113,13 +120,13 @@ let findEntries = (tag, html) => {
     // let html = (await needle('get', URL)).body;
 
     let html = `
-        <div class = "b_items_list" cellspacing="0">
+        <div cellspacing="0">
             <div></div>
             <div>
-                <div class="masha sasha" data-tr="tr">111111111</div>
+                <div class="masha sasha b_items_list" data-tr="tr">111111111</div>
                 <div>
-                    <div>
-                        <div>2222222</div>
+                    <div class='b_items_list'>
+                        <div class='b_items_list'>2222222</div>
                         2222222
                     </div>
                     2222222
@@ -130,7 +137,7 @@ let findEntries = (tag, html) => {
         </div>
     `;
 
-    let result = htmlParser('a', '', html);
+    let result = htmlParser('div', 'class=b_items_list', html);
 	// console.log("TCL: result", result)
 
     // let result = htmlParser('div', 'class=b_items_list', html);
