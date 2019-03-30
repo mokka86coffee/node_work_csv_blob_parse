@@ -19,7 +19,6 @@ const checkForAttr = (attr) => {
     else if (~attr.indexOf('\#')) { attr = `id=${attr.substr(1)}` } // attr 'id' founded
     if (~attr.indexOf('\*')) { attr = attr.replace('\*','') } // attr 'includes' founded
 
-    console.log(attr);
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
 
@@ -111,16 +110,11 @@ const findPositions = (tag, body) => {
 } // getting array of each position of tag ( separate for '<' & '</' )
 
 const htmlParser = (tag, attr, body, getText = false) => {
-console.log("TCL: htmlParser -> body", body)
-console.log("TCL: htmlParser -> attr", attr)
-console.log("TCL: htmlParser -> tag", tag)
-
 
     let tempToFind = checkForAttr(attr),
         startedIdxs = findPositions('<' + tag, body), // getting positions of opened tags
         endedIdxs = findPositions('<\/' + tag, body) // getting positions of closed tags
     ;
-
 
     templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
 
@@ -143,8 +137,8 @@ console.log("TCL: htmlParser -> tag", tag)
 
 const nodeHtml = (html)=>({ 
     html,
-    querySelector: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html)[0] },
-    querySelectorAll: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html) }
+    querySelector: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html, getText)[0] },
+    querySelectorAll: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html, getText) }
 });
 
 module.exports = nodeHtml;
