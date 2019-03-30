@@ -120,7 +120,7 @@ let findEntries = (tag, html) => {
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     let html = (await needle('get', URL)).body;
-    html = htmlParser('table', 'class=b_items_list', html)[0];
+    // html = htmlParser('table', 'class=b_items_list', html)[0];
     html = htmlParser('span', 'itemprop=name', html, true);
 })();
 // */
