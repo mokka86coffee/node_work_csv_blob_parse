@@ -21,6 +21,30 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
+let count = 0;
+const findNode = ( body, startedIdxs, endedIdxs, length ) => {
+
+    let foundedParts = [];
+    html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
+
+    for (let idx = 0; idx < startedIdxs.length; idx++) {
+        if (endedIdxs.length === 1) {
+            foundedParts.push(body.substring(startedIdxs[0]+1+length, endedIdxs[0]))
+        } 
+        else if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
+            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx+1]))
+
+            foundedParts.concat( findNode(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
+        } 
+        else {
+            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
+        }
+    }
+    console.log("TCL: findNode -> foundedParts", foundedParts)
+
+    return foundedParts;
+}
+
 const findPositions = (tag, body) => {
     let position = body.indexOf(tag), resultedArr = [];
     while (~position) {
