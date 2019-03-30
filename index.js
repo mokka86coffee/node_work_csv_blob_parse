@@ -21,30 +21,6 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-let count = 0;
-const findNode = ( body, startedIdxs, endedIdxs, length ) => {
-
-    let foundedParts = [];
-    html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
-
-    for (let idx = 0; idx < startedIdxs.length; idx++) {
-        if (endedIdxs.length === 1) {
-            foundedParts.push(body.substring(startedIdxs[0]+1+length, endedIdxs[0]))
-        } 
-        else if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx+1]))
-
-            foundedParts.concat( findNode(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
-        } 
-        else {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
-        }
-    }
-    console.log("TCL: findNode -> foundedParts", foundedParts)
-
-    return foundedParts;
-}
-
 const findPositions = (tag, body) => {
     let position = body.indexOf(tag), resultedArr = [];
     while (~position) {
@@ -68,6 +44,46 @@ const htmlParser = (tag, attr, body) => {
     // let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
     // fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
     return templateArr;
+
+}
+
+const findEntries = (tag, html, idx = 0) => {
+    let resultedArr = [];
+
+    // Getting quanity of children entries
+    let openPoints = [], endPoints = [];
+    let posStart = html.indexOf(`<${tag}`, idx);
+    let posEnd = html.indexOf(`<\/${tag}`, idx);
+
+    let cuttedHtml = html.substring(posStart+1, posEnd);
+    
+    let entry = cuttedHtml.indexOf(`<${tag}`);
+    let counterOfOpenedTags = 0;
+    while (entry !== -1) {
+        openPoints.push(entry);
+        counterOfOpenedTags++;
+
+        entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
+    }
+    
+    entry = posEnd;
+    let counterOfClosedTags = counterOfOpenedTags;
+    while (counterOfClosedTags) {
+        endPoints.push(entry);
+        counterOfClosedTags--;
+        entry = html.indexOf(`<\/${tag}`, entry+1);
+    }
+    // Getting quanity of children entries
+
+    for (let idx=1; idx <= counterOfOpenedTags; idx++) {
+        let node = html.substring( openPoints[openPoints.length-idx] + tag.length + 2, endPoints[idx-1] );
+        resultedArr.push(node);
+        // break;
+    }
+    console.log("TCL: findEntries -> openPoints", openPoints)
+    console.log("TCL: findEntries -> endPoints", endPoints)
+
+    return resultedArr;
 
 }
 
@@ -108,55 +124,4 @@ const htmlParser = (tag, attr, body) => {
     
 })();
 // */
-}
-
-
-
-{
-    
-    let html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
-    html = `<a>start1<a>start2<a>start3<a>start4a1end</a>a2end</a>a3end</a>a4end</a>`;
-    let tag = 'a';
-
-    let findEntries = (tag, html, idx = 0) => {
-		console.log("TCL: findEntries -> html", html)
-        let resultedArr = [];
-
-        // Getting quanity of children entries
-        let openPoints = [], endPoints = [];
-        let posStart = html.indexOf(`<${tag}`, idx);
-        let posEnd = html.indexOf(`<\/${tag}`, idx);
-
-        let cuttedHtml = html.substring(posStart+1, posEnd);
-        
-        let entry = cuttedHtml.indexOf(`<${tag}`);
-        let counterOfOpenedTags = 0;
-        while (entry !== -1) {
-            openPoints.push(entry);
-            counterOfOpenedTags++;
-
-            entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
-        }
-        
-        entry = posEnd;
-        let counterOfClosedTags = counterOfOpenedTags;
-        while (counterOfClosedTags) {
-            endPoints.push(entry);
-            counterOfClosedTags--;
-            entry = html.indexOf(`<\/${tag}`, entry+1);
-        }
-        // Getting quanity of children entries
-
-        for (let idx=0; idx <= counterOfOpenedTags; idx++) {
-            let node = html.substring( openPoints[openPoints.length-idx], endPoints[idx] );
-            resultedArr.push(node);
-        }
-        console.log("TCL: findEntries -> openPoints", openPoints)
-        console.log("TCL: findEntries -> endPoints", endPoints)
-
-        return resultedArr;
-
-    }
-
-    console.log( findEntries( tag, html) );
 }
