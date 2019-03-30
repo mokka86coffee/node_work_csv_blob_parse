@@ -71,7 +71,7 @@ const htmlParser = (tag, attr, body) => {
 
 }
 
-const findEntries = (tag, html, idx = 0) => {
+let findEntries = (tag, html, idx = 0) => {
     let resultedArr = [];
 
     // Getting quanity of children entries
