@@ -22,20 +22,19 @@ const checkForAttr = (attr) => {
 } // creating RegExp to find attr in tag
 
 const findNode = ( body, tag, startedIdxs, endedIdxs, length ) => {
-console.log("TCL: findNode -> startedIdxs", startedIdxs)
-console.log("TCL: findNode -> endedIdxs", endedIdxs)
 
     let foundedParts = [];
 
     for (let idx = 0; idx < startedIdxs.length; idx++) { 
-        if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
+        if ( startedIdxs[idx+1] < endedIdxs[idx] ) {
             let newBody = body.substring(startedIdxs[idx]);
             let arrToAdd = findEntries(tag, newBody);
             foundedParts = foundedParts.concat(arrToAdd);
             startedIdxs.splice(idx+1, arrToAdd.length-1);
+            endedIdxs.splice(idx+1, arrToAdd.length-1);
         } 
         else {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
+            foundedParts.push(body.substring(startedIdxs[idx]+length+1, endedIdxs[idx]))
         }
     }
 
@@ -130,13 +129,6 @@ let findEntries = (tag, html) => {
             <div><p>aaaa</p></div>
         </div>
     `;
-
-
-
-    html = '<a>start1<a>start2<a>start3<a>start4a1end</a>a2end</a>a3end</a>a4end</a>';
-    // html = '<a>1start<a>2</a>1end</a><a>3</a><a>4</a>';
-    // html = '<a>1</a><a>2</a><a>3</a><a>4</a>';
-    // html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
 
     let result = htmlParser('a', '', html);
 	// console.log("TCL: result", result)
