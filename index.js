@@ -36,24 +36,27 @@ let workingWithName = (name) => {
 
 
 let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-let html = (await needle('get', URL)).body;
+// let html = (await needle('get', URL)).body;
 
-let parsedHtml = parserHtml(html).querySelector('table', '.b_items_list');
-parsedHtml = parserHtml(parsedHtml).querySelector('tbody','');
-let tableRows = parserHtml(parsedHtml).querySelectorAll('tr','');
+const html = `<div>level1start</div><div>level1start<div>level2start<div>level3</div><div>level3</div>level2end</div><div>level2start<div>level3</div><div>level3</div>level2end</div>level1end</div><div>level1start</div>`;
 
-let arr = [];
-tableRows.forEach( (el,idx) => {
-    let sku = parserHtml(el).querySelector('span', '[itemprop="sku"]', {text: true});
-//     let price = priceCalculation( +el.querySelector('.bil_price').innerText );
-//     let additionInfo = workingWithName( el.querySelector('[itemprop="url"] span').innerText );
+let parsedHtml = parserHtml(html).querySelector('div', '', {file: true});
+// let parsedHtml = parserHtml(html).querySelector('table', '.b_items_list');
+// parsedHtml = parserHtml(parsedHtml).querySelector('tbody','');
+// let tableRows = parserHtml(parsedHtml).querySelectorAll('tr','');
 
-    let data = { sku };
-    // let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
-    arr.push( JSON.stringify(data) );
-});
+// let arr = [];
+// tableRows.forEach( (el,idx) => {
+//     let sku = parserHtml(el).querySelector('span', '[itemprop="sku"]', {text: true});
+// //     let price = priceCalculation( +el.querySelector('.bil_price').innerText );
+// //     let additionInfo = workingWithName( el.querySelector('[itemprop="url"] span').innerText );
+
+//     let data = { sku };
+//     // let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
+//     arr.push( JSON.stringify(data) );
+// });
 
 
-getFileFromBlob(arr);
+// getFileFromBlob(arr);
 
 })();

@@ -35,108 +35,87 @@ const checkForAttr = (attr) => {
     
 } // creating RegExp to find attr inside tag
 
-let findEntries = (tag, html) => {
+const getHtmlFromPoints = (html, foundedPoints) => {
     let resultedArr = [];
 
-    // Getting quanity of children entries
-    
-    let openPoints = [], endPoints = [];
-    const posStart = html.indexOf(`<${tag}`); // first opened tag
-    let posEnd = html.indexOf(`<\/${tag}`); // first closed tag
-
-    let cuttedHtml = html.substring(posStart+1, posEnd); // cut html to get only nested opened tags
-    
-    let entry = cuttedHtml.indexOf(`<${tag}`);
-    let counterOfOpenedTags = 0;
-    while (entry !== -1) {
-        openPoints.push(entry);
-        counterOfOpenedTags++;
-        entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
-    }// counting nested opened tags and getting 'openPoints' array from them
-    
-    entry = posEnd;
-    let counterOfClosedTags = counterOfOpenedTags+1; // +1 cause we also need the closed parent tag
-    while (counterOfClosedTags) {
-        endPoints.push(entry);
-        counterOfClosedTags--;
-        entry = html.indexOf(`<\/${tag}`, entry+1);
-    }// getting 'endPoints' array from closed tags
-    
-    // Getting quanity of children entries
-
-    for (let idx=1; idx <= counterOfOpenedTags +1; idx++) { // started from 1 cause of 'openPoints[!!openPoints.length-idx!!]'
-        let node = idx === counterOfOpenedTags +1
-            ? html.substring( posStart + tag.length+1, endPoints[idx-1])
-            : html.substring( openPoints[openPoints.length-idx] + tag.length + 2, endPoints[idx-1] );
-        
+    foundedPoints.forEach( pointsObj => {
+        let node = html.substring( pointsObj.start, pointsObj.end );
         resultedArr.push(node);
-    }
+    });
 
     return resultedArr;
-    // return array of founded nodes
 
-} // return all nested tag's entries (includes parent's closed tag) as array
+} // return array of html nodes
 
-const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
-
-    let foundedParts = [];
-
-    for (let idx = 0; idx < startedIdxs.length; idx++) { 
-        if ( startedIdxs[idx+1] < endedIdxs[idx] ) { // checking if pos of next opened tag greater then current closed tag (nested or not)
-            let newBody = body.substring(startedIdxs[idx]); // cutting html to start 'findEntries' from current position
-            let arrToAdd = findEntries(tag, newBody);
-
-            foundedParts = foundedParts.concat(arrToAdd);
-            
-            startedIdxs.splice(idx+1, arrToAdd.length-1); // removing quanity of nested elements, except current
-            endedIdxs.splice(idx+1, arrToAdd.length-1); // removing quanity of nested elements, except current
-        } 
-        else {
-            foundedParts.push(body.substring(startedIdxs[idx] + length + 1, endedIdxs[idx]))
+const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
+    let resultedArr = [];
+    let nullsArr = [];
+    let startIdx = 0;
+    endedIdxs.forEach( (endPoint, endIdx) => {
+        while(startedIdxs[startIdx] < endPoint && startedIdxs[startIdx] !== undefined) {
+            resultedArr.push({
+                start: startedIdxs[startIdx],
+                end: null
+            });
+            nullsArr.push(startIdx);
+            startIdx++;
         }
-    } // adding each node to 'foundedParts' array
 
-    return foundedParts;
+        if ( endPoint < startedIdxs[startIdx] || startedIdxs[startIdx] === undefined ) {
+            Object.assign(resultedArr[nullsArr[nullsArr.length-1]], {end: endPoint});
+            nullsArr.pop();
+        }
+        
+    });
+    return resultedArr;
+} // return array of all start/end points
+
+const findNodes = ( html, startedIdxs, endedIdxs ) => {
+
+    let foundedPoints = findEntriesUsingArrays(startedIdxs, endedIdxs);
+    let nodesArray = getHtmlFromPoints(html, foundedPoints);
+
+    return nodesArray;
 } // getting array of founded nodes
 
-const findPositions = (tag, body) => {
-    let position = body.indexOf(tag), resultedArr = [];
+const findPositions = (tag, html) => {
+    let position = html.indexOf(tag), resultedArr = [];
     while (~position) {
         resultedArr.push(position);
-        position = body.indexOf(tag, position + 1);
+        position = html.indexOf(tag, position + 1);
     }
     return resultedArr;
 } // getting array of each position of tag ( separate for '<' & '</' )
 
-const htmlParser = ( tag, attr, body, config ) => {
+const htmlParser = ( tag, attr, html, config ) => {
 
     let tempToFind = checkForAttr(attr),
-        startedIdxs = findPositions('<' + tag, body), // getting positions of opened tags
-        endedIdxs = findPositions('<\/' + tag, body) // getting positions of closed tags
+        startedIdxs = findPositions('<' + tag, html), // getting positions of opened tags
+        endedIdxs = findPositions('<\/' + tag, html) // getting positions of closed tags
     ;
 
-    templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
+    let nodesArr = findNodes(html, startedIdxs, endedIdxs);
 
 
-    templateArr = templateArr.filter( el => {
+    nodesArr = nodesArr.filter( el => {
         let str = el.substring(0, el.indexOf('>'));
         return str.match(tempToFind);
     });
 
-    if (config.text) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
+    if (config.text) { nodesArr = nodesArr.map( el => el.substring( el.indexOf('>')+1) ); }
 
     
     if (config.file) {
         // beauty in file (for test)
-        templateArr = templateArr
+        nodesArr = nodesArr
         .map( el => el.replace(/[\n]/gm,'') ) 
         .map( el => el.replace(/[\s]{2,}/gm,'') )
         .map( el => el.trim() ); 
         // beauty in file (for test)
-        fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{}); //for test
+        fs.writeFileSync('new.js', JSON.stringify(nodesArr,0,'\n'), ()=>{}); //for test
     }
 
-    return templateArr;
+    return nodesArr;
 } // html parser itself
 
 const nodeHtml = (html)=>({ 
