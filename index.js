@@ -65,6 +65,7 @@ const htmlParser = (tag, attr, body) => {
 }
 
 let findEntries = (tag, html) => {
+	console.log("TCL: findEntries -> html", html)
     let resultedArr = [];
 
     // Getting quanity of children entries
@@ -91,16 +92,14 @@ let findEntries = (tag, html) => {
     }
     // Getting quanity of children entries
 
-    for (let idx=1; idx === counterOfOpenedTags; idx++) {
-        let node = idx === counterOfOpenedTags
-            ? html.substring( posStart, endPoints[idx-1])
+    for (let idx=1; idx <= counterOfOpenedTags +1; idx++) {
+        let node = idx === counterOfOpenedTags +1
+            ? html.substring( posStart + tag.length + 2, endPoints[idx-1])
             : html.substring( openPoints[openPoints.length-idx] + tag.length + 2, endPoints[idx-1] );
         
         resultedArr.push(node);
     }
-    console.log("TCL: findEntries -> posStart", posStart)
-    console.log("TCL: findEntries -> openPoints", openPoints)
-    console.log("TCL: findEntries -> endPoints", endPoints)
+	console.log("TCL: findEntries -> resultedArr", resultedArr)
 
     return resultedArr;
 
