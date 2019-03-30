@@ -20,68 +20,13 @@ const checkForAttr = (attr) => {
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
     return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
-} // creating RegExp to find attr in tag
-
-const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
-
-    let foundedParts = [];
-
-    for (let idx = 0; idx < startedIdxs.length; idx++) { 
-        if ( startedIdxs[idx+1] < endedIdxs[idx] ) {
-            let newBody = body.substring(startedIdxs[idx]);
-            let arrToAdd = findEntries(tag, newBody);
-            foundedParts = foundedParts.concat(arrToAdd);
-            startedIdxs.splice(idx+1, arrToAdd.length-1);
-            endedIdxs.splice(idx+1, arrToAdd.length-1);
-        } 
-        else {
-            foundedParts.push(body.substring(startedIdxs[idx]+length+1, endedIdxs[idx]))
-        }
-    }
-
-    return foundedParts;
-}
-
-const findPositions = (tag, body) => {
-    let position = body.indexOf(tag), resultedArr = [];
-    while (~position) {
-        resultedArr.push(position);
-        position = body.indexOf(tag, position + 1);
-    }
-    return resultedArr;
-}
-
-
-const htmlParser = (tag, attr, body, getText = false) => {
-
-    let 
-        tempToFind = checkForAttr(attr),
-        startedIdxs = findPositions('<' + tag, body),
-        endedIdxs = findPositions('<\/' + tag, body);
-
-
-    templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
-
-    templateArr = templateArr
-    .map( el => el.replace(/[\n]/gm,'') )
-    .map( el => el.replace(/[\s]{2,}/gm,'') )
-    .map( el => el.trim() )
-    .filter( el => {
-        // console.log( el.match(tempToFind) );
-        return el.match(tempToFind);
-    });
-
-    if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
-
-    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{});
-    return templateArr;
-
-}
+} // creating RegExp to find attr inside tag
 
 let findEntries = (tag, html) => {
     let resultedArr = [];
 
     // Getting quanity of children entries
+    
     let openPoints = [], endPoints = [];
     const posStart = html.indexOf(`<${tag}`); // first opened tag
     let posEnd = html.indexOf(`<\/${tag}`); // first closed tag
@@ -116,7 +61,62 @@ let findEntries = (tag, html) => {
 
     return resultedArr;
     // return array of founded nodes
-} // finding all tag's entries
+
+} // finding all nested tag's entries (includes parent's closed tag)
+
+const findNodes = ( body, tag, startedIdxs, endedIdxs, length ) => {
+
+    let foundedParts = [];
+
+    for (let idx = 0; idx < startedIdxs.length; idx++) { 
+        if ( startedIdxs[idx+1] < endedIdxs[idx] ) { // checking if pos of next opened tag greater then current closed tag (nested or not)
+            let newBody = body.substring(startedIdxs[idx]); // cutting html to start 'findEntries' from current position
+            let arrToAdd = findEntries(tag, newBody);
+
+            foundedParts = foundedParts.concat(arrToAdd);
+            
+            startedIdxs.splice(idx+1, arrToAdd.length-1); // removing quanity of nested elements, except current
+            endedIdxs.splice(idx+1, arrToAdd.length-1); // removing quanity of nested elements, except current
+        } 
+        else {
+            foundedParts.push(body.substring(startedIdxs[idx]+length+1, endedIdxs[idx]))
+        }
+    } // adding each node to 'foundedParts' array
+
+    return foundedParts;
+} // getting array of founded nodes
+
+const findPositions = (tag, body) => {
+    let position = body.indexOf(tag), resultedArr = [];
+    while (~position) {
+        resultedArr.push(position);
+        position = body.indexOf(tag, position + 1);
+    }
+    return resultedArr;
+} // getting array of each position of tag ( separate for '<' & '</' )
+
+const htmlParser = (tag, attr, body, getText = false) => {
+
+    let tempToFind = checkForAttr(attr),
+        startedIdxs = findPositions('<' + tag, body), // getting positions of opened tags
+        endedIdxs = findPositions('<\/' + tag, body) // getting positions of closed tags
+    ;
+
+
+    templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
+
+    templateArr = templateArr
+    .map( el => el.replace(/[\n]/gm,'') ) // beauty in file
+    .map( el => el.replace(/[\s]{2,}/gm,'') ) // beauty in file
+    .map( el => el.trim() ) // beauty in file (optional)
+    .filter( el => el.match(tempToFind) );
+
+    if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
+
+    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{});
+    return templateArr;
+} // html parser itself
+
 
 
 (async() => {
