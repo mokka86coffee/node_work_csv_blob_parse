@@ -12,14 +12,29 @@ const iconv = require('iconv-lite'); // fonts lang converter (optional)
 
 const checkForAttr = (attr) => {
     if (!attr) return new RegExp('.','gm');
-    
+
+    attr = attr.replace(/[\[\]\'\"]/gm,'');
+
     if (~attr.indexOf('\.')) { attr = `class=${attr.substr(1)}` } // attr 'class' founded
-    if (~attr.indexOf('\#')) { attr = `id=${attr.substr(1)}` } // attr 'id' founded
+    else if (~attr.indexOf('\#')) { attr = `id=${attr.substr(1)}` } // attr 'id' founded
+    if (~attr.indexOf('\*')) { attr = attr.replace('\*','') } // attr 'includes' founded
 
     console.log(attr);
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
-    return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+
+    if (~attribute.indexOf('\^')) { 
+        attribute = attribute.replace('\^','');
+        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+     } // attr 'start from' founded
+     if (~attribute.indexOf('\$')) { 
+        attribute = attribute.replace('\$','');
+        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `(\\'|\\")`, 'gm' );
+    } // attr 'end with' founded
+     else {
+        return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+     }
+    
 } // creating RegExp to find attr inside tag
 
 let findEntries = (tag, html) => {
@@ -106,14 +121,16 @@ const htmlParser = (tag, attr, body, getText = false) => {
     templateArr = findNodes(body, tag, startedIdxs, endedIdxs, tag.length);
 
     templateArr = templateArr
-    .map( el => el.replace(/[\n]/gm,'') ) // beauty in file
-    .map( el => el.replace(/[\s]{2,}/gm,'') ) // beauty in file
-    .map( el => el.trim() ) // beauty in file (optional)
-    .filter( el => el.match(tempToFind) );
+    .map( el => el.replace(/[\n]/gm,'') ) 
+    .map( el => el.replace(/[\s]{2,}/gm,'') )
+    .map( el => el.trim() ); 
+    // beauty in file (for test)
+
+    templateArr = templateArr.filter( el => el.match(tempToFind) );
 
     if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
 
-    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{});
+    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{}); //for test
     return templateArr;
 } // html parser itself
 
@@ -122,6 +139,6 @@ const htmlParser = (tag, attr, body, getText = false) => {
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     let html = (await needle('get', URL)).body;
-    html = htmlParser('table', '#b_items_list', html)[0];
+    html = htmlParser('table', '[class$="ist"]', html)[0];
     // html = htmlParser('span', 'itemprop=name', html, true);
 })();
