@@ -1,6 +1,6 @@
 const fs = require('fs');
 const needle = require('needle'); // aka axios
-const iconv = require('iconv-lite'); // fonts lang converter 
+const iconv = require('iconv-lite'); // fonts lang converter (optional)
  
  
 // // Convert from an encoded buffer to js string.
@@ -10,12 +10,13 @@ const iconv = require('iconv-lite'); // fonts lang converter
 // buf = iconv.encode("Sample input string", 'win1251');
 
 
-{
-// /*
-
 const checkForAttr = (attr) => {
     if (!attr) return new RegExp('.','gm');
     
+    if (~attr.indexOf('\.')) { attr = `class=${attr.substr(1)}` } // attr 'class' founded
+    if (~attr.indexOf('\#')) { attr = `id=${attr.substr(1)}` } // attr 'id' founded
+
+    console.log(attr);
     let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
     let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
     return new RegExp( `^${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
@@ -120,8 +121,6 @@ let findEntries = (tag, html) => {
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
     let html = (await needle('get', URL)).body;
-    // html = htmlParser('table', 'class=b_items_list', html)[0];
-    html = htmlParser('span', 'itemprop=name', html, true);
+    html = htmlParser('table', '#b_items_list', html)[0];
+    // html = htmlParser('span', 'itemprop=name', html, true);
 })();
-// */
-}
