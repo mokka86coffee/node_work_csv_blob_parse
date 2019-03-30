@@ -83,10 +83,10 @@ let findEntries = (tag, html) => {
 
     // Getting quanity of children entries
     let openPoints = [], endPoints = [];
-    const posStart = html.indexOf(`<${tag}`);
-    let posEnd = html.indexOf(`<\/${tag}`);
+    const posStart = html.indexOf(`<${tag}`); // first opened tag
+    let posEnd = html.indexOf(`<\/${tag}`); // first closed tag
 
-    let cuttedHtml = html.substring(posStart+1, posEnd);
+    let cuttedHtml = html.substring(posStart+1, posEnd); // cut html to get only nested opened tags
     
     let entry = cuttedHtml.indexOf(`<${tag}`);
     let counterOfOpenedTags = 0;
@@ -94,18 +94,19 @@ let findEntries = (tag, html) => {
         openPoints.push(entry);
         counterOfOpenedTags++;
         entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
-    }
+    }// counting nested opened tags and getting 'openPoints' array from them
     
     entry = posEnd;
-    let counterOfClosedTags = counterOfOpenedTags+1;
+    let counterOfClosedTags = counterOfOpenedTags+1; // +1 cause we also need the closed parent tag
     while (counterOfClosedTags) {
         endPoints.push(entry);
         counterOfClosedTags--;
         entry = html.indexOf(`<\/${tag}`, entry+1);
-    }
+    }// getting 'endPoints' array from closed tags
+    
     // Getting quanity of children entries
 
-    for (let idx=1; idx <= counterOfOpenedTags +1; idx++) {
+    for (let idx=1; idx <= counterOfOpenedTags +1; idx++) { // started from 1 cause of 'openPoints[!!openPoints.length-idx!!]'
         let node = idx === counterOfOpenedTags +1
             ? html.substring( posStart + tag.length+1, endPoints[idx-1])
             : html.substring( openPoints[openPoints.length-idx] + tag.length + 2, endPoints[idx-1] );
@@ -114,8 +115,8 @@ let findEntries = (tag, html) => {
     }
 
     return resultedArr;
-
-}
+    // return array of founded nodes
+} // finding all tag's entries
 
 
 (async() => {
