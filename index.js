@@ -102,7 +102,7 @@ const htmlParser = (tag, attr, body) => {
     html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
 
     // let result = htmlParser('a', '', html);
-	console.log("TCL: result", result)
+	// console.log("TCL: result", result)
 
     // let result = htmlParser('div', 'class=b_items_list', html);
     
@@ -136,7 +136,7 @@ const htmlParser = (tag, attr, body) => {
             entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
         }
         
-        entry = html.indexOf(`<\/${tag}`);
+        entry = posEnd;
         let counterOfClosedTags = counterOfOpenedTags;
         while (counterOfClosedTags) {
             endPoints.push(entry);
@@ -153,6 +153,8 @@ const htmlParser = (tag, attr, body) => {
         return resultedArr;
 
     }
+    console.log("TCL: findEntries -> openPoints", openPoints)
+    console.log("TCL: findEntries -> endPoints", endPoints)
 
-    findEntries(html, tag);
+    console.log( findEntries(html, tag) );
 }
