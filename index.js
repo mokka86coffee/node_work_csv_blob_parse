@@ -94,7 +94,7 @@ let findEntries = (tag, html) => {
 
     for (let idx=1; idx <= counterOfOpenedTags +1; idx++) {
         let node = idx === counterOfOpenedTags +1
-            ? html.substring( posStart + tag.length + 2, endPoints[idx-1])
+            ? html.substring( posStart + tag.length+1, endPoints[idx-1])
             : html.substring( openPoints[openPoints.length-idx] + tag.length + 2, endPoints[idx-1] );
         
         resultedArr.push(node);
