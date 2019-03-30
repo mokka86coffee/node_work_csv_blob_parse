@@ -115,9 +115,11 @@ const htmlParser = (tag, attr, body) => {
 {
     
     let html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
+    html = `<a>start1<a>start2<a>start3<a>start4a1end</a>a2end</a>a3end</a>a4end</a>`;
     let tag = 'a';
 
     let findEntries = (tag, html, idx = 0) => {
+		console.log("TCL: findEntries -> html", html)
         let resultedArr = [];
 
         // Getting quanity of children entries
@@ -141,7 +143,7 @@ const htmlParser = (tag, attr, body) => {
         while (counterOfClosedTags) {
             endPoints.push(entry);
             counterOfClosedTags--;
-            entry = cuttedHtml.indexOf(`<\/${tag}`, entry+1);
+            entry = html.indexOf(`<\/${tag}`, entry+1);
         }
         // Getting quanity of children entries
 
@@ -149,12 +151,12 @@ const htmlParser = (tag, attr, body) => {
             let node = html.substring( openPoints[openPoints.length-idx], endPoints[idx] );
             resultedArr.push(node);
         }
+        console.log("TCL: findEntries -> openPoints", openPoints)
+        console.log("TCL: findEntries -> endPoints", endPoints)
 
         return resultedArr;
 
     }
-    console.log("TCL: findEntries -> openPoints", openPoints)
-    console.log("TCL: findEntries -> endPoints", endPoints)
 
-    console.log( findEntries(html, tag) );
+    console.log( findEntries( tag, html) );
 }
