@@ -1,0 +1,277 @@
+
+{
+  "header": {
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "location": "OnFatalError",
+    "filename": "report.20190329.224930.5308.001.json",
+    "dumpEventTime": "2019/03/29 22:49:30",
+    "processId": "5308",
+    "commandLine": [
+      "node",
+      "index.js"
+    ],
+    "nodejsVersion": "v11.8.0",
+    "wordSize": "64 bit",
+    "componentVersions": {
+      "node": "11.8.0",
+      "v8": "7.0.276.38-node.16",
+      "uv": "1.25.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "67",
+      "nghttp2": "1.34.0",
+      "napi": "4",
+      "llhttp": "1.0.1",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.0j",
+      "cldr": "34.0",
+      "icu": "63.1",
+      "tz": "2018e",
+      "unicode": "11.0",
+      "arch": "x64",
+      "platform": "win32",
+      "release": "node"
+    },
+    "osVersion": "Windows 8.1",
+    "machine": "HOME "
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    " [pc=00007FF60C916B5C] std::basic_ostream<char,std::char_traits<char> >::operator<<+8924",
+    " [pc=00007FF60C915C8D] std::basic_ostream<char,std::char_traits<char> >::operator<<+5133",
+    " [pc=00007FF60C915662] std::basic_ostream<char,std::char_traits<char> >::operator<<+3554",
+    " [pc=00007FF60CA0FD9D] uv_loop_fork+82637",
+    " [pc=00007FF60CECCF4E] v8::internal::FatalProcessOutOfMemory+798",
+    " [pc=00007FF60CECCE87] v8::internal::FatalProcessOutOfMemory+599",
+    " [pc=00007FF60D1A5C94] v8::internal::Heap::RootIsImmortalImmovable+14788",
+    " [pc=00007FF60D1A3A58] v8::internal::Heap::RootIsImmortalImmovable+6024",
+    " [pc=00007FF60CD646DD] v8::internal::Factory::AllocateRawArray+61",
+    " [pc=00007FF60CD65072] v8::internal::Factory::NewFixedArrayWithFiller+66",
+    " [pc=00007FF60CDE794A] v8::internal::wasm::AsmType::Void+74778",
+    " [pc=00007FF60CDD4543] v8::internal::HashTable<v8::internal::NumberDictionary,v8::internal::NumberDictionaryShape>::EntryToIndex+76659",
+    " [pc=00007FF60D4C88B0] v8::internal::StoreBuffer::StoreBufferOverflow+64016",
+    " [pc=00000257491D0461] "
+  ],
+  "javascriptHeap": {
+    "totalMemory": "610287616",
+    "totalCommittedMemory": "610287616",
+    "usedMemory": "605395392",
+    "availableMemory": "919200232",
+    "memoryLimit": "1526909922",
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": "524288",
+        "committedMemory": "524288",
+        "capacity": "515584",
+        "used": "33520",
+        "available": "482064"
+      },
+      "new_space": {
+        "memorySize": "1048576",
+        "committedMemory": "1048576",
+        "capacity": "1031168",
+        "used": "0",
+        "available": "1031168"
+      },
+      "old_space": {
+        "memorySize": "3870720",
+        "committedMemory": "3870720",
+        "capacity": "3800800",
+        "used": "2544136",
+        "available": "1256664"
+      },
+      "code_space": {
+        "memorySize": "1048576",
+        "committedMemory": "1048576",
+        "capacity": "588768",
+        "used": "588768",
+        "available": "0"
+      },
+      "map_space": {
+        "memorySize": "536576",
+        "committedMemory": "536576",
+        "capacity": "305920",
+        "used": "305920",
+        "available": "0"
+      },
+      "large_object_space": {
+        "memorySize": "603258880",
+        "committedMemory": "603258880",
+        "capacity": "1518353384",
+        "used": "601923048",
+        "available": "916430336"
+      },
+      "new_large_object_space": {
+        "memorySize": "0",
+        "committedMemory": "0",
+        "capacity": "0",
+        "used": "0",
+        "available": "0"
+      }
+    }
+  },
+  "libuv": [
+    {
+      "type": "async",
+      "is_active": "1",
+      "is_referenced": "0",
+      "address": "1041782865408",
+      "details": ""
+    },
+    {
+      "type": "timer",
+      "is_active": "0",
+      "is_referenced": "0",
+      "address": "1041780894432",
+      "details": "repeat: 0, timeout in: 1039369183004 ms"
+    },
+    {
+      "type": "check",
+      "is_active": "1",
+      "is_referenced": "0",
+      "address": "1041780894592",
+      "details": ""
+    },
+    {
+      "type": "idle",
+      "is_active": "0",
+      "is_referenced": "1",
+      "address": "1041780894712",
+      "details": ""
+    },
+    {
+      "type": "prepare",
+      "is_active": "0",
+      "is_referenced": "0",
+      "address": "1041780894832",
+      "details": ""
+    },
+    {
+      "type": "check",
+      "is_active": "0",
+      "is_referenced": "0",
+      "address": "1041780894952",
+      "details": ""
+    },
+    {
+      "type": "async",
+      "is_active": "1",
+      "is_referenced": "0",
+      "address": "140694774310464",
+      "details": ""
+    },
+    {
+      "type": "async",
+      "is_active": "1",
+      "is_referenced": "0",
+      "address": "140694774310240",
+      "details": ""
+    },
+    {
+      "type": "tty",
+      "is_active": "0",
+      "is_referenced": "1",
+      "address": "1041822738960",
+      "details": "width: 186, height: 8, write queue size: 0, writable"
+    },
+    {
+      "type": "signal",
+      "is_active": "1",
+      "is_referenced": "0",
+      "address": "1041823776800",
+      "details": "signum: 28"
+    }
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\Users\\Evgen\\Desktop\\node_work_csv_blob_parse",
+    "=ExitCode": "00000000",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\Evgen\\AppData\\Roaming",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "Вт янв 29 20:05:46 2019",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "HOME",
+    "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+    "FP_NO_HOST_CHECK": "NO",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\Evgen",
+    "LOCALAPPDATA": "C:\\Users\\Evgen\\AppData\\Local",
+    "LOGONSERVER": "\\\\MicrosoftAccount",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OS": "Windows_NT",
+    "Path": "C:\\Python27\\;C:\\Python27\\Scripts;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\nodejs\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files (x86)\\Yarn\\bin\\;C:\\Users\\Evgen\\AppData\\Roaming\\npm;C:\\Users\\Evgen\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Evgen\\AppData\\Local\\Yarn\\bin",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 61 Stepping 4, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "3d04",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\",
+    "PUBLIC": "C:\\Users\\Public",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\Windows",
+    "TEMP": "C:\\Users\\Evgen\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\Evgen\\AppData\\Local\\Temp",
+    "USERDOMAIN": "HOME",
+    "USERDOMAIN_ROAMINGPROFILE": "HOME",
+    "USERNAME": "Evgen",
+    "USERPROFILE": "C:\\Users\\Evgen",
+    "windir": "C:\\Windows",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.32.3",
+    "LANG": "ru_RU.UTF-8"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "C:\\Windows\\system32\\KERNEL32.DLL",
+    "C:\\Windows\\system32\\KERNELBASE.dll",
+    "C:\\Windows\\SYSTEM32\\NETAPI32.dll",
+    "C:\\Windows\\system32\\PSAPI.DLL",
+    "C:\\Windows\\system32\\WS2_32.dll",
+    "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+    "C:\\Windows\\system32\\ADVAPI32.dll",
+    "C:\\Windows\\system32\\USER32.dll",
+    "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\Windows\\SYSTEM32\\USERENV.dll",
+    "C:\\Windows\\system32\\CRYPT32.dll",
+    "C:\\Windows\\SYSTEM32\\WINMM.dll",
+    "C:\\Windows\\SYSTEM32\\netutils.dll",
+    "C:\\Windows\\SYSTEM32\\srvcli.dll",
+    "C:\\Windows\\SYSTEM32\\wkscli.dll",
+    "C:\\Windows\\system32\\msvcrt.dll",
+    "C:\\Windows\\system32\\NSI.dll",
+    "C:\\Windows\\system32\\RPCRT4.dll",
+    "C:\\Windows\\SYSTEM32\\sechost.dll",
+    "C:\\Windows\\system32\\GDI32.dll",
+    "C:\\Windows\\SYSTEM32\\WINNSI.DLL",
+    "C:\\Windows\\SYSTEM32\\profapi.dll",
+    "C:\\Windows\\system32\\MSASN1.dll",
+    "C:\\Windows\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\Windows\\system32\\SspiCli.dll",
+    "C:\\Windows\\SYSTEM32\\cfgmgr32.dll",
+    "C:\\Windows\\SYSTEM32\\DEVOBJ.dll",
+    "C:\\Windows\\system32\\IMM32.DLL",
+    "C:\\Windows\\system32\\MSCTF.dll",
+    "C:\\Windows\\SYSTEM32\\powrprof.dll",
+    "C:\\Windows\\system32\\mswsock.dll",
+    "C:\\Windows\\SYSTEM32\\CRYPTSP.dll",
+    "C:\\Windows\\system32\\rsaenh.dll",
+    "C:\\Windows\\SYSTEM32\\bcrypt.dll",
+    "C:\\Windows\\SYSTEM32\\CRYPTBASE.dll",
+    "C:\\Windows\\SYSTEM32\\bcryptPrimitives.dll"
+  ]
+}

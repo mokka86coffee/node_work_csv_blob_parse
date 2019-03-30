@@ -1,5 +1,4 @@
 const fs = require('fs');
-const cheerio = require('cheerio'); // aka jQuery
 const needle = require('needle'); // aka axios
 const iconv = require('iconv-lite'); // fonts lang converter 
  
@@ -22,59 +21,138 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-const findEndOfTag = (tag, html) => {
+let count = 0;
+const findNode = ( body, startedIdxs, endedIdxs, length ) => {
+
+    let foundedParts = [];
+    html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
+
+    for (let idx = 0; idx < startedIdxs.length; idx++) {
+        if (endedIdxs.length === 1) {
+            foundedParts.push(body.substring(startedIdxs[0]+1+length, endedIdxs[0]))
+        } 
+        else if ( startedIdxs[idx+1] <  endedIdxs[idx]) {
+            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx+1]))
+
+            foundedParts.concat( findNode(body, startedIdxs.slice(idx+1), endedIdxs.slice(idx, endedIdxs.length-1), length) )
+        } 
+        else {
+            foundedParts.push(body.substring(startedIdxs[idx]+length+2, endedIdxs[idx]))
+        }
+    }
+    console.log("TCL: findNode -> foundedParts", foundedParts)
+
+    return foundedParts;
 }
+
+const findPositions = (tag, body) => {
+    let position = body.indexOf(tag), resultedArr = [];
+    while (~position) {
+        resultedArr.push(position);
+        position = body.indexOf(tag, position + 1);
+    }
+    return resultedArr;
+}
+
 
 const htmlParser = (tag, attr, body) => {
 
-    let templateArr = body.split('<' + tag).slice(1);
+    let 
+        tempToFind = checkForAttr(attr),
+        startedIdxs = findPositions('<' + tag, body),
+        endedIdxs = findPositions('<\/' + tag, body);
 
-    let tempToFind = checkForAttr(attr);
 
-    templateArr = templateArr
-                    .filter( el => tempToFind.test(el) && el.match(tempToFind))
-                    .map( el => el.trim() )
-                    .sort((a,b)=>b.length-a.length);
-    console.log(templateArr);
+    templateArr = findNode(body, startedIdxs, endedIdxs, tag.length);
     
-    let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
-    console.log(resultedNode);
-    fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
+    // let resultedNode = templateArr[0].substring(0, templateArr[0].lastIndexOf('<\/'+tag));
+    // fs.writeFile('new.js', JSON.stringify(resultedNode), ()=>{});
     return templateArr;
 
 }
 
+
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-    let html = (await needle('get', URL)).body;
+    // let html = (await needle('get', URL)).body;
 
-    // let html = `
-    //     <div class = "b_items_list" cellspacing="0">
-    //         <div></div>
-    //         <div>
-    //             <div class="masha sasha" data-tr="tr">111111111</div>
-    //             <div>
-    //                 <div>
-    //                     <div>2222222</div>
-    //                     2222222
-    //                 </div>
-    //                 2222222
-    //             </div>
-    //             <div>eeeeeeee</div>
-    //         </div>
-    //         <div><p>aaaa</p></div>
-    //     </div>
-    // `;
+    let html = `
+        <div class = "b_items_list" cellspacing="0">
+            <div></div>
+            <div>
+                <div class="masha sasha" data-tr="tr">111111111</div>
+                <div>
+                    <div>
+                        <div>2222222</div>
+                        2222222
+                    </div>
+                    2222222
+                </div>
+                <div>eeeeeeee</div>
+            </div>
+            <div><p>aaaa</p></div>
+        </div>
+    `;
 
-    // let result = htmlParser('div', '', html);
 
-    let result = htmlParser('table', 'class=b_items_list', html);
-    
-    // console.log(result);
 
+    html = '<a>start1<a>start2<a>start3<a>start4a1end</a>a2end</a>a3end</a>a4end</a>';
+    // html = '<a>1start<a>2</a>1end</a><a>3</a><a>4</a>';
+    // html = '<a>1</a><a>2</a><a>3</a><a>4</a>';
+    html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
+
+    // let result = htmlParser('a', '', html);
+	console.log("TCL: result", result)
+
+    // let result = htmlParser('div', 'class=b_items_list', html);
     
 })();
 // */
 }
 
 
+
+{
+    
+    let html = '<a class="vasya">start1<p><a>2</a>ds</p>end1</a>';
+    let tag = 'a';
+
+    let findEntries = (tag, html, idx = 0) => {
+        let resultedArr = [];
+
+        // Getting quanity of children entries
+        let openPoints = [], endPoints = [];
+        let posStart = html.indexOf(`<${tag}`, idx);
+        let posEnd = html.indexOf(`<\/${tag}`, idx);
+
+        let cuttedHtml = html.substring(posStart+1, posEnd);
+        
+        let entry = cuttedHtml.indexOf(`<${tag}`);
+        let counterOfOpenedTags = 0;
+        while (entry !== -1) {
+            openPoints.push(entry);
+            counterOfOpenedTags++;
+
+            entry = cuttedHtml.indexOf(`<${tag}`, entry+1);
+        }
+        
+        entry = html.indexOf(`<\/${tag}`);
+        let counterOfClosedTags = counterOfOpenedTags;
+        while (counterOfClosedTags) {
+            endPoints.push(entry);
+            counterOfClosedTags--;
+            entry = cuttedHtml.indexOf(`<\/${tag}`, entry+1);
+        }
+        // Getting quanity of children entries
+
+        for (let idx=0; idx <= counterOfOpenedTags; idx++) {
+            let node = html.substring( openPoints[openPoints.length-idx], endPoints[idx] );
+            resultedArr.push(node);
+        }
+
+        return resultedArr;
+
+    }
+
+    findEntries(html, tag);
+}
