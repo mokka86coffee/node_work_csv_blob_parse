@@ -21,7 +21,6 @@ const checkForAttr = (attr) => {
     return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]?` + value +`{1}[^\\'\\"]?(\\'|\\")`, 'gm' );
 } // creating RegExp to find attr in tag
 
-let count = 0;
 const findNode = ( body, startedIdxs, endedIdxs, length ) => {
 
     let foundedParts = [];
