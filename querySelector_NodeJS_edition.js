@@ -111,6 +111,10 @@ const findPositions = (tag, body) => {
 } // getting array of each position of tag ( separate for '<' & '</' )
 
 const htmlParser = (tag, attr, body, getText = false) => {
+console.log("TCL: htmlParser -> body", body)
+console.log("TCL: htmlParser -> attr", attr)
+console.log("TCL: htmlParser -> tag", tag)
+
 
     let tempToFind = checkForAttr(attr),
         startedIdxs = findPositions('<' + tag, body), // getting positions of opened tags
@@ -137,14 +141,10 @@ const htmlParser = (tag, attr, body, getText = false) => {
     return templateArr;
 } // html parser itself
 
+const nodeHtml = (html)=>({ 
+    html,
+    querySelector: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html)[0] },
+    querySelectorAll: function (tag, attr, getText = false) { return htmlParser(tag, attr, this.html) }
+});
 
-
-(async() => {
-    let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-    let html = (await needle('get', URL)).body;
-    html = `
-        <table><table masya="vasya" class="aist"><table class="aist"></table></table></table>
-    `
-    html = htmlParser('table', '[class$="ist"]', html)[0];
-    // html = htmlParser('span', 'itemprop=name', html, true);
-})();
+module.exports = nodeHtml;
