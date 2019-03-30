@@ -24,7 +24,7 @@ const checkForAttr = (attr) => {
     if (~attribute.indexOf('\^')) { 
         attribute = attribute.replace('\^','');
         return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
-     } // attr 'start from' founded
+     } // attr 'start from' founded 
      if (~attribute.indexOf('\$')) { 
         attribute = attribute.replace('\$','');
         return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `(\\'|\\")`, 'gm' );
