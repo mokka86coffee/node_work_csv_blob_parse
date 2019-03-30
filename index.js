@@ -51,7 +51,7 @@ const findPositions = (tag, body) => {
 }
 
 
-const htmlParser = (tag, attr, body) => {
+const htmlParser = (tag, attr, body, getText = false) => {
 
     let 
         tempToFind = checkForAttr(attr),
@@ -70,7 +70,9 @@ const htmlParser = (tag, attr, body) => {
         return el.match(tempToFind);
     });
 
-    fs.writeFile('new.js', JSON.stringify(templateArr), ()=>{});
+    if (getText) { templateArr = templateArr.map( el => el.substring( el.indexOf('>')+1) ); }
+
+    fs.writeFileSync('new.js', JSON.stringify(templateArr,0,'\n'), ()=>{});
     return templateArr;
 
 }
@@ -117,31 +119,9 @@ let findEntries = (tag, html) => {
 
 (async() => {
     let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-    // let html = (await needle('get', URL)).body;
-
-    let html = `
-        <div cellspacing="0">
-            <div></div>
-            <div>
-                <div class="masha sasha b_items_list" data-tr="tr">111111111</div>
-                <div>
-                    <div class='b_items_list'>
-                        <div class='b_items_list'>2222222</div>
-                        2222222
-                    </div>
-                    2222222
-                </div>
-                <div>eeeeeeee</div>
-            </div>
-            <div><p>aaaa</p></div>
-        </div>
-    `;
-
-    let result = htmlParser('div', 'class=b_items_list', html);
-	// console.log("TCL: result", result)
-
-    // let result = htmlParser('div', 'class=b_items_list', html);
-    
+    let html = (await needle('get', URL)).body;
+    html = htmlParser('table', 'class=b_items_list', html)[0];
+    html = htmlParser('span', 'itemprop=name', html, true);
 })();
 // */
 }
