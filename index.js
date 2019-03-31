@@ -36,45 +36,21 @@ let workingWithName = (name) => {
 
 
 let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
-// let html = (await needle('get', URL)).body;
+let html = (await needle('get', URL)).body;
+let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
-const html = `<div>level1start</div>
-    <table>
-        level1start
-        <ul>
-            level2start
-            <div class="level3">level3</div>
-            <div class="level3">level3</div>
-            level2end
-        </ul>
-        <div>
-            level2start
-            <div class="level3">level3</div>
-            <div class="level3">level3</div>
-            level2end
-        </div>
-        level1end
-    </table>
-    
-    <div class="level1">level1start</div>`;
+let arr = [];
+tableRows.forEach( (el,idx) => {
+    let sku = parserHtml(el).querySelector('span[itemprop="sku"]', {text: true});
+//     let price = priceCalculation( +el.querySelector('.bil_price').innerText );
+//     let additionInfo = workingWithName( el.querySelector('[itemprop="url"] span').innerText );
 
-// let parsedHtml = parserHtml(html).querySelector('div', {file: true, text: true});
-let tableRows = parserHtml(html).querySelectorAll('table ul div.level3', {text: true,file: true});
-// parsedHtml = parserHtml(parsedHtml).querySelector('tbody');
-// let tableRows = parserHtml(parsedHtml).querySelectorAll('tr');
-
-// let arr = [];
-// tableRows.forEach( (el,idx) => {
-//     let sku = parserHtml(el).querySelector('span[itemprop="sku"]', {text: true});
-// //     let price = priceCalculation( +el.querySelector('.bil_price').innerText );
-// //     let additionInfo = workingWithName( el.querySelector('[itemprop="url"] span').innerText );
-
-//     let data = { sku };
-//     // let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
-//     arr.push( JSON.stringify(data) );
-// });
+    let data = { sku };
+    // let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
+    arr.push( JSON.stringify(data) );
+});
 
 
-// getFileFromBlob(arr);
+getFileFromBlob(arr);
 
 })();
