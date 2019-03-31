@@ -49,7 +49,7 @@ const getHtmlFromPoints = (html, foundedPoints, tagLength) => {
 
 const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
     let resultedArr = [];
-    let nullsArr = [];
+    let bufferArr = [];
     let startIdx = 0;
     endedIdxs.forEach( (endPoint, endIdx) => {
         while(startedIdxs[startIdx] < endPoint && startedIdxs[startIdx] !== undefined) {
@@ -57,13 +57,13 @@ const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
                 start: startedIdxs[startIdx],
                 end: null
             });
-            nullsArr.push(startIdx);
+            bufferArr.push(startIdx);
             startIdx++;
         }
 
         if ( endPoint < startedIdxs[startIdx] || startedIdxs[startIdx] === undefined ) {
-            Object.assign(resultedArr[nullsArr[nullsArr.length-1]], {end: endPoint});
-            nullsArr.pop();
+            Object.assign(resultedArr[bufferArr[bufferArr.length-1]], {end: endPoint});
+            bufferArr.pop();
         }
         
     });
@@ -113,9 +113,6 @@ const htmlParser = ( str, html, config ) => {
         html = nodesArr.join('');
     });
 
-    if (config.text) { nodesArr = nodesArr.map( el => el.substring( el.indexOf('>') + 1, el.lastIndexOf('<\/') ) ); }
-
-    
     if (config.file) {
         // beauty in file (for test)
         nodesArr = nodesArr
@@ -132,8 +129,19 @@ const htmlParser = ( str, html, config ) => {
 
 const nodeHtml = (html)=>({ 
     html,
-    querySelector: function (str, config = {text: false, file: false}) { return htmlParser(str, this.html, config)[0] },
-    querySelectorAll: function (str, config = {text: false, file: false}) { return htmlParser(str, this.html, config) }
+    innerText: '',
+    innerHTML: '',
+    querySelector: function (str, config = {text: false, file: false}) { 
+        this.innerHTML = htmlParser(str, this.html, config)[0];
+        this.innerText =  this.innerHTML.substring( this.innerHTML.indexOf('>') + 1, this.innerHTML.lastIndexOf('<\/') );
+        return this;
+    },
+    querySelectorAll: function (str, config = {text: false, file: false}) { 
+        this.innerHTML = htmlParser(str, this.html, config);
+        this.innerText = this.innerHTML.map( el => el.substring( el.indexOf('>') + 1, el.lastIndexOf('<\/') ) ); 
+        return this;
+    },
+
 });
 
 module.exports = nodeHtml;
