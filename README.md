@@ -12,6 +12,6 @@
   <code>   //["&lt;a href='tel:123456789'>123456789&lt;/a>"]</code>
 </p>
 <p>
-<code>const parsedTels = body.querySelectorAll('a[href^="tel"]')</code>
-<code>   //['{innerText:123456789, innerHTML: &lt;a href^="tel">123456789&lt;/a> }',...]</code><br><br> </code>
+<code>const parsedTels = body.querySelectorAll('a[href^="tel"]')</code> <br>
+<code>   //['{innerText: 123456789, innerHTML: &lt;a href^="tel">123456789&lt;/a> }',...]</code><br><br> </code>
 </p>
