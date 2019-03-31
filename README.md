@@ -5,7 +5,7 @@
 <p>
 <code>const body = parserHtml(html);</code><br>
 <code>const parsedName = body.querySelector('p.name')</code>
-  <code>   //["<p class='name'>John</p>"]</code>
+  <code>   //["\<p class='name'>John</p>"]</code>
 </p>
 <p>
 <code>const parsedName = body.querySelector('a[href^="tel"]')</code>
