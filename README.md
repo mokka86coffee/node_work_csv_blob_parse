@@ -8,10 +8,10 @@
   <code>   //["&lt;p class='name'>John&lt;/p>"]</code>
 </p>
 <p>
-<code>const parsedName = body.querySelector('a[href^="tel"]')</code>
+<code>const parsedTel = body.querySelector('a[href^="tel"]')</code>
   <code>   //["&lt;a href='tel:123456789'>123456789&lt;/a>"]</code>
 </p>
 <p>
-<code>const parsedName = body.querySelectorAll('a[href^="tel"]', {text: true})</code>
+<code>const parsedTel = body.querySelectorAll('a[href^="tel"]', {text: true})</code>
 <code>   //['123456789','987654321']</code><br><br> </code>
 </p>
