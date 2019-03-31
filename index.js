@@ -39,13 +39,13 @@ let workingWithName = (name) => {
 
 let URL = 'http://www.inpo.ru/shop/S:214#.XJ30jyMueUl';
 let html = (await needle('get', URL)).body;
-let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr').innerHTML;
+let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
 let arr = [];
 tableRows.forEach( (el,idx) => {
-    let sku = parserHtml(el).querySelector('span[itemprop="sku"]').innerText;
-    let price = priceCalculation( parserHtml(el).querySelector('td.bil_price').innerText );
-    let additionInfo = workingWithName( parserHtml(el).querySelector('span[itemprop="name"]').innerText );
+    let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
+    let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
+    let additionInfo = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
 
     let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
     arr.push( JSON.stringify(data) );

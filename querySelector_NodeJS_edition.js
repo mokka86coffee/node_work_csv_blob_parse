@@ -129,17 +129,21 @@ const htmlParser = ( str, html, config ) => {
 
 const nodeHtml = (html)=>({ 
     html,
-    innerText: '',
-    innerHTML: '',
-    querySelector: function (str, config = {text: false, file: false}) { 
-        this.innerHTML = htmlParser(str, this.html, config)[0];
-        this.innerText =  this.innerHTML.substring( this.innerHTML.indexOf('>') + 1, this.innerHTML.lastIndexOf('<\/') );
-        return this;
+    array: [],
+    querySelector: function (str, config = {file: false}) { 
+        const parsedData = htmlParser(str, this.html, config)[0];
+        return {
+            innerHTML: parsedData,
+            innerText:  parsedData.substring( parsedData.indexOf('>') + 1, parsedData.lastIndexOf('<\/') )
+        }
     },
-    querySelectorAll: function (str, config = {text: false, file: false}) { 
-        this.innerHTML = htmlParser(str, this.html, config);
-        this.innerText = this.innerHTML.map( el => el.substring( el.indexOf('>') + 1, el.lastIndexOf('<\/') ) ); 
-        return this;
+    querySelectorAll: function (str, config = {file: false}) { 
+        htmlParser(str, this.html, config)
+            .forEach( elHtml => this.array.push({
+                innerText: elHtml.substring( elHtml.indexOf('>') + 1, elHtml.lastIndexOf('<\/') ),
+                innerHTML: elHtml
+            }));
+        return this.array;
     },
 
 });
