@@ -87,19 +87,30 @@ const findPositions = (tag, html) => {
     return resultedArr;
 } // getting array of each position of tag ( separate for '<' & '</' )
 
-const htmlParser = ( tag, attr, html, config ) => {
+const htmlParser = ( str, html, config ) => {
+    let nodesArr = [];
+    
+    str.split(' ').forEach( attr => {
+        let ifAttr = /[\.\#\[]/.test(attr);
+        
+        let tag = ifAttr ? attr.match(/[^\.\#\[]+[\.\#\[]+/)[0] : attr;
+        tag = ifAttr ? tag.substring(0, tag.length-1) : tag;
 
-    let tempToFind = checkForAttr(attr),
-        startedIdxs = findPositions('<' + tag, html), // getting positions of opened tags
-        endedIdxs = findPositions('<\/' + tag, html) // getting positions of closed tags
-    ;
+        let attrToFind = ifAttr ? checkForAttr(attr.substring(tag.length)) : null;
+        
+        let startedIdxs = findPositions('<' + tag, html); // getting positions of opened tags
+        let endedIdxs = findPositions('<\/' + tag, html); // getting positions of closed tags
+    
+        nodesArr = findNodes(html, startedIdxs, endedIdxs, tag.length);
+    
+        if (attrToFind) {
+            nodesArr = nodesArr.filter( el => {
+                let str = el.substring(0, el.indexOf('>'));
+                return str.match(attrToFind);
+            })
+        }
 
-    let nodesArr = findNodes(html, startedIdxs, endedIdxs, tag.length);
-
-
-    nodesArr = nodesArr.filter( el => {
-        let str = el.substring(0, el.indexOf('>'));
-        return str.match(tempToFind);
+        html = nodesArr.join('');
     });
 
     if (config.text) { nodesArr = nodesArr.map( el => el.substring( el.indexOf('>') + 1, el.lastIndexOf('<\/') ) ); }
@@ -118,10 +129,11 @@ const htmlParser = ( tag, attr, html, config ) => {
     return nodesArr;
 } // html parser itself
 
+
 const nodeHtml = (html)=>({ 
     html,
-    querySelector: function (tag, attr, config = {text: false, file: false}) { return htmlParser(tag, attr, this.html, config)[0] },
-    querySelectorAll: function (tag, attr, config = {text: false, file: false}) { return htmlParser(tag, attr, this.html, config) }
+    querySelector: function (str, config = {text: false, file: false}) { return htmlParser(str, this.html, config)[0] },
+    querySelectorAll: function (str, config = {text: false, file: false}) { return htmlParser(str, this.html, config) }
 });
 
 module.exports = nodeHtml;
