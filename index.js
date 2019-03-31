@@ -51,7 +51,6 @@ tableRows.forEach( (el,idx) => {
     arr.push( JSON.stringify(data) );
 });
 
-
 getFileFromBlob(arr);
 
 })();
