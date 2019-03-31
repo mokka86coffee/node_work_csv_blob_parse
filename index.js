@@ -42,10 +42,10 @@ let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr')
 let arr = [];
 tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el).querySelector('span[itemprop="sku"]', {text: true});
-//     let price = priceCalculation( +el.querySelector('.bil_price').innerText );
+    let price = priceCalculation( +parserHtml(el).querySelector('td.bil_price', {text:true} ) );
 //     let additionInfo = workingWithName( el.querySelector('[itemprop="url"] span').innerText );
 
-    let data = { sku };
+    let data = { sku, price };
     // let data = { sku, price, id: `cilind_nasad_${idx}`, ...additionInfo };
     arr.push( JSON.stringify(data) );
 });
