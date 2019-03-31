@@ -5,11 +5,11 @@
 <p>
 <code>const body = parserHtml(html);</code><br>
 <code>const parsedName = body.querySelector('p.name')</code>
-  <code>   //["\<p class='name'>John</p>"]</code>
+  <code>   //["&lt;p class='name'>John&lt;/p>"]</code>
 </p>
 <p>
 <code>const parsedName = body.querySelector('a[href^="tel"]')</code>
-  <code>   //["<a href='tel:123456789'>123456789</a>"]</code>
+  <code>   //["&lt;a href='tel:123456789'>123456789&lt;/a>"]</code>
 </p>
 <p>
 <code>const parsedName = body.querySelectorAll('a[href^="tel"]', {text: true})</code>
