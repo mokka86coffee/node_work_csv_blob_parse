@@ -1,3 +1,4 @@
+/*
 const parserHtml = require('./querySelector_NodeJS_edition');
 const needle = require('needle'); // aka axios
 const fs = require('fs');
@@ -54,3 +55,4 @@ tableRows.forEach( (el,idx) => {
 getFileFromBlob(arr);
 
 })();
+*/
