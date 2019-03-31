@@ -4,14 +4,14 @@
 <br>
 <p>
 <code>const body = parserHtml(html);</code><br>
-<code>const parsedName = body.querySelector('p','.name')</code>
-<code>   //["class='name'>John"]</code>
+<code>const parsedName = body.querySelector('p.name')</code>
+  <code>   //["&lt;p class='name'>John&lt;/p>"]</code>
 </p>
 <p>
-<code>const parsedName = body.querySelector('a','[href^="tel"]')</code>
-<code>   //["href='tel:123456789'>123456789"]</code>
+<code>const parsedTel = body.querySelector('a[href^="tel"]')</code>
+  <code>   //["&lt;a href='tel:123456789'>123456789&lt;/a>"]</code>
 </p>
 <p>
-<code>const parsedName = body.querySelectorAll('a','[href^="tel"]', {text: true})</code>
+<code>const parsedTels = body.querySelectorAll('a[href^="tel"]', {text: true})</code>
 <code>   //['123456789','987654321']</code><br><br> </code>
 </p>
