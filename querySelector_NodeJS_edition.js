@@ -1,6 +1,3 @@
-// /*
-const parserHtml = require('./querySelector_NodeJS_edition');
-const needle = require('needle'); // aka axios
 const fs = require('fs');
 const iconv = require('iconv-lite'); // fonts lang converter (optional)
  
@@ -11,72 +8,144 @@ const iconv = require('iconv-lite'); // fonts lang converter (optional)
 // // Convert from js string to an encoded buffer.
 // buf = iconv.encode("Sample input string", 'win1251');
 
-(async() => {
 
-let getFileFromBlob = (data) => {
-    const bufferStr = iconv.encode(data, 'win1251');
-    fs.writeFileSync('new.csv', bufferStr);
-}
+const checkForAttr = (attr) => {
+    if (!attr) return '';
 
-let priceCalculation = (price) => {
-    price = Math.round(price).toFixed(0);
-    if (price <= 5000) return price*2;
-    if (price <=10000) return Math.round((price*1.5));
-    if (price > 10000) return +price+5000;
-}
+    attr = attr.replace(/[\[\]\'\"]/gm,'');
 
-let reduceItem = (param) => {
-    if (/0/.test(param)) return `0°1' - 0°9'`;
-    else if (/1/.test(param)) return `1°1' - 1°9'`;
-    else if (/2/.test(param)) return `2°1' - 2°9'`;
-    else if (/3/.test(param)) return `3°1' - 3°9'`;
-    else if (/4/.test(param)) return `4°1' - 4°9'`;
-    return `5°1' - 5°9'`;
-}
+    if (~attr.indexOf('\.')) { attr = `class=${attr.substr(1)}` } // attr 'class' founded
+    else if (~attr.indexOf('\#')) { attr = `id=${attr.substr(1)}` } // attr 'id' founded
+    if (~attr.indexOf('\*')) { attr = attr.replace('\*','') } // attr 'includes' founded
 
-// Фреза червячная М 3,0  кл.т.А, Р6М5, 20град 80х71х32мм; 2°24' (2510-4161) ГОСТ 9324-80 тип 2 "CNIC"
-let workingWithName = (name) => {
-    // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
-    // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    // let diametr = name.match(/град{1},?\s{1}[^х]+х/gi) ? name.match(/град{1},?\s{1}[^х]+х/gi)[0].replace(/(град{1},?\s{1}|х)/gi,'') : 'none';
-    // let dlina = name.match(/\d{1,3},?\d{1,3}\s?х/gi)[1].replace('х','');
-    // let grad = name.match(/\d{1,3}(\s)?град/gi)[0].replace(/(\s)?град/gi,'');
+    let attribute = attr.match(/[^=]+=/gm)[0].replace('=','');
+    let value = attr.match(/={1}[\w-_]+/gm)[0].replace('=','');
+
+    if (~attribute.indexOf('\^')) { 
+        attribute = attribute.replace('\^','');
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+     } // attr 'start from' founded 
+     if (~attribute.indexOf('\$')) { 
+        attribute = attribute.replace('\$','');
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `(\\'|\\")`, 'gm' );
+    } // attr 'end with' founded
+     else {
+        return new RegExp( `${attribute}{1}\\s?=\\s?(\\'|\\"){1}[^\\'\\"]*` + value + `{1}[^\\'\\"]*(\\'|\\")`, 'gm' );
+     }
     
-    // let modulZuba = ~name.indexOf('М') ? name.match(/М{1}\s?\d{1,2},\d{1,2}/gi)[0].replace(/М(\s)?/gi,'') : 'none';
-    // let klassTochn = ~name.indexOf('кл\.т\.') ? name.match(/кл\.т\.{1}\s?[авс]+\s?,/gi)[0].replace(/(кл\.т\.(\s)?|,)/gi,'') : 'none';
-    // let material = name.match(/кл.т/gi) ? name.match(/кл.т[^,]+?,[^,]+?,/gi)[0].replace(/(кл.т[^,]+?,|,)/gi,'') : 'none';
+} // creating RegExp to find attr inside tag
 
-    // let ugolZuba = name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi) ? name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi)[0] : 'none';
+const getHtmlFromPoints = (html, foundedPoints, tagLength) => {
+    let resultedArr = [];
 
-    name = name.replace(/(cnic|;)/ig,'');
-    name = name.replace(/(&quot{1}(\s)?&quot{1})/ig,'');
-    name = name.replace(/(&#39)/ig,'\'');
-    let htmlBody = `<h2>Описание</h2> <p>${name}</p>`
-    let seoTitle = name + ' - Резцы расточные' + " - Каталог оборудования | Станкопромышленная компания";
+    foundedPoints.forEach( pointsObj => {
+        let node = html.substring( pointsObj.start, pointsObj.end + tagLength + 3 );
+        resultedArr.push(node);
+    });
 
-    // let ugolZubaDiap = reduceItem(ugolZuba);
-    // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
+    return resultedArr;
 
-    return `${name};${htmlBody};${seoTitle}`;
-    // return `${name};${htmlBody};${seoTitle};${diametr};${modulZuba};${klassTochn};${material};${ugolZuba};${ugolZubaDiap}`;
-}
+} // return array of html nodes
+
+const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
+    let resultedArr = [];
+    let bufferArr = [];
+    let startIdx = 0;
+    endedIdxs.forEach( (endPoint, endIdx) => {
+        while(startedIdxs[startIdx] < endPoint && startedIdxs[startIdx] !== undefined) {
+            resultedArr.push({
+                start: startedIdxs[startIdx],
+                end: null
+            });
+            bufferArr.push(startIdx);
+            startIdx++;
+        }
+
+        if ( endPoint < startedIdxs[startIdx] || startedIdxs[startIdx] === undefined ) {
+            Object.assign(resultedArr[bufferArr[bufferArr.length-1]], {end: endPoint});
+            bufferArr.pop();
+        }
+        
+    });
+    return resultedArr;
+} // return array of all start/end points
+
+const findNodes = ( html, startedIdxs, endedIdxs, tagLength ) => {
+
+    let foundedPoints = findEntriesUsingArrays(startedIdxs, endedIdxs);
+    let nodesArray = getHtmlFromPoints(html, foundedPoints, tagLength);
+
+    return nodesArray;
+} // getting array of founded nodes
+
+const findPositions = (tag, html) => {
+    let position = html.indexOf(tag), resultedArr = [];
+    while (~position) {
+        resultedArr.push(position);
+        position = html.indexOf(tag, position + 1);
+    }
+    return resultedArr;
+} // getting array of each position of tag ( separate for '<' & '</' )
+
+const htmlParser = ( str, html, config ) => {
+    let nodesArr = [];
+    
+    str.split(' ').forEach( attr => {
+        let ifAttr = /[\.\#\[]/.test(attr);
+        
+        let tag = ifAttr ? attr.match(/[^\.\#\[]+[\.\#\[]+/)[0] : attr;
+        tag = ifAttr ? tag.substring(0, tag.length-1) : tag;
+
+        let attrToFind = ifAttr ? checkForAttr(attr.substring(tag.length)) : null;
+        
+        let startedIdxs = findPositions('<' + tag, html); // getting positions of opened tags
+        let endedIdxs = findPositions('<\/' + tag, html); // getting positions of closed tags
+    
+        nodesArr = findNodes(html, startedIdxs, endedIdxs, tag.length);
+    
+        if (attrToFind) {
+            nodesArr = nodesArr.filter( el => {
+                let str = el.substring(0, el.indexOf('>'));
+                return str.match(attrToFind);
+            })
+        }
+
+        html = nodesArr.join('');
+    });
+
+    if (config.file) {
+        // beauty in file (for test)
+        nodesArr = nodesArr
+        .map( el => el.replace(/[\n]/gm,'') ) 
+        .map( el => el.replace(/[\s]{2,}/gm,'') )
+        .map( el => el.trim() ); 
+        // beauty in file (for test)
+        fs.writeFileSync('new.js', JSON.stringify(nodesArr,0,'\n'), ()=>{}); //for test
+    }
+
+    return nodesArr;
+} // html parser itself
 
 
-let URL = 'http://www.inpo.ru/shop/S:158';
-let html = (await needle('get', URL)).body;
-let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
+const nodeHtml = (html)=>({ 
+    html,
+    array: [],
+    querySelector: function (str, config = {file: false}) { 
+        const parsedData = htmlParser(str, this.html, config)[0];
+        return {
+            innerHTML: parsedData,
+            innerText:  parsedData.substring( parsedData.indexOf('>') + 1, parsedData.lastIndexOf('<\/') )
+        }
+    },
+    querySelectorAll: function (str, config = {file: false}) { 
+        htmlParser(str, this.html, config)
+            .forEach( elHtml => this.array.push({
+                innerText: elHtml.substring( elHtml.indexOf('>') + 1, elHtml.lastIndexOf('<\/') ),
+                innerHTML: elHtml
+            }));
+        return this.array;
+    },
 
-let data = '';
-tableRows.forEach( (el,idx) => {
-    let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
-    let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
-    let additionInfo = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
-
-    data += `rezcy_rastoch_${idx};${additionInfo};${price};${sku};\n`;    
 });
 
-getFileFromBlob(data);
-
-})();
-// */
-
+module.exports = nodeHtml;
