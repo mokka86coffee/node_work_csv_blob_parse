@@ -54,7 +54,7 @@ let workingWithName = (title) => {
     title = title.replace(/(&#39)/ig,'\'');
     let htmlBody = `<h2>Описание</h2> <p>${title}</p>`
     let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
-    let seoKeywords = title.replace(/\(.+\)/gi, '').replace(/\s/gi,',').replace(/,{2,}/gi,'');
+    let seoKeywords = title.replace(/[\s]+/gi,',').replace(/\(.+\)+?/gi, '').replace(/,{2,}/gi,',');
     
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
@@ -64,10 +64,10 @@ let workingWithName = (title) => {
 }
 
 
-let URL = `http://www.inpo.ru/shop/S:${525}`;
-let catalogTitle = 'Дюймовые BSW/BSF';
-let idTitle = 'duymovye_bsw_bsf_uitv_';
-let amirogen = 'Amiro_gen_90479;Amiro_gen_90359;Дюймовые BSW/BSF;;;false;false';
+let URL = `http://www.inpo.ru/shop/S:${318}`;
+let catalogTitle = 'Наборы метчиков и плашек';
+let idTitle = 'nabory_metchikov_i_plashek_';
+let amirogen = 'Amiro_gen_90482;Amiro_gen_90359;Наборы метчиков и плашек' + ';;;false;false';
 
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
@@ -80,9 +80,9 @@ tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
     let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
-    let imgFileName = !~title.indexOf('изогн') ? 'metch_gaech_zzmain' : 'metch_gaech_izogn_zzmain';
+    let imgFileName = 'nabory_metchikov_i_plashek_zzmain';
     let imgLink = 'rashodniki/metchiki_plashki/' + imgFileName + '.jpg';
-    data += `${amirogen};${idTitle}${idx+200};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
+    data += `${amirogen};${idTitle}${idx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
 });
 
 
