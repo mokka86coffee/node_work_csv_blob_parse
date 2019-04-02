@@ -9,7 +9,7 @@ const iconv = require('iconv-lite'); // fonts lang converter (optional)
 // buf = iconv.encode("Sample input string", 'win1251');
 
 
-const checkForAttr = (attr) => {
+function checkForAttr (attr) {
     if (!attr) return '';
 
     attr = attr.replace(/[\[\]\'\"]/gm,'');
@@ -35,7 +35,7 @@ const checkForAttr = (attr) => {
     
 } // creating RegExp to find attr inside tag
 
-const getHtmlFromPoints = (html, foundedPoints, tagLength) => {
+function getHtmlFromPoints (html, foundedPoints, tagLength) {
     let resultedArr = [];
 
     foundedPoints.forEach( pointsObj => {
@@ -47,7 +47,7 @@ const getHtmlFromPoints = (html, foundedPoints, tagLength) => {
 
 } // return array of html nodes
 
-const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
+function findEntriesUsingArrays(startedIdxs, endedIdxs) {
     let resultedArr = [];
     let bufferArr = [];
     let startIdx = 0;
@@ -70,7 +70,7 @@ const findEntriesUsingArrays = (startedIdxs, endedIdxs) => {
     return resultedArr;
 } // return array of all start/end points
 
-const findNodes = ( html, startedIdxs, endedIdxs, tagLength ) => {
+function findNodes ( html, startedIdxs, endedIdxs, tagLength ) {
 
     let foundedPoints = findEntriesUsingArrays(startedIdxs, endedIdxs);
     let nodesArray = getHtmlFromPoints(html, foundedPoints, tagLength);
@@ -78,7 +78,7 @@ const findNodes = ( html, startedIdxs, endedIdxs, tagLength ) => {
     return nodesArray;
 } // getting array of founded nodes
 
-const findPositions = (tag, html) => {
+function findPositions (tag, html) {
     let position = html.indexOf(tag), resultedArr = [];
     while (~position) {
         resultedArr.push(position);
@@ -87,7 +87,7 @@ const findPositions = (tag, html) => {
     return resultedArr;
 } // getting array of each position of tag ( separate for '<' & '</' )
 
-const htmlParser = ( str, html, config ) => {
+function htmlParser ( str, html, config ){
     let nodesArr = [];
     
     str.split(' ').forEach( attr => {
@@ -126,6 +126,15 @@ const htmlParser = ( str, html, config ) => {
     return nodesArr;
 } // html parser itself
 
+function getAttr (attr) {
+    let idx = this.innerHTML.indexOf(attr);
+    if (~idx) {
+        let cuttedHtml = this.innerHTML.substring(idx);
+        cuttedHtml = cuttedHtml.substring(++cuttedHtml.match(/\"|\'/).index);
+        return cuttedHtml.substring(0, cuttedHtml.match(/\"|\'/).index);
+    }
+    return false;
+} // getting value of chosen attribute
 
 const nodeHtml = (html)=>({ 
     html,
@@ -141,7 +150,8 @@ const nodeHtml = (html)=>({
         htmlParser(str, this.html, config)
             .forEach( elHtml => this.array.push({
                 innerText: elHtml.substring( elHtml.indexOf('>') + 1, elHtml.lastIndexOf('<\/') ),
-                innerHTML: elHtml
+                innerHTML: elHtml,
+                getAttr
             }));
         return this.array;
     },

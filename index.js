@@ -35,7 +35,7 @@ let reduceItem = (param) => {
 }
 
 // Фреза червячная М 3,0  кл.т.А, Р6М5, 20град 80х71х32мм; 2°24' (2510-4161) ГОСТ 9324-80 тип 2 "CNIC"
-let workingWithName = (name) => {
+let workingWithName = (title) => {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
     // let diametr = name.match(/град{1},?\s{1}[^х]+х/gi) ? name.match(/град{1},?\s{1}[^х]+х/gi)[0].replace(/(град{1},?\s{1}|х)/gi,'') : 'none';
@@ -48,31 +48,39 @@ let workingWithName = (name) => {
 
     // let ugolZuba = name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi) ? name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi)[0] : 'none';
 
-    name = name.replace(/(cnic|;)/ig,'');
-    name = name.replace(/(&quot{1}(\s)?&quot{1})/ig,'');
-    name = name.replace(/(&#39)/ig,'\'');
-    let htmlBody = `<h2>Описание</h2> <p>${name}</p>`
-    let seoTitle = name + ' - Резцы расточные' + " - Каталог оборудования | Станкопромышленная компания";
+    title = title.replace(/(cnic|;)/ig,'');
+    title = title.replace(/(&quot{1}(\s)?&quot{1})/ig,'');
+    title = title.replace(/(&#39)/ig,'\'');
+    let htmlBody = `<h2>Описание</h2> <p>${title}</p>`
+    let seoTitle = title + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
 
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return `${name};${htmlBody};${seoTitle}`;
+    return { title, htmlBody, seoTitle };
     // return `${name};${htmlBody};${seoTitle};${diametr};${modulZuba};${klassTochn};${material};${ugolZuba};${ugolZubaDiap}`;
 }
 
 
-let URL = 'http://www.inpo.ru/shop/S:743';
+let URL = 'http://www.inpo.ru/shop/S:260';
+let catalogTitle = ' - Резцы резьбовые';
+let idTitle = 'rezcy_rezbov_';
+
+
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
+console.log(tableRows.length);
 
 let data = '';
 tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
-    let additionInfo = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
+    let { title, htmlBody, seoTitle } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
 
-    data += `rezcy_rastoch_${idx+150};${additionInfo};${price};${sku};\n`;    
+    
+
+    data += `${idTitle}${idx};${title};${htmlBody};${price};;;;${sku};${seoTitle};;;true;Китай;На складе\n`;    
+    
 });
 
 getFileFromBlob(data);
