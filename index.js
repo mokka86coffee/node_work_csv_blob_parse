@@ -62,7 +62,7 @@ let workingWithName = (name) => {
 }
 
 
-let URL = 'http://www.inpo.ru/shop/S:158';
+let URL = 'http://www.inpo.ru/shop/S:739';
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
