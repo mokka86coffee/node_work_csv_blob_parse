@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mokka86coffee/node_work_csv_blob_parse#readme",
   "devDependencies": {
     "iconv-lite": "^0.4.24",
-    "needle": "^2.2.4"
+    "needle": "^2.2.4",
+    "request": "^2.88.0"
   }
 }

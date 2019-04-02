@@ -3,8 +3,8 @@ const needle = require('needle'); // aka axios
 const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
-const mainURL = `${originURL}katalog/internet-magazin/`;
-const categoryLink = 'rashodniki-i-osnastka/rezcy/rezcy-rezbovye';
+const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/metchiki-plashki/`;
+const categoryLink = 'metchiki-gaechnye';
 
 const URL = mainURL + categoryLink;
 
@@ -24,7 +24,7 @@ let idx = 0;
                 let href = item.getAttr('href');
                 let itemHtml = (await needle('get', originURL + href)).body;
                 
-                let ifAttr = /names=\"keywords\"/.test(itemHtml); 
+                let ifAttr = /name=\"keywords\"/.test(itemHtml); 
                 
                 if (!ifAttr) fs.appendFileSync('no_meta_keywords', originURL + href + '\n');
             }

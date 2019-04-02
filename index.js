@@ -13,9 +13,10 @@ const iconv = require('iconv-lite'); // fonts lang converter (optional)
 
 (async() => {
 
-let getFileFromBlob = (data) => {
+let getFileFromBlob = (data, fileName) => {
     const bufferStr = iconv.encode(data, 'win1251');
-    fs.writeFileSync('new.csv', bufferStr);
+    
+    fs.writeFileSync(`C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/Расходники и оснастка/Метчики плашки/${fileName}.csv`, bufferStr);
 }
 
 let priceCalculation = (price) => {
@@ -49,37 +50,43 @@ let workingWithName = (title) => {
     // let ugolZuba = name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi) ? name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi)[0] : 'none';
 
     title = title.replace(/(cnic|;)/ig,'');
-    title = title.replace(/(&quot{1}(\s)?&quot{1})/ig,'');
+    title = title.replace(/&quot{1}(\s)?(&quot)?/ig,' ');
     title = title.replace(/(&#39)/ig,'\'');
     let htmlBody = `<h2>Описание</h2> <p>${title}</p>`
-    let seoTitle = title + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
-
+    let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
+    let seoKeywords = title.replace(/\(.+\)/gi, '').replace(/\s/gi,',').replace(/,{2,}/gi,'');
+    
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return { title, htmlBody, seoTitle };
+    return { title, htmlBody, seoTitle, seoKeywords };
     // return `${name};${htmlBody};${seoTitle};${diametr};${modulZuba};${klassTochn};${material};${ugolZuba};${ugolZubaDiap}`;
 }
 
 
-let URL = `http://www.inpo.ru/shop/S:${249}`;
-let catalogTitle = ' - Резцы сборные с пластинами';
-let idTitle = 'rezcy_sborn_plast_';
-
+let URL = `http://www.inpo.ru/shop/S:${525}`;
+let catalogTitle = 'Дюймовые BSW/BSF';
+let idTitle = 'duymovye_bsw_bsf_uitv_';
+let amirogen = 'Amiro_gen_90479;Amiro_gen_90359;Дюймовые BSW/BSF;;;false;false';
 
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
-let data = '';
+const metaString = 'META.CSV::CATEGORY_ID_EXTERNAL|CATALOG_ID_PARENT_EXTERNAL;CATEGORY_ID_PARENT_EXTERNAL;CATEGORY_DESCRIPTION;CATEGORY_ANNOUNCE;CATEGORY_FULL_DESCRIPTION;CATEGORY_IS_DELETED;CATALOG_IS_DELETED;CATALOG_ID_EXTERNAL;CATALOG_DESCRIPTION;CATALOG_NAME_FULL;CATALOG_MAIN_PRICE;IMAGE_IMAGE_MAIN;IMAGE_IMAGE_SMALL;IMAGE_IMAGE_POPUP;CATALOG_CODE;CATALOG_HTML_TITLE;CATALOG_HTML_KEYWORDS;CATALOG_HTML_DESCRIPTION;CATALOG_HTML_IS_AUTOGEN;CATALOG_CUSTOM_FIELD_12;CATALOG_CUSTOM_FIELD_25\n';
+let data = metaString;
+console.log('Всего элементов - ',tableRows.length);
+
 tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
-    let { title, htmlBody, seoTitle } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
-    let imgLink = 'rashodniki/rezcy/' + 'rezcy_sborn_plastin_zzmain' + '.jpg';
-    data += `${idTitle}${idx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};;;true;Китай;На складе\n`;    
+    let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
+    let imgFileName = !~title.indexOf('изогн') ? 'metch_gaech_zzmain' : 'metch_gaech_izogn_zzmain';
+    let imgLink = 'rashodniki/metchiki_plashki/' + imgFileName + '.jpg';
+    data += `${amirogen};${idTitle}${idx+200};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
 });
 
-getFileFromBlob(data);
+
+getFileFromBlob(data, catalogTitle.replace(/[\/\\\.,\(\)]/gi,''));
 
 })();
 // */
