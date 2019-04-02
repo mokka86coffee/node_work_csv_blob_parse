@@ -62,7 +62,7 @@ let workingWithName = (name) => {
 }
 
 
-let URL = 'http://www.inpo.ru/shop/S:158';
+let URL = 'http://www.inpo.ru/shop/S:743';
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
@@ -72,7 +72,7 @@ tableRows.forEach( (el,idx) => {
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
     let additionInfo = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
 
-    data += `rezcy_rastoch_${idx};${additionInfo};${price};${sku};\n`;    
+    data += `rezcy_rastoch_${idx+150};${additionInfo};${price};${sku};\n`;    
 });
 
 getFileFromBlob(data);
