@@ -69,7 +69,6 @@ let idTitle = 'rezcy_rezbov_';
 
 let html = (await needle('get', URL)).body;
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
-console.log(tableRows.length);
 
 let data = '';
 tableRows.forEach( (el,idx) => {

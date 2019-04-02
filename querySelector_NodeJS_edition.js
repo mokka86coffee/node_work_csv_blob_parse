@@ -122,8 +122,8 @@ function htmlParser ( str, html, config ){
         // beauty in file (for test)
         fs.writeFileSync('new.js', JSON.stringify(nodesArr,0,'\n'), ()=>{}); //for test
     }
-
-    return nodesArr;
+    
+    return nodesArr.length ? nodesArr : null;
 } // html parser itself
 
 function getAttr (attr) {
@@ -140,11 +140,14 @@ const nodeHtml = (html)=>({
     html,
     array: [],
     querySelector: function (str, config = {file: false}) { 
-        const parsedData = htmlParser(str, this.html, config)[0];
+        let parsedData = htmlParser(str, this.html, config);
+        parsedData = parsedData ? parsedData[0] : null;
+        if (!parsedData) return null;
+            
         return {
             innerHTML: parsedData,
             innerText:  parsedData.substring( parsedData.indexOf('>') + 1, parsedData.lastIndexOf('<\/') )
-        }
+        }   
     },
     querySelectorAll: function (str, config = {file: false}) { 
         htmlParser(str, this.html, config)
