@@ -62,9 +62,9 @@ let workingWithName = (title) => {
 }
 
 
-let URL = 'http://www.inpo.ru/shop/S:260';
-let catalogTitle = ' - Резцы резьбовые';
-let idTitle = 'rezcy_rezbov_';
+let URL = `http://www.inpo.ru/shop/S:${249}`;
+let catalogTitle = ' - Резцы сборные с пластинами';
+let idTitle = 'rezcy_sborn_plast_';
 
 
 let html = (await needle('get', URL)).body;
@@ -75,11 +75,8 @@ tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
     let { title, htmlBody, seoTitle } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
-
-    
-
-    data += `${idTitle}${idx};${title};${htmlBody};${price};;;;${sku};${seoTitle};;;true;Китай;На складе\n`;    
-    
+    let imgLink = 'rashodniki/rezcy/' + 'rezcy_sborn_plastin_zzmain' + '.jpg';
+    data += `${idTitle}${idx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};;;true;Китай;На складе\n`;    
 });
 
 getFileFromBlob(data);

@@ -9,19 +9,27 @@ const categoryLink = 'rashodniki-i-osnastka/rezcy/rezcy-rezbovye';
 const URL = mainURL + categoryLink;
 
 let idx = 0;
+
 (async () => {
+    
+    await new Promise( r => fs.writeFile('no_meta_keywords','', () => r()) );
 
     try {
         while (true) {
             if (idx) console.log( !(idx - 12) ? 'start' : `Проверено товаров - ${idx - 12}` );
             let html = (await needle('get', URL + '?action=rsrtme&catid=20465&offset=' + idx)).body;
             let itemsLinks = parserHtml(html).querySelectorAll('a.eshop-item-small__visual-link');
-            let href = itemsLinks[0].getAttr('href');
             
-            let itemHtml = (await needle('get', originURL + href)).body;
-            let ifAttr = /name=\"keywords\"/.test(itemHtml);
+            for (let item of itemsLinks) {
+                let href = item.getAttr('href');
+                let itemHtml = (await needle('get', originURL + href)).body;
+                
+                let ifAttr = /names=\"keywords\"/.test(itemHtml); 
+                
+                if (!ifAttr) fs.appendFileSync('no_meta_keywords', originURL + href + '\n');
+            }
             
-            if (!ifAttr) fs.writeFileSync('no_meta_keywords', originURL + href + '\n');
+
             
             idx += 12;
         }
