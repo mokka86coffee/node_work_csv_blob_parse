@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/plastiny-tverdosplavnye/`;
-const categoryLink = 'kruglye';
+const categoryLink = 'parallerogramm';
 
 const URL = mainURL + categoryLink;
 
