@@ -1,4 +1,3 @@
-// /*
 const needle = require('needle'); // aka axios
 const { tr, slugify } = require('transliteration'); // translit
 // NPM modules
