@@ -16,7 +16,7 @@ module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
         let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
-        let imgLink = 'rashodniki/metchiki_plashki/' + imgFileName + '.jpg';
+        let imgLink = 'rashodniki/plastiny_tverdosplavnye/' + imgFileName + '.jpg';
 
         
         return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    

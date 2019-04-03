@@ -3,7 +3,7 @@ const needle = require('needle'); // aka axios
 const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
-const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/metchiki-plashki/`;
+const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/plastiny-tverdosplavnye/`;
 const categoryLink = 'plashki-dlja-metricheskoj-rezby';
 
 const URL = mainURL + categoryLink;
