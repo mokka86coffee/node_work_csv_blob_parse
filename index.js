@@ -66,9 +66,7 @@ let workingWithName = (title) => {
 
 let URL = `http://www.inpo.ru/shop/S:${615}`;
 let catalogTitle = 'Машинно-ручные';
-let idTitle = slugify(catalogTitle.replace(/[\.\\\/,-]/gi,'_'), { separator: '_' });
 console.log(idTitle);
-
 let addToIdx = 1600;
 
 let amirogen = 'Amiro_gen_90487;Amiro_gen_90359;Машинно-ручные' + ';;;false;false';
@@ -77,6 +75,7 @@ let amirogen = 'Amiro_gen_90487;Amiro_gen_90359;Машинно-ручные' + '
 let html = (await needle('get', URL)).body;
 
 let data = 'META.CSV::CATEGORY_ID_EXTERNAL|CATALOG_ID_PARENT_EXTERNAL;CATEGORY_ID_PARENT_EXTERNAL;CATEGORY_DESCRIPTION;CATEGORY_ANNOUNCE;CATEGORY_FULL_DESCRIPTION;CATEGORY_IS_DELETED;CATALOG_IS_DELETED;CATALOG_ID_EXTERNAL;CATALOG_DESCRIPTION;CATALOG_NAME_FULL;CATALOG_MAIN_PRICE;IMAGE_IMAGE_MAIN;IMAGE_IMAGE_SMALL;IMAGE_IMAGE_POPUP;CATALOG_CODE;CATALOG_HTML_TITLE;CATALOG_HTML_KEYWORDS;CATALOG_HTML_DESCRIPTION;CATALOG_HTML_IS_AUTOGEN;CATALOG_CUSTOM_FIELD_12;CATALOG_CUSTOM_FIELD_25\n';
+let idTitle = slugify(catalogTitle.replace(/[\.\\\/,-]/gi,'_'), { separator: '_' });
 
 let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 tableRows.forEach( (el,idx) => {
