@@ -85,7 +85,7 @@ tableRows.forEach( (el,idx) => {
     let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
     let imgFileName = idTitle + '_zzmain';
     let imgLink = 'rashodniki/metchiki_plashki/' + imgFileName + '.jpg';
-    data += `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
+    data += `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    
 });
 console.log('Всего элементов - ', tableRows.length);
 
