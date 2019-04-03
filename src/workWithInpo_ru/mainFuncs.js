@@ -9,10 +9,10 @@ const writeToCSVFile = require('./api/writeToFile');
 (async() => {
 
 let URL = `http://www.inpo.ru/shop/S:${401}`,
-    catalogTitle = 'Плашки для метрической резьбы',
+    catalogTitle = 'Квадратные',
     addToIdx = 0, 
-    appendToFile = true,
-    amirogen = 'Amiro_gen_90489;Amiro_gen_90359'.trim();
+    appendToFile = false,
+    amirogen = 'Amiro_gen_90508;Amiro_gen_90362'.trim();
 
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });

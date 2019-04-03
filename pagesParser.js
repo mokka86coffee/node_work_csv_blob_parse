@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/plastiny-tverdosplavnye/`;
-const categoryLink = 'plashki-dlja-metricheskoj-rezby';
+const categoryLink = 'kvadratnye';
 
 const URL = mainURL + categoryLink;
 
