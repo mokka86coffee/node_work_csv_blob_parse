@@ -64,26 +64,26 @@ let workingWithName = (title) => {
 }
 
 
-let URL = `http://www.inpo.ru/shop/S:${318}`;
-let catalogTitle = 'Наборы метчиков и плашек';
-let idTitle = 'nabory_metchikov_i_plashek_';
-let amirogen = 'Amiro_gen_90482;Amiro_gen_90359;Наборы метчиков и плашек' + ';;;false;false';
+let URL = `http://www.inpo.ru/shop/S:${450}`;
+let catalogTitle = 'Машинно-ручные';
+let idTitle = 'mashinno_ruchnye';
+let amirogen = 'Amiro_gen_90487;Amiro_gen_90359;Машинно-ручные' + ';;;false;false';
 
 let html = (await needle('get', URL)).body;
-let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 
 const metaString = 'META.CSV::CATEGORY_ID_EXTERNAL|CATALOG_ID_PARENT_EXTERNAL;CATEGORY_ID_PARENT_EXTERNAL;CATEGORY_DESCRIPTION;CATEGORY_ANNOUNCE;CATEGORY_FULL_DESCRIPTION;CATEGORY_IS_DELETED;CATALOG_IS_DELETED;CATALOG_ID_EXTERNAL;CATALOG_DESCRIPTION;CATALOG_NAME_FULL;CATALOG_MAIN_PRICE;IMAGE_IMAGE_MAIN;IMAGE_IMAGE_SMALL;IMAGE_IMAGE_POPUP;CATALOG_CODE;CATALOG_HTML_TITLE;CATALOG_HTML_KEYWORDS;CATALOG_HTML_DESCRIPTION;CATALOG_HTML_IS_AUTOGEN;CATALOG_CUSTOM_FIELD_12;CATALOG_CUSTOM_FIELD_25\n';
 let data = metaString;
-console.log('Всего элементов - ',tableRows.length);
 
+let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
 tableRows.forEach( (el,idx) => {
     let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
     let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
     let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText );
-    let imgFileName = 'nabory_metchikov_i_plashek_zzmain';
+    let imgFileName = idTitle + '_zzmain';
     let imgLink = 'rashodniki/metchiki_plashki/' + imgFileName + '.jpg';
-    data += `${amirogen};${idTitle}${idx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
+    data += `${amirogen};${idTitle}${idx+1300};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};true;Китай;На складе\n`;    
 });
+console.log('Всего элементов - ',tableRows.length);
 
 
 getFileFromBlob(data, catalogTitle.replace(/[\/\\\.,\(\)]/gi,''));

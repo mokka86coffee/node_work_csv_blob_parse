@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/metchiki-plashki/`;
-const categoryLink = 'nabory-metchikov-i-plashek';
+const categoryLink = 'mashinno-ruchnye';
 
 const URL = mainURL + categoryLink;
 
