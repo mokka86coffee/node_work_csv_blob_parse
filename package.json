@@ -20,6 +20,7 @@
   "devDependencies": {
     "iconv-lite": "^0.4.24",
     "needle": "^2.2.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "transliteration": "^2.1.3"
   }
 }
