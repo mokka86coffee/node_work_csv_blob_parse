@@ -13,12 +13,13 @@ const { tr, slugify } = require('transliteration');
 
 (async() => {
 
-let getFileFromBlob = (data, fileName, appendToFile) => {
+let writeToCSVFile = (data, fileName, appendToFile = false) => {
     const bufferStr = iconv.encode(data, 'win1251');
     const fullWay = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/Расходники и оснастка/';
     const dirName = 'Метчики плашки/';
-    
-    fs.writeFileSync(${fileName}.csv`, bufferStr);
+
+    if (appendToFile) fs.appendFileSync(fullWay + dirName + fileName, bufferStr); 
+    else fs.writeFileSync(fullWay + dirName + fileName, bufferStr);
 }
 
 let priceCalculation = (price) => {
@@ -65,10 +66,11 @@ let workingWithName = (title) => {
     // return `${name};${htmlBody};${seoTitle};${diametr};${modulZuba};${klassTochn};${material};${ugolZuba};${ugolZubaDiap}`;
 }
 
+function delUnwritableSymbs (str) { return str.replace(/[\/\\\.,\(\)\"\']/gi,'') }
 
-let URL = `http://www.inpo.ru/shop/S:${575}`;
+let URL = `http://www.inpo.ru/shop/S:${169}`;
 let catalogTitle = 'Метчики ручные';
-let addToIdx = 0, appendToFile = true;
+let addToIdx = 0, appendToFile = false;
 
 let amirogen = 'Amiro_gen_90488;Amiro_gen_90359;' + catalogTitle + ';;;false;false';
 
@@ -90,7 +92,7 @@ tableRows.forEach( (el,idx) => {
 });
 console.log('Всего элементов - ', tableRows.length);
 
-getFileFromBlob(data, catalogTitle.replace(/[\/\\\.,\(\)]/gi,''));
+writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', appendToFile);
 
 })();
 // */
