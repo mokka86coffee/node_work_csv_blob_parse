@@ -21,4 +21,11 @@ module.exports = (data, fileName, appendToFile) => {
 
     if (appendToFile) fs.appendFileSync(way, bufferStr); 
     else fs.writeFileSync(way, bufferStr);
+
+    fs.readFile(way, 'utf8', (err, data) => {
+        let readArr = data.split('_zzmain')
+        .map( el => el.substring(0, el.indexOf('\.')) )
+        .reduce( (names,el) => ~names.indexOf(el) ? names : names.concat(el), [] )
+        console.log(readArr);
+    });
 }
