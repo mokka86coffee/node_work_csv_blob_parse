@@ -2,7 +2,7 @@ const parserHtml = require('../../../querySelector_NodeJS_edition');
 const { priceCalculation, reduceItem, workingWithName } = require('./transformHtmlToValues');
 // My modules
 
-module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
+module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
     
     
     let tableRows = getNodeInner(html,'table.b_items_list tbody tr');
@@ -33,27 +33,17 @@ function getNodeInner (nodes, selector, html = false) {
 
     const query = parserHtml(node.innerHTML).querySelector(selector);
 
-    return html ? query.innerHTML : query.innerText
+    return html ? query.innerHTML : query.innerText;
 }
 
 function getInfo (param, node) {
     switch (param) {
-        case 'sku': return getSKU(node);
-        case 'price': return getPrice(node);
-        case 'name': return getName(node);
+        case 'sku': return getNodeInner(node.innerHTML, 'span[itemprop="sku"]');
+
+        case 'price': return priceCalculation( getNodeInner(node.innerHTML, 'td.bil_price') );
+
+        case 'name': return getNodeInner(node.innerHTML, 'span[itemprop="name"]');
     }
-}
-
-function getSKU (node) { 
-    return getNodeInner(node.innerHTML, 'span[itemprop="sku"]');
-}
-
-function getPrice (node) {
-    return priceCalculation( getNodeInner(node.innerHTML, 'td.bil_price') );
-}
-
-function getName (node) {
-    return getNodeInner(node.innerHTML, 'span[itemprop="name"]');
 }
 
 
