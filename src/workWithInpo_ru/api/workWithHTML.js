@@ -28,9 +28,11 @@ module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
 }
 
 function getNodeInner (nodes, selector, html = false) {
-    const query = nodes.length > 1
-        ? parserHtml(node.innerHTML).querySelector(selector)
-        : parserHtml(node.innerHTML).querySelectorAll(selector)
+
+    if (nodes.length > 1) return parserHtml(node.innerHTML).querySelectorAll(selector);
+
+    const query = parserHtml(node.innerHTML).querySelector(selector);
+    
     return html ? query.innerHTML : query.innerText
 }
 
