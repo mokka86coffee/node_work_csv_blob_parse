@@ -16,7 +16,7 @@ let URL = `http://www.inpo.ru/shop/S:${398}`,
 
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
-console.log(idTitle);
+console.log('Название - ', idTitle);
 
 let html = (await needle('get', URL)).body;
 let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle);

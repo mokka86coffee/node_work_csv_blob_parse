@@ -79,6 +79,7 @@ function findNodes ( html, startedIdxs, endedIdxs, tagLength ) {
 } // getting array of founded nodes
 
 function findPositions (tag, html) {
+    
     let position = html.indexOf(tag), resultedArr = [];
     while (~position) {
         resultedArr.push(position);
@@ -139,7 +140,7 @@ function getAttr (attr) {
 const nodeHtml = (html)=>({ 
     html,
     array: [],
-    querySelector: function (str, config = {file: false}) { 
+    querySelector: function (str, config = {file: false}) {
         let parsedData = htmlParser(str, this.html, config);
         parsedData = parsedData ? parsedData[0] : null;
         if (!parsedData) return null;

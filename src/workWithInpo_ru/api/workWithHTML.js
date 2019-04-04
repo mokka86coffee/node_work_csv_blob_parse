@@ -13,7 +13,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
         const name = getInfo('name', el);
-        
+
         const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
@@ -36,11 +36,11 @@ function getNodeInner (node, selector, html = false) {
 
 function getInfo (param, node) {
     switch (param) {
-        case 'sku': return getNodeInner(node.innerHTML, 'span[itemprop="sku"]');
+        case 'sku': return getNodeInner(node, 'span[itemprop="sku"]');
 
-        case 'price': return priceCalculation( getNodeInner(node.innerHTML, 'td.bil_price') );
+        case 'price': return priceCalculation( getNodeInner(node, 'td.bil_price') );
 
-        case 'name': return getNodeInner(node.innerHTML, 'span[itemprop="name"]');
+        case 'name': return getNodeInner(node, 'span[itemprop="name"]');
     }
 }
 
