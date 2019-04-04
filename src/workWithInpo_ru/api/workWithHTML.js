@@ -4,7 +4,7 @@ const { priceCalculation, reduceItem, workingWithName } = require('./transformHt
 
 module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
     
-    let tableRows = getNodeInner(html,'table.b_items_list tbody tr');
+    let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
     console.log('Всего элементов - ', tableRows.length);
 
     amirogen += ';' + catalogTitle + ';;;false;false';
@@ -13,6 +13,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
         const name = getInfo('name', el);
+        
         const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
@@ -26,9 +27,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
 
 }
 
-function getNodeInner (nodes, selector, html = false) {
-
-    if (nodes.length > 1) return parserHtml(node.innerHTML).querySelectorAll(selector);
+function getNodeInner (node, selector, html = false) {
 
     const query = parserHtml(node.innerHTML).querySelector(selector);
 
