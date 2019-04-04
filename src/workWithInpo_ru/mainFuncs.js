@@ -8,21 +8,24 @@ const writeToCSVFile = require('./api/writeToFile');
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${397}`,
-    catalogTitle = 'Ромбические',
+let URL = `http://www.inpo.ru/shop/S:${402}`,
+    catalogTitle = 'Трехгранные',
     addToIdx = 0, 
-    amirogen = 'Amiro_gen_90511;Amiro_gen_90362'
+    amirogen = 'Amiro_gen_90514;Amiro_gen_90362'
 ;
 
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
-console.log('Название - ', idTitle);
+console.log('Название - ', idTitle + '_zzmain');
 
 let html = (await needle('get', URL)).body;
+
+amirogen += ';' + catalogTitle + ';false';
+
 let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle);
 
 writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
-/* using addToIdx to determine if append */
+/* using addToIdx to determine if append to file*/
 
 })();
 

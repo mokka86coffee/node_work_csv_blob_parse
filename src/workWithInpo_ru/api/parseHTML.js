@@ -7,8 +7,6 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
     let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
     console.log('Всего элементов - ', tableRows.length);
 
-    amirogen += ';' + catalogTitle + ';;;false;false';
-
     let data = tableRows.reduce( (res, el, idx) => {
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
@@ -17,7 +15,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
         const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
-        let imgLink = 'rashodniki/plastiny_tverdosplavnye/' + imgFileName + 'z.jpg';
+        let imgLink = 'rashodniki/plastiny_tverdosplavnye/' + imgFileName + '.jpg';
 
         
         return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    
