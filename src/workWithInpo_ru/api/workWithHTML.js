@@ -5,16 +5,16 @@ const { priceCalculation, reduceItem, workingWithName } = require('./transformHt
 module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
     
     
-    let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
+    let tableRows = getNodeInner(html,'table.b_items_list tbody tr');
     console.log('Всего элементов - ', tableRows.length);
 
     amirogen += ';' + catalogTitle + ';;;false;false';
 
     let data = tableRows.reduce( (res, el, idx) => {
-        let sku = getSKU(el);
-        let price = getPrice(el);
-        
-        let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText, catalogTitle );
+        const sku = getInfo('sku', el);
+        const price = getInfo('price', el);
+        const name = getInfo('name', el);
+        let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
         let imgLink = 'rashodniki/plastiny_tverdosplavnye/' + imgFileName + 'z.jpg';
@@ -32,16 +32,28 @@ function getNodeInner (nodes, selector, html = false) {
     if (nodes.length > 1) return parserHtml(node.innerHTML).querySelectorAll(selector);
 
     const query = parserHtml(node.innerHTML).querySelector(selector);
-    
+
     return html ? query.innerHTML : query.innerText
 }
 
+function getInfo (param, node) {
+    switch (param) {
+        case 'sku': return getSKU(node);
+        case 'price': return getPrice(node);
+        case 'name': return getName(node);
+    }
+}
+
 function getSKU (node) { 
-    return parserHtml(node.innerHTML).querySelector('span[itemprop="sku"]').innerText;
+    return getNodeInner(node.innerHTML, 'span[itemprop="sku"]');
 }
 
 function getPrice (node) {
-    return priceCalculation( parserHtml(node.innerHTML).querySelector('td.bil_price').innerText );
+    return priceCalculation( getNodeInner(node.innerHTML, 'td.bil_price') );
+}
+
+function getName (node) {
+    return getNodeInner(node.innerHTML, 'span[itemprop="name"]');
 }
 
 
