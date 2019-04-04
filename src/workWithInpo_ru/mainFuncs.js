@@ -25,5 +25,7 @@ writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', appendToFile);
 
 })();
 
-function delUnwritableSymbs (str) { return str.replace(/[\/\\\.,\(\)\"\']/gi,'') }
+function delUnwritableSymbs (str) { 
+    return str.replace(/[\/\\\.,\(\)\"\']/gi,'') 
+}
 
