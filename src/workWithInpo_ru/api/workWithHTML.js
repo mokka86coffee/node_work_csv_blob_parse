@@ -4,7 +4,6 @@ const { priceCalculation, reduceItem, workingWithName } = require('./transformHt
 
 module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
     
-    
     let tableRows = getNodeInner(html,'table.b_items_list tbody tr');
     console.log('Всего элементов - ', tableRows.length);
 
@@ -14,7 +13,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
         const name = getInfo('name', el);
-        let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
+        const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
         let imgLink = 'rashodniki/plastiny_tverdosplavnye/' + imgFileName + 'z.jpg';
