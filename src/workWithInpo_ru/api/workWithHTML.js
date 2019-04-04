@@ -27,6 +27,13 @@ module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
 
 }
 
+function getNodeInner (nodes, selector, html = false) {
+    const query = nodes.length > 1
+        ? parserHtml(node.innerHTML).querySelector(selector)
+        : parserHtml(node.innerHTML).querySelectorAll(selector)
+    return html ? query.innerHTML : query.innerText
+}
+
 function getSKU (node) { 
     return parserHtml(node.innerHTML).querySelector('span[itemprop="sku"]').innerText;
 }
