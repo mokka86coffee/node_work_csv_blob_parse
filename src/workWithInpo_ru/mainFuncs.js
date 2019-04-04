@@ -24,8 +24,6 @@ amirogen += ';' + catalogTitle + ';false';
 
 let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle);
 
-console.log('data',data);
-
 writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
 /* using addToIdx to determine if append to file*/
 
