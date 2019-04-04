@@ -12,10 +12,12 @@ module.exports = (data, fileName, appendToFile) => {
     const meta = 'META.CSV::CATEGORY_ID_EXTERNAL|CATALOG_ID_PARENT_EXTERNAL;CATEGORY_ID_PARENT_EXTERNAL;CATEGORY_DESCRIPTION;CATALOG_IS_DELETED;CATALOG_ID_EXTERNAL;CATALOG_DESCRIPTION;CATALOG_NAME_FULL;CATALOG_MAIN_PRICE;IMAGE_IMAGE_MAIN;IMAGE_IMAGE_SMALL;IMAGE_IMAGE_POPUP;CATALOG_CODE;CATALOG_HTML_TITLE;CATALOG_HTML_KEYWORDS;CATALOG_HTML_DESCRIPTION;CATALOG_HTML_IS_AUTOGEN;CATALOG_CUSTOM_FIELD_12;CATALOG_CUSTOM_FIELD_25\n';
     
     const bufferStr = appendToFile ? iconv.encode(data, 'win1251') : iconv.encode(meta + data, 'win1251');
-   
-    const dirWay = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/Расходники и оснастка/Пластины твердосплавные/';
     
-    const way = dirWay + fileName;
+    let wayToDir = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/'; 
+    wayToDir += 'Расходники и оснастка/';
+    wayToDir += 'Другой режущий инструмент/';
+    
+    const way = wayToDir + fileName;
 
     if (appendToFile) fs.appendFileSync(way, bufferStr); 
     else fs.writeFileSync(way, bufferStr);

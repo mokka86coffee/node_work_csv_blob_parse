@@ -8,10 +8,10 @@ const writeToCSVFile = require('./api/writeToFile');
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${17}`,
-    catalogTitle = 'Напаиваемые пластины',
-    addToIdx = 0, 
-    amirogen = 'Amiro_gen_90516;Amiro_gen_90362'
+let URL = `http://www.inpo.ru/shop/S:${194}`,
+    catalogTitle = 'Зенковки',
+    addToIdx = 100, 
+    amirogen = 'Amiro_gen_90503;Amiro_gen_90361'
 ;
 
 
