@@ -6,12 +6,13 @@ module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
     
     
     let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
+    console.log('Всего элементов - ', tableRows.length);
 
     amirogen += ';' + catalogTitle + ';;;false;false';
 
     let data = tableRows.reduce( (res, el, idx) => {
-        let sku = parserHtml(el.innerHTML).querySelector('span[itemprop="sku"]').innerText;
-        let price = priceCalculation( parserHtml(el.innerHTML).querySelector('td.bil_price').innerText );
+        let sku = getSKU(el);
+        let price = getPrice(el);
         
         let { title, htmlBody, seoTitle, seoKeywords } = workingWithName( parserHtml(el.innerHTML).querySelector('span[itemprop="name"]').innerText, catalogTitle );
         
@@ -22,10 +23,16 @@ module.exports = function (html, catalogTitle, addToIdx, amirogen, idTitle) {
         return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    
     }, '');
 
-    console.log('Всего элементов - ', tableRows.length);
     return data;
 
 }
 
+function getSKU (node) { 
+    return parserHtml(node.innerHTML).querySelector('span[itemprop="sku"]').innerText;
+}
+
+function getPrice (node) {
+    return priceCalculation( parserHtml(node.innerHTML).querySelector('td.bil_price').innerText );
+}
 
 
