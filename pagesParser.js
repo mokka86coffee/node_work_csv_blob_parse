@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/plastiny-tverdosplavnye/`;
-const categoryLink = 'trehgrannye-lomanye';
+const categoryLink = 'rombicheskie';
 
 const URL = mainURL + categoryLink;
 
@@ -13,6 +13,8 @@ let idx = 0;
 (async () => {
     
     await new Promise( r => fs.writeFile('no_meta_keywords','', () => r()) );
+
+    let errorArr = [];
 
     try {
         while (true) {
@@ -26,10 +28,8 @@ let idx = 0;
                 
                 let ifAttr = /name=\"keywords\"/.test(itemHtml); 
                 
-                if (!ifAttr) fs.appendFileSync('no_meta_keywords', originURL + href + '\n');
+                if (!ifAttr) fs.appendFileSync('no_meta_keywords', originURL + href + '\n', () => (errorArr.push(originURL + href + '\n')) );
             }
-            
-
             
             idx += 12;
         }

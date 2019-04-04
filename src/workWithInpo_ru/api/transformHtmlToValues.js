@@ -33,9 +33,11 @@ function workingWithName (title, catalogTitle) {
 
     // let ugolZuba = name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi) ? name.match(/\s?\d{1,2}°{1}\s?\d{1,3}/gi)[0] : 'none';
 
-    title = title.replace(/(cnic|;)/ig,'');
-    title = title.replace(/&quot{1}(\s)?(&quot)?/ig,' ');
-    title = title.replace(/(&#39)/ig,'\'');
+    title = title.replace(/(cnic|;)/img,'');
+    title = title.replace(/&quot{1}(\s)?(&quot)?/img,' ');
+    title = title.replace(/(&#39)/img,'\'');
+    title = title.replace(/(\n|\s{2,})/img,' ');
+
     let htmlBody = `<h2>Описание</h2> <p>${title}</p>`
     let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
     let seoKeywords = title.replace(/[\s]+/gi,',').replace(/\(.+\)+?/gi, '').replace(/,{2,}/gi,',');
