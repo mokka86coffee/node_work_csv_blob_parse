@@ -8,9 +8,9 @@ const writeToCSVFile = require('./api/writeToFile');
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${545}`,
+let URL = `http://www.inpo.ru/shop/S:${592}`,
     catalogTitle = 'Оправки и втулки',
-    addToIdx = 70, 
+    addToIdx = 120, 
     amirogen = 'Amiro_gen_90493;Amiro_gen_90360'
 ;
 
