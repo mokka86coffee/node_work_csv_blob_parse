@@ -2,15 +2,18 @@ const parserHtml = require('../../../querySelector_NodeJS_edition');
 const { priceCalculation, reduceItem, workingWithName } = require('./transformHtmlToValues');
 // My modules
 
-module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
+module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.*/gim ) => {
     
     let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
     console.log("\x1b[37m",'Всего элементов - ', "\x1b[32m", tableRows.length);
 
     let data = tableRows.reduce( (res, el, idx) => {
+
+        if (testStr.test(el)) return res;
+        
+        const name = getInfo('name', el);
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
-        const name = getInfo('name', el);
 
         const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
@@ -19,6 +22,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
 
         
         return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    
+            
     }, '');
 
     return data;

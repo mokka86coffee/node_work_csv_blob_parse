@@ -8,12 +8,11 @@ const writeToCSVFile = require('./api/writeToFile');
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${71}`,
-    catalogTitle = 'Микрометры',
+let URL = `http://www.inpo.ru/shop/S:${99}`,
+    catalogTitle = 'Радиусные шаблоны',
     addToIdx = 0, 
-    amirogen = 'Amiro_gen_90413;Amiro_gen_90352'
+    amirogen = 'Amiro_gen_90416;Amiro_gen_90352'
 ;
-
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
 console.log("\x1b[37m", 'Название - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
