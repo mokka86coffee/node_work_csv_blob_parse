@@ -9,9 +9,11 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.
 
     let data = tableRows.reduce( (res, el, idx) => {
 
-        if (testStr.test(el)) return res;
-        
         const name = getInfo('name', el);
+       
+        if (!testStr.test(name)) return res;
+
+        
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
 
