@@ -19,8 +19,8 @@ module.exports = (data, fileName, appendToFile) => {
     
     const way = wayToDir + fileName;
 
-    // if (appendToFile) fs.appendFileSync(way, bufferStr); 
-    // else fs.writeFileSync(way, bufferStr);
+    if (appendToFile) fs.appendFileSync(way, bufferStr); 
+    else fs.writeFileSync(way, bufferStr);
 
     getImgsNamesFromFile(way);
 
@@ -31,6 +31,6 @@ function getImgsNamesFromFile(way) {
         let readArr = data.split('_zzmain')
         .map( el => el.substring(0, el.indexOf('\.')) )
         .reduce( (names,el) => ~names.indexOf(el) || ~el.indexOf('META') ? names : names.concat(el), [] )
-        console.log('\x1b[36m%s\x1b[0m',readArr.toString());
+        console.log('\x1b[36m%s\x1b[0m',readArr.join(' \/ '));
     });
 }

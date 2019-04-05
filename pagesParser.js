@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/stanochnaja-osnastka/`;
-const categoryLink = 'opravki-i-vtulki';
+const categoryLink = 'magnitnye-plity';
 
 const URL = mainURL + categoryLink;
 
