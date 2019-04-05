@@ -22,7 +22,7 @@ module.exports = (data, fileName, appendToFile) => {
     if (appendToFile) fs.appendFileSync(way, bufferStr); 
     else fs.writeFileSync(way, bufferStr);
 
-    // getImgsNamesFromFile();
+    getImgsNamesFromFile(way);
 
 }
 
