@@ -5,7 +5,7 @@ const { priceCalculation, reduceItem, workingWithName } = require('./transformHt
 module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle) => {
     
     let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
-    console.log('Всего элементов - ', tableRows.length);
+    console.log("\x1b[37m",'Всего элементов - ', "\x1b[32m", tableRows.length);
 
     let data = tableRows.reduce( (res, el, idx) => {
         const sku = getInfo('sku', el);
