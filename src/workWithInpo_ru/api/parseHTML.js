@@ -13,7 +13,6 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.
        
         if (!testStr.test(name)) return res;
 
-        
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
 
