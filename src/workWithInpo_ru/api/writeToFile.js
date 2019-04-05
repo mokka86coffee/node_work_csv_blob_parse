@@ -31,6 +31,6 @@ function getImgsNamesFromFile(way) {
         let readArr = data.split('_zzmain')
         .map( el => el.substring(0, el.indexOf('\.')) )
         .reduce( (names,el) => ~names.indexOf(el) ? names : names.concat(el), [] )
-        console.log("%c" + readArr.toString(), "color:#FF0000;font-weight:bold;");
+        console.log('\x1b[36m%s\x1b[0m',readArr.toString());
     });
 }

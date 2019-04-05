@@ -3,8 +3,8 @@ const needle = require('needle'); // aka axios
 const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
-const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/drugoj-rezhuschij-instrument/`;
-const categoryLink = 'zenkovki';
+const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/stanochnaja-osnastka/`;
+const categoryLink = 'opravki-i-vtulki';
 
 const URL = mainURL + categoryLink;
 
