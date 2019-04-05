@@ -15,7 +15,7 @@ module.exports = (data, fileName, appendToFile) => {
     
     let wayToDir = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/'; 
     wayToDir += 'Расходники и оснастка/';
-    wayToDir += 'Станочная оснастка/';
+    wayToDir += 'Измерительный инструмент/';
     
     const way = wayToDir + fileName;
 
