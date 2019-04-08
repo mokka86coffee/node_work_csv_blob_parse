@@ -2,7 +2,7 @@ const parserHtml = require('../../../querySelector_NodeJS_edition');
 const { priceCalculation, reduceItem, workingWithName } = require('./transformHtmlToValues');
 // My modules
 
-module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.*/gim ) => {
+module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.+/gim ) => {
     
     let tableRows = parserHtml(html).querySelectorAll('table.b_items_list tbody tr');
     console.log("\x1b[37m",'Всего элементов - ', "\x1b[32m", tableRows.length);
@@ -11,7 +11,8 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = /.
 
         const name = getInfo('name', el);
        
-        if (!testStr.test(name)) return res;
+        if ( !testStr.test(name) ) return res;
+
 
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
