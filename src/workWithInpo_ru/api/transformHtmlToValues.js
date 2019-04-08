@@ -7,8 +7,9 @@ module.exports = {
 function priceCalculation(price) {
     price = Math.round(price).toFixed(0);
     if (price <= 5000) return price*2;
-    if (price <=10000) return Math.round((price*1.5));
-    if (price > 10000) return +price+5000;
+    else if (price <=10000) return Math.round((price*1.5));
+    else if (price < 30000) return +price+5000;
+    else if (price >= 30000) return +price*0.25 + +price;
 } // Counting price
 
 function reduceItem (param) {
