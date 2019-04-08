@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/izmeritelnyj-instrument/`;
-const categoryLink = 'ugolniki';
+const categoryLink = 'shtangenrejsmasy';
 
 const URL = mainURL + categoryLink;
 
