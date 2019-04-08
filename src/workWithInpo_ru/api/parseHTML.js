@@ -11,12 +11,15 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr ) =>
                 || 
                 RegExp(/.+/, 'gim');
 
+
     let data = tableRows.reduce( (res, el, idx) => {
 
         const name = getInfo('name', el);
-       
 
-        if ( !testStr.test(name) ) return res;
+        if ( !testStr.test(name) ) { return res; }
+        else { console.log('true') }
+       
+        console.log( testStr.test(name) )
 
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
