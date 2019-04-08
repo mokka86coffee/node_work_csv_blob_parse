@@ -8,8 +8,6 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
 
     testStr = new RegExp(testStr, "im");
 
-    console.log(testStr);
-
     let data = tableRows.reduce( (res, el, idx) => {
 
         const name = getInfo('name', el);
