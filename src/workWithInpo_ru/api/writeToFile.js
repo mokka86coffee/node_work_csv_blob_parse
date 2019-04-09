@@ -16,11 +16,12 @@ module.exports = (data, fileName, appendToFile) => {
     let wayToDir = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/'; 
     wayToDir += 'Расходники и оснастка/';
     wayToDir += 'Абразивный инструмент/';
+
+    fs.stat(wayToDir, err => {
+        if (err) fs.mkdir(wayToDir, writeToFile.bind(null, appendToFile, bufferStr))
+    });
     
     const way = wayToDir + fileName;
-
-    if (appendToFile) fs.appendFileSync(way, bufferStr); 
-    else fs.writeFileSync(way, bufferStr);
 
     getImgsNamesFromFile(way);
 
@@ -33,4 +34,9 @@ function getImgsNamesFromFile(way) {
         .reduce( (names,el) => ~names.indexOf(el) || ~el.indexOf('META') ? names : names.concat(el), [] )
         console.log('\x1b[36m%s\x1b[0m',readArr.join(' \/ '));
     });
+}
+
+function writeToFile (appendToFile, bufferStr) {
+    if (appendToFile) fs.appendFileSync(way, bufferStr); 
+    else fs.writeFileSync(way, bufferStr);
 }
