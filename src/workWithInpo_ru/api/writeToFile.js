@@ -17,9 +17,8 @@ module.exports = (data, fileName, appendToFile) => {
     wayToDir += 'Расходники и оснастка/';
     wayToDir += 'Абразивный инструмент/';
 
-    if ( fs.existsSync(wayToDir) ) fs.mkdirSync(wayToDir);
+    if ( !fs.existsSync(wayToDir) ) fs.mkdirSync(wayToDir);
     
-
     const way = wayToDir + fileName;
 
     writeToFile( bufferStr, way, appendToFile ); 
