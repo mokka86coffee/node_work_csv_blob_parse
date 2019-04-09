@@ -8,29 +8,29 @@ const writeToCSVFile = require('./api/writeToFile');
 
 console.clear();
 
-(async() => {
+(async () => {
+	let URL = `http://www.mobiprof.ru/category/razmotka-i-namotka/`,
+		catalogTitle = 'Зачистные круги',
+		addToIdx = 0,
+		amirogen = 'Amiro_gen_90424;Amiro_gen_90353';
+	let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
+	console.log(
+		'\x1b[37m',
+		'Картинка - ',
+		'\x1b[33m',
+		idTitle + '_zzmain' + addToIdx
+	);
 
-let URL = `http://www.inpo.ru/shop/S:${303}`,
-    catalogTitle = 'Зачистные круги',
-    addToIdx = 0, 
-    amirogen = 'Amiro_gen_90424;Amiro_gen_90353'
-;
+	let html = (await needle('get', URL)).body;
 
-let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
-console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
+	amirogen += ';' + catalogTitle + ';false';
 
-let html = (await needle('get', URL)).body;
+	let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
 
-amirogen += ';' + catalogTitle + ';false';
-
-let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
-
-writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
-/* using addToIdx to determine if append to file*/
-
+	writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '.csv', addToIdx);
+	/* using addToIdx to determine if append to file*/
 })();
 
-function delUnwritableSymbs (str) { 
-    return str.replace(/[\/\\\.,\(\)\"\']/gi,'') 
+function delUnwritableSymbs(str) {
+	return str.replace(/[\/\\\.,\(\)\"\']/gi, '');
 }
-
