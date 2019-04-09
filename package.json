@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "precommit": "lint-staged"
+    },
+    "lint-staged": {
+      "src/**/*.js": [ 
+      "prettier --single-quote --use-tabs --trailing-comma es6 --write",
+      "git add"
+      ]
   },
   "repository": {
     "type": "git",
