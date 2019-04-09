@@ -23,8 +23,6 @@ module.exports = (data, fileName, appendToFile) => {
 
     writeToFile( bufferStr, way, appendToFile ); 
 
-    console.log(bufferStr);
-    
     getImgsNamesFromFile(way);
 
 }
