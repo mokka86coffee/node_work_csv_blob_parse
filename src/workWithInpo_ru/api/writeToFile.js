@@ -17,12 +17,13 @@ module.exports = (data, fileName, appendToFile) => {
     wayToDir += 'Расходники и оснастка/';
     wayToDir += 'Абразивный инструмент/';
 
-    fs.stat(wayToDir, err => {
-        if (err) fs.mkdir(wayToDir, writeToFile.bind(null, appendToFile, bufferStr))
-    });
+    if ( fs.existsSync(wayToDir) ) fs.mkdirSync(wayToDir);
     
+
     const way = wayToDir + fileName;
 
+    writeToFile( bufferStr, way, appendToFile ); 
+    
     getImgsNamesFromFile(way);
 
 }
@@ -36,7 +37,7 @@ function getImgsNamesFromFile(way) {
     });
 }
 
-function writeToFile (appendToFile, bufferStr) {
+function writeToFile ( bufferStr, way, appendToFile ) {
     if (appendToFile) fs.appendFileSync(way, bufferStr); 
     else fs.writeFileSync(way, bufferStr);
 }
