@@ -20,7 +20,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         const { title, htmlBody, seoTitle, seoKeywords } = workingWithName( name, catalogTitle );
         
         let imgFileName = idTitle + '_zzmain';
-        let imgLink = 'rashodniki/izmeritelnyy_instrument/' + imgFileName + addToIdx + '.jpg';
+        let imgLink = `rashodniki/${idTitle}/${imgFileName}${addToIdx}.jpg`;
                 
         return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе\n`;    
             
