@@ -21,7 +21,7 @@ let html = (await needle('get', URL)).body;
 
 amirogen += ';' + catalogTitle + ';false';
 
-let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, 'резьб');
+let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
 
 writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
 /* using addToIdx to determine if append to file*/

@@ -32,7 +32,7 @@ function getImgsNamesFromFile(way) {
         let readArr = data.split('_zzmain')
         .map( el => el.substring(0, el.indexOf('\.')) )
         .reduce( (names,el) => ~names.indexOf(el) || ~el.indexOf('META') ? names : names.concat(el), [] )
-        console.log('\x1b[36m%s\x1b[0m',readArr.join(' \/ '));
+        console.log('\x1b[36m%s\x1b[0m', readArr.join(' \/ '));
     });
 }
 
