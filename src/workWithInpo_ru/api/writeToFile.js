@@ -22,6 +22,8 @@ module.exports = (data, fileName, appendToFile) => {
     const way = wayToDir + fileName;
 
     writeToFile( bufferStr, way, appendToFile ); 
+
+    console.log(bufferStr);
     
     getImgsNamesFromFile(way);
 
