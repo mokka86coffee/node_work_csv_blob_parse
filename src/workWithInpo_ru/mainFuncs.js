@@ -15,7 +15,6 @@ let URL = `http://www.inpo.ru/shop/S:${282}`,
 ;
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
-console.log("\x1b[37m", 'Название - ', '\x1b[33m', idTitle);
 console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
 
 let html = (await needle('get', URL)).body;
