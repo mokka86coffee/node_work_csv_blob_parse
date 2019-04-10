@@ -10,7 +10,7 @@ console.clear();
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${303}`,
+let URL = `http://www.inpo.ru/shop/S:${103}`,
     catalogTitle = 'Зачистные круги',
     addToIdx = 0, 
     amirogen = 'Amiro_gen_90424;Amiro_gen_90353'
