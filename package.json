@@ -3,15 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "precommit": "lint-staged"
-    },
-    "lint-staged": {
-      "src/**/*.js": [ 
-      "prettier --single-quote --use-tabs --trailing-comma es6 --write",
-      "git add"
-      ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mokka86coffee/node_work_csv_blob_parse.git"
