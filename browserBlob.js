@@ -10,3 +10,10 @@ let data = Array.from(document.querySelectorAll('.product__name a'))
 	.map(el => el.href)
 	.filter((_, idx) => idx !== 0);
 getFileFromBlob(data);
+
+
+function getUrl(part) {
+	let link = document.createElement('a');
+	link.
+
+}
