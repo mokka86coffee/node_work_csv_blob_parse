@@ -14,6 +14,7 @@ getFileFromBlob(data);
 
 function getUrl(part) {
 	let link = document.createElement('a');
-	link.
+	link.setAttribute('href', part);
+	console.log(link.href);
 
 }
