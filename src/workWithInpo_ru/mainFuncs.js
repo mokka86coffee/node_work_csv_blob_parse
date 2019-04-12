@@ -10,9 +10,9 @@ console.clear();
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${64}`,
+let URL = `http://www.inpo.ru/shop/S:${499}`,
     catalogTitle = 'Лепестковые круги',
-    addToIdx = 0, 
+    addToIdx = 21, 
     amirogen = 'Amiro_gen_90426;Amiro_gen_90353'
 ;
 
