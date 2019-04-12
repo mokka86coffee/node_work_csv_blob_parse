@@ -10,10 +10,10 @@ console.clear();
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${335}`,
-    catalogTitle = 'Шлифлента бесконечная',
+let URL = `http://www.inpo.ru/shop/S:${66}`,
+    catalogTitle = 'Шлифшкурка листовая',
     addToIdx = 0, 
-    amirogen = 'Amiro_gen_90429;Amiro_gen_90353'
+    amirogen = 'Amiro_gen_90430;Amiro_gen_90353'
 ;
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });

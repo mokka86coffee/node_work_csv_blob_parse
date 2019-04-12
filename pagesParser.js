@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const originURL = 'https://stanok74.ru/';
 const mainURL = `${originURL}katalog/internet-magazin/rashodniki-i-osnastka/abrazivnyj-instrument/`;
-const categoryLink = 'lepestkovye-krugi';
+const categoryLink = 'shlifshkurka-listovaja';
 
 const URL = mainURL + categoryLink;
 
