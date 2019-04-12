@@ -10,10 +10,10 @@ console.clear();
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${66}`,
-    catalogTitle = 'Шлифшкурка листовая',
+let URL = `http://www.inpo.ru/shop/S:${69}`,
+    catalogTitle = 'Алмазная паста',
     addToIdx = 0, 
-    amirogen = 'Amiro_gen_90430;Amiro_gen_90353'
+    amirogen = 'Amiro_gen_90431;Amiro_gen_90354'
 ;
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
@@ -23,7 +23,7 @@ let html = (await needle('get', URL)).body;
 
 amirogen += ';' + catalogTitle + ';false';
 
-let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
+let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, 'алмаз');
 
 writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
 /* using addToIdx to determine if append to file*/
