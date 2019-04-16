@@ -154,7 +154,13 @@ jQuery(document).ready(function($){
 		const container = document.querySelector('.eshop-item-list__container');
 	  
 		let href = document.querySelector('.pager__button.pager__button_state_active').nextSibling.href; 
-		href = href.substr(0, href.length - 2);
+  
+		if (~href.indexOf('javascript')) { 
+		  href = location.href;
+		} else {
+		  href = href.substr(0, href.length - 2);
+		}
+  
 		pager.removeChild(btnShowAll);
 		pager.innerHTML = '<p>Загрузка...</p>';
   
@@ -163,7 +169,8 @@ jQuery(document).ready(function($){
 		  try {
 			await new Promise ( (resolve,reject) => {
 		  
-			  iframe.src = `${href}&offset=${offset}`;//?action=rsrtme&catid=20088&offset=12
+			  iframe.src = `${href}&offset=${offset}`; // &pf=1&flt_force_values=1&submit_url=https%3A%2F%2Fstanok74.ru%2Fkatalog
+			  console.log(`${href}&offset=${offset}`);
   
 			  iframe.onload = () => {
 				  
@@ -190,6 +197,3 @@ jQuery(document).ready(function($){
   
 	} // if
   }
-
-https://stanok74.ru/katalog/internet-magazin/dlja-listovogo-metalla/gidravlicheskie-pressy/vertikalno-gibochnye-s-chpu?&catid=20093&ext_custom_75[]=Более%203100&search_subcats=1&pf=1&flt_force_values=1&action=search&search_subcats=1
-https://stanok74.ru/katalog/internet-magazin/dlja-listovogo-metalla/gidravlicheskie-pressy/vertikalno-gibochnye-s-chpu?&catid=20093&ext_custom_75[]=Более%203100&search_subcats=1&pf=1&flt_force_values=1&action=search&search_subcats=1&action=search&offset=12&pf=1&flt_force_values=1&submit_url=https%3A%2F%2Fstanok74.ru%2Fkatalog
