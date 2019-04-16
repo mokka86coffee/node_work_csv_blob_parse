@@ -54,6 +54,7 @@ function getUrl(part) {
 		
 		catch(err) {
 			console.log(err);
+			pager.style.display = 'none';
 			break;
 		}
 	}
