@@ -28,18 +28,21 @@ function getUrl(part) {
 	document.body.appendChild(iframe);
 
 	const container = document.querySelector('.eshop-item-list__container');
-	let href = window.location.href;
+	const pager = document.querySelector('.pager');
+	const href = window.location.href;
 		
 	for( let offset = 12; ; offset += 12 ) {
+		pager.innerHTML = '<p>Загрузка...</p>';
+
 		try {
-			await new Promise ( resolve => {
+			await new Promise ( (resolve,reject) => {
 		
-				src = `${href}&offset=${offset}`;
+				iframe.src = `${href}&offset=${offset}`;
 				iframe.onload = () => {
 						
 					const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
 					
-					if (!items.length) throw Error('no pages left');
+					if (!items.length) reject( Error('no pages left') );
 
 					items.forEach( span => container.appendChild(span) );
 					resolve();
