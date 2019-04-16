@@ -131,7 +131,7 @@ jQuery(document).ready(function($){
 });
 
 {
-	if (document.getElementsByClassName.length) {
+	if (document.getElementsByClassName('eshop-item-list__container').length) {
   
 	  const pager = document.querySelector('.pager');
 	  const btnShowAll = document.createElement('button');
