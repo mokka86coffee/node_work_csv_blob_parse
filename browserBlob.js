@@ -30,7 +30,9 @@ function getUrl(part) {
 		while (true) {
 			
 			iframe.src = 'https://stanok74.ru/katalog/internet-magazin/dlja-listovogo-metalla/gilotinnye-nozhnicy/gidravlicheskie-gilotiny?action=rsrtme&catid=20088&offset=124';
-			console.log(iframe.contentWindow.document.querySelector('.eshop-item-list__container'));
+			iframe.onload = () => console.log(iframe.contentWindow);
+			
+			// console.log(iframe.contentWindow.document.querySelector('.eshop-item-list__container'));
 			throw new Error('aaaaaa');
 		}
 
