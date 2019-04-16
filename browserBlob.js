@@ -131,69 +131,70 @@ jQuery(document).ready(function($){
 });
 
 {
+	
 	if (document.getElementsByClassName('eshop-item-list__container').length) {
-  
-	  const pager = document.querySelector('.pager');
-	  const btnShowAll = document.createElement('button');
-	  btnShowAll.className = 'btn btn-info ml-4 btn-showall';
-	  btnShowAll.innerText = 'Показать все';
-	  btnShowAll.onclick = iframeLoad;
-  
-	  try { 
-		pager.appendChild(btnShowAll); 
-	  } catch(err) {
-  
-	  }
-  
-	  let iframe = document.createElement('iframe');
-	  iframe.style.display = 'none';
-	  document.body.appendChild(iframe);
-  
-	  async function iframeLoad() {
-	  
-		const container = document.querySelector('.eshop-item-list__container');
-	  
-		let href = document.querySelector('.pager__button.pager__button_state_active').nextSibling.href; 
-  
-		if (~href.indexOf('javascript')) { 
-		  href = location.href;
-		} else {
-		  href = href.substr(0, href.length - 2);
+
+		const pager = document.querySelector('.pager');
+		const btnShowAll = document.createElement('button');
+		btnShowAll.className = 'btn btn-info ml-4 btn-showall';
+		btnShowAll.innerText = 'Показать все';
+		btnShowAll.onclick = iframeLoad;
+	
+		try { 
+		  pager.appendChild(btnShowAll); 
+		} catch(err) {
+	
 		}
-  
-		pager.removeChild(btnShowAll);
-		pager.innerHTML = '<p>Загрузка...</p>';
-  
-		for( let offset = 12; ; offset += 12 ) {
-	  
-		  try {
-			await new Promise ( (resolve,reject) => {
-		  
-			  iframe.src = `${href}&offset=${offset}`; // &pf=1&flt_force_values=1&submit_url=https%3A%2F%2Fstanok74.ru%2Fkatalog
-			  console.log(`${href}&offset=${offset}`);
-  
-			  iframe.onload = () => {
+	
+		let iframe = document.createElement('iframe');
+		iframe.style.display = 'none';
+		document.body.appendChild(iframe);
+	
+		async function iframeLoad() {
+		
+		  const container = document.querySelector('.eshop-item-list__container');
+		
+		  let href = document.querySelector('.pager__button.pager__button_state_active').nextSibling.href; 
+	
+		  if (~href.indexOf('javascript')) { 
+			href = location.href;
+		  } else {
+			href = href.substr(0, href.length - 2);
+		  }
+	
+		  pager.removeChild(btnShowAll);
+		  pager.innerHTML = '<p>Загрузка...</p>';
+	
+		  for( let offset = 12; ; offset += 12 ) {
+		
+			try {
+			  await new Promise ( (resolve,reject) => {
+			
+				iframe.src = `${href}&offset=${offset}`; // &pf=1&flt_force_values=1&submit_url=https%3A%2F%2Fstanok74.ru%2Fkatalog
+				console.log(`${href}&offset=${offset}`);
+	
+				iframe.onload = () => {
+					
+				  const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
 				  
-				const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
+				  if (!items.length) reject( Error('no pages left') );
+		
+				  items.forEach( span => container.appendChild(span) );
+				  resolve();
 				
-				if (!items.length) reject( Error('no pages left') );
-	  
-				items.forEach( span => container.appendChild(span) );
-				resolve();
-			  
-			  }
-	  
-			});
+				}
+		
+			  });
+			}
+			catch(err) {
+			  pager.style.display = 'none';
+			  break;
+			}
 		  }
-		  catch(err) {
-			pager.style.display = 'none';
-			break;
-		  }
-		}
-	  
-		document.body.removeChild(iframe);
-	  
-	  } // iframeLoad
-  
-	} // if
+		
+		  document.body.removeChild(iframe);
+		
+		} // iframeLoad
+	
+	  } // if
   }
