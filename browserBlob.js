@@ -131,49 +131,65 @@ jQuery(document).ready(function($){
 });
 
 {
-	(async() => {
-
-		let iframe = document.createElement('iframe');
-		iframe.style.display = 'none';
-		document.body.appendChild(iframe);
-	
+	if (document.getElementsByClassName.length) {
+  
+	  const pager = document.querySelector('.pager');
+	  const btnShowAll = document.createElement('button');
+	  btnShowAll.className = 'btn btn-info ml-4 btn-showall';
+	  btnShowAll.innerText = 'Показать все';
+	  btnShowAll.onclick = iframeLoad;
+  
+	  try { 
+		pager.appendChild(btnShowAll); 
+	  } catch(err) {
+  
+	  }
+  
+	  let iframe = document.createElement('iframe');
+	  iframe.style.display = 'none';
+	  document.body.appendChild(iframe);
+  
+	  async function iframeLoad() {
+	  
 		const container = document.querySelector('.eshop-item-list__container');
-		const pager = document.querySelector('.pager');
-		const btnShowAll = document.createElement('button');
-		btnShowAll.className = 'btn btn-info';
-		btnShowAll.innerText = 'Показать все';
-		pager.appendChild(btnShowAll);
-	
-		const href = window.location.href;
-			
+	  
+		let href = document.querySelector('.pager__button.pager__button_state_active').nextSibling.href; 
+		href = href.substr(0, href.length - 2);
+		pager.removeChild(btnShowAll);
+		pager.innerHTML = '<p>Загрузка...</p>';
+  
 		for( let offset = 12; ; offset += 12 ) {
-			// pager.innerHTML = '<p>Загрузка...</p>';
-	
-			try {
-				await new Promise ( (resolve,reject) => {
-			
-					iframe.src = `${href}&offset=${offset}`;
-					iframe.onload = () => {
-							
-						const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
-						
-						if (!items.length) reject( Error('no pages left') );
-	
-						items.forEach( span => container.appendChild(span) );
-						resolve();
-					
-					}
-	
-				});
-			}
-			
-			catch(err) {
-				// pager.style.display = 'none';
-				break;
-			}
+	  
+		  try {
+			await new Promise ( (resolve,reject) => {
+		  
+			  iframe.src = `${href}&offset=${offset}`;//?action=rsrtme&catid=20088&offset=12
+  
+			  iframe.onload = () => {
+				  
+				const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
+				
+				if (!items.length) reject( Error('no pages left') );
+	  
+				items.forEach( span => container.appendChild(span) );
+				resolve();
+			  
+			  }
+	  
+			});
+		  }
+		  catch(err) {
+			pager.style.display = 'none';
+			break;
+		  }
 		}
-	
-		// document.body.removeChild(iframe);
-	
-	})();
-}
+	  
+		document.body.removeChild(iframe);
+	  
+	  } // iframeLoad
+  
+	} // if
+  }
+
+https://stanok74.ru/katalog/internet-magazin/dlja-listovogo-metalla/gidravlicheskie-pressy/vertikalno-gibochnye-s-chpu?&catid=20093&ext_custom_75[]=Более%203100&search_subcats=1&pf=1&flt_force_values=1&action=search&search_subcats=1
+https://stanok74.ru/katalog/internet-magazin/dlja-listovogo-metalla/gidravlicheskie-pressy/vertikalno-gibochnye-s-chpu?&catid=20093&ext_custom_75[]=Более%203100&search_subcats=1&pf=1&flt_force_values=1&action=search&search_subcats=1&action=search&offset=12&pf=1&flt_force_values=1&submit_url=https%3A%2F%2Fstanok74.ru%2Fkatalog
