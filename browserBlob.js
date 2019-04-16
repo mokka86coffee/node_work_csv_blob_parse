@@ -29,27 +29,30 @@ function getUrl(part) {
 
 	const container = document.querySelector('.eshop-item-list__container');
 	let href = window.location.href;
-
-	try {
 		
-		for( let offset = 12; offset<30; offset += 12 ) {
-			
-				await new Promise ( resolve => {
-					iframe.src = `${href}&offset=${offset}`;
-					iframe.onload = () => {
+	for( let offset = 12; ; offset += 12 ) {
+		try {
+			await new Promise ( resolve => {
+		
+				src = `${href}&offset=${offset}`;
+				iframe.onload = () => {
 						
-						const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
-						items.forEach( span => container.appendChild(span) );
-						resolve();
-						
-					}
+					const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
+					
+					if (!items.length) throw Error('no pages left');
 
-				});
+					items.forEach( span => container.appendChild(span) );
+					resolve();
+				
+				}
+
+			});
 		}
-
-	} catch(err) {
-		console.log(err);
-		resolve();
+		
+		catch(err) {
+			console.log(err);
+			break;
+		}
 	}
 
 	document.body.removeChild(iframe);
