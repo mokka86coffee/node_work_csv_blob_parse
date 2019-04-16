@@ -26,28 +26,31 @@ function getUrl(part) {
 	let iframe = document.createElement('iframe');
 	iframe.style.display = 'none';
 	document.body.appendChild(iframe);
+
+	const container = document.querySelector('.eshop-item-list__container');
+	let href = window.location.href;
+
+	try {
 		
-	await new Promise( resolve => {
-		const container = document.querySelector('.eshop-item-list__container');
-		let href = window.location.href;
-		try {
+		for( let offset = 12; offset<30; offset += 12 ) {
+			
+				await new Promise ( resolve => {
+					iframe.src = `${href}&offset=${offset}`;
+					iframe.onload = () => {
+						
+						const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
+						items.forEach( span => container.appendChild(span) );
+						resolve();
+						
+					}
 
-			for( let offset = 12222; ; offset += 12 ) {
-				
-				iframe.src = `${href}&offset=${offset}`;
-				iframe.onload = () => {
-					const items = iframe.contentWindow.document.querySelectorAll('.eshop-item-list__container > span');
-					items.forEach( span => container.appendChild(span) );
-					resolve();
-				}
-				
-				// console.log(iframe.contentWindow.document.querySelector('.eshop-item-list__container'));
-				throw new Error('aaaaaa');
-			}
-	
-		} catch(err) {}
+				});
+		}
 
-	});
+	} catch(err) {
+		console.log(err);
+		resolve();
+	}
 
 	document.body.removeChild(iframe);
 
