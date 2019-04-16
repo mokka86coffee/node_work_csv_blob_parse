@@ -29,6 +29,11 @@ function getUrl(part) {
 
 	const container = document.querySelector('.eshop-item-list__container');
 	const pager = document.querySelector('.pager');
+	const btnShowAll = document.createElement('button');
+	btnShowAll.className = 'btn';
+	btnShowAll.innerText = 'Показать все';
+	pager.appendChild(btnShowAll);
+
 	const href = window.location.href;
 		
 	for( let offset = 12; ; offset += 12 ) {
