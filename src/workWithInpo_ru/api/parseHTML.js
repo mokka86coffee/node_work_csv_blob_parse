@@ -18,7 +18,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         const price = getInfo('price', el);
 
         const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width } = workingWithName( name, catalogTitle );
-        
+
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/almaz_instrument/${imgFileName}${addToIdx}.jpg`;
                 
