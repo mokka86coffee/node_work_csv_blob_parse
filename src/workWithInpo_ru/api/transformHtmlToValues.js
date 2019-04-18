@@ -32,13 +32,13 @@ function workingWithName (title, catalogTitle) {
         width: dimensions[2]
     };
 
-    let purpose = title
+    let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted
                     .replace(dimensionsBuff, '').trim() // dimensions deleted
-                    .match(/\s{1}.\s{1}/,g);
+                    .match(/\s{1}.+?[\s\(]{1}/g);
     let description = title + ', нормальный электрокорунд, ' ;
 
-    console.log(purpose)
+    console.log(buffer);
 
     title = title.replace(/(cnic|;)/img,'');
     title = title.replace(/&quot{1}(\s)?(&quot)?/img,' ');
