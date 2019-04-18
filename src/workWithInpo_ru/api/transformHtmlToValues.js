@@ -35,10 +35,13 @@ function workingWithName (title, catalogTitle) {
     let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted
                     .replace(dimensionsBuff, '').trim() // dimensions deleted
-                    .match(/\s{1}.+?[\s\(]{1}/g);
-    let description = title + ', нормальный электрокорунд, ' ;
+                    .replace(/\(.+?\)/,'') // deleted '(F**)'
+                    .match(/.+?[\s\(]{1}/g);
 
-    console.log(buffer);
+    const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
+    const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
+
+    let description = `${title}', нормальный электрокорунд, плотность - ${plotnost}, твердость - ${tverdost}`;
 
     title = title.replace(/(cnic|;)/img,'');
     title = title.replace(/&quot{1}(\s)?(&quot)?/img,' ');
