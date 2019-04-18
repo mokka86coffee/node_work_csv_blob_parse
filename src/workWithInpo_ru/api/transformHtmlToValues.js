@@ -26,10 +26,11 @@ function workingWithName (title, catalogTitle) {
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
     let dimensions = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
     dimensions = dimensions.match(/[\d,]{1,6}/gi);
+    console.log(dimensions[2]);
     dimensions = {
         diametr: dimensions[0],
-        posadMesto = dimensions[1],
-        width = dimensions[2]
+        posadMesto: dimensions[1],
+        width: dimensions[2]
     } ;
 
     // let dlina = name.match(/\d{1,3},?\d{1,3}\s?х/gi)[1].replace('х','');
