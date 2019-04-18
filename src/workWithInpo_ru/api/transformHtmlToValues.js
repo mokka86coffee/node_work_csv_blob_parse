@@ -24,15 +24,21 @@ function reduceItem (param) {
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    let dimensions = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
-    dimensions = dimensions.match(/[\d,]{1,6}/gi);
+    const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
+    let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
     dimensions = {
         diametr: dimensions[0],
         posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0',
         width: dimensions[2]
-    } ;
+    };
 
-    let 
+    let purpose = title
+                    .substr( title.indexOf(dimensionsBuff) ) // name deleted
+                    .replace(dimensionsBuff, '').trim() // dimensions deleted
+                    .match(/\s{1}.\s{1}/,g);
+    let description = title + ', нормальный электрокорунд, ' ;
+
+    console.log(purpose)
 
     title = title.replace(/(cnic|;)/img,'');
     title = title.replace(/&quot{1}(\s)?(&quot)?/img,' ');
@@ -46,7 +52,7 @@ function workingWithName (title, catalogTitle) {
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions };
+    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions, description };
 } // splitting title into several different values
 
 

@@ -17,12 +17,12 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
 
-        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width } = workingWithName( name, catalogTitle );
+        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width, description } = workingWithName( name, catalogTitle );
 
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/abraziv_instr/${imgFileName}${addToIdx}.jpg`;
 
-        return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;${diametr};${posadMesto};${width}\n`;    
+        return res + `${amirogen};${idTitle}${idx + addToIdx};${description};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;${diametr};${posadMesto};${width}\n`;    
             
     }, '');
    
