@@ -24,7 +24,8 @@ function reduceItem (param) {
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    // let diametr = name.match(/град{1},?\s{1}[^х]+х/gi) ? name.match(/град{1},?\s{1}[^х]+х/gi)[0].replace(/(град{1},?\s{1}|х)/gi,'') : 'none';
+    let diametr = name.match(/\d{1,3}х/gi);
+    console.log(diametr);
     // let dlina = name.match(/\d{1,3},?\d{1,3}\s?х/gi)[1].replace('х','');
     // let grad = name.match(/\d{1,3}(\s)?град/gi)[0].replace(/(\s)?град/gi,'');
     
