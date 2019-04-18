@@ -19,7 +19,7 @@ module.exports = (data, fileName, appendToFile) => {
     
     let wayToDir = 'C:/Users/UserEvg/Desktop/Stanok/csv/CSV на dva/'; 
     wayToDir += 'Расходники и оснастка/';
-    wayToDir += 'Алмазный инструмент/';
+    wayToDir += 'Абразивный инструмент/';
 
     if ( !fs.existsSync(wayToDir) ) fs.mkdirSync(wayToDir);
     
