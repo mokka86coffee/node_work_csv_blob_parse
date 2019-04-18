@@ -24,8 +24,14 @@ function reduceItem (param) {
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    let dimensions = title.match(/\d{1,3}\s?х{1}/gi);
-    console.log(dimensions);
+    let dimensions = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
+    dimensions = dimensions.match(/[\d,]{1,6}/gi);
+    dimensions = {
+        diametr: dimensions[0],
+        posadMesto = dimensions[1],
+        width = dimensions[2]
+    } ;
+
     // let dlina = name.match(/\d{1,3},?\d{1,3}\s?х/gi)[1].replace('х','');
     // let grad = name.match(/\d{1,3}(\s)?град/gi)[0].replace(/(\s)?град/gi,'');
     
@@ -47,6 +53,6 @@ function workingWithName (title, catalogTitle) {
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return { title, htmlBody, seoTitle, seoKeywords };
+    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions };
     // return `${name};${htmlBody};${seoTitle};${diametr};${modulZuba};${klassTochn};${material};${ugolZuba};${ugolZubaDiap}`;
 } // splitting title into several different values
