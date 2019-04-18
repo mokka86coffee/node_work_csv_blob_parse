@@ -48,7 +48,7 @@ function workingWithName (title, catalogTitle) {
     title = title.replace(/(&#39)/img,'\'');
     title = title.replace(/(\n|\s{2,})/img,' ');
 
-    let htmlBody = `<h2>Описание</h2> <p>${title}</p>`
+    let htmlBody = `<h2>Описание</h2> <p>${description}</p>`
     let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
     let seoKeywords = title.replace(/[\s]+/gi,',').replace(/\(.+\)+?/gi, '').replace(/,{2,}/gi,',');
     
