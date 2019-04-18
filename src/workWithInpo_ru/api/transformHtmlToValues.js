@@ -28,10 +28,9 @@ function workingWithName (title, catalogTitle) {
     dimensions = dimensions.match(/[\d,]{1,6}/gi);
     dimensions = {
         diametr: dimensions[0],
-        posadMesto: dimensions[1],
+        posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0',
         width: dimensions[2]
     } ;
-
     // let dlina = name.match(/\d{1,3},?\d{1,3}\s?х/gi)[1].replace('х','');
     // let grad = name.match(/\d{1,3}(\s)?град/gi)[0].replace(/(\s)?град/gi,'');
     

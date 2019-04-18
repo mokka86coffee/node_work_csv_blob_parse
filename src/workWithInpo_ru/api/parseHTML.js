@@ -22,9 +22,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/almaz_instrument/${imgFileName}${addToIdx}.jpg`;
                 
-        return res + '${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};\
-        ${diametr};${posadMesto};${width};\
-        false;Китай;На складе\n';    
+        return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;${diametr};${posadMesto};${width}\n`;    
             
     }, '');
    
