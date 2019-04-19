@@ -12,9 +12,9 @@ function priceCalculation(price) {
     else if (price >= 30000) return +price*0.25 + +price;
 } // Counting price
 
-function reduceItemRegexp (param, chkArr, resArr) {
+function reduceItemRegexp (str, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
-        if ( param.includes(chkArr[i]) ) return resArr[i]
+        if ( (new RegExp(str)).test(chkArr[i]) ) return resArr[i]
     }
 } // transform value
 
@@ -36,7 +36,8 @@ function workingWithName (title, catalogTitle) {
         diapDiametrov: reduceItemMath( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
         diapPosad: reduceItemMath( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
         diapWidth: reduceItemMath( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
-        
+        shlifzerno: reduceItemRegexp( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
+
     };
 
     let buffer = title
