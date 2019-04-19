@@ -1,6 +1,5 @@
 module.exports = {
     priceCalculation,
-    reduceItem,
     workingWithName
 }
 
@@ -45,7 +44,7 @@ function workingWithName (title, catalogTitle) {
                     .match(/.+?[\s\(]{1}/g);
 
     const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
-    const shlifzernoFilter = reduceItemMath( plotnost.replace(/[^\D]/g,''), [16, 100], ['20 - 32','76 - 127'] );
+    const shlifzernoFilter = reduceItemMath( plotnost.replace(/[\D]/g,''), [16, 100], ['4Н - 16Н','25Н - 100Н'] );
 
     const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
 
