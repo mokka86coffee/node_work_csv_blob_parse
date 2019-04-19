@@ -13,6 +13,9 @@ module.exports = (data, fileName, appendToFile) => {
     CATALOG_CUSTOM_FIELD_474;
     CATALOG_CUSTOM_FIELD_475;
     CATALOG_CUSTOM_FIELD_476;
+    CATALOG_CUSTOM_FIELD_477;
+    CATALOG_CUSTOM_FIELD_478;
+    CATALOG_CUSTOM_FIELD_479;
     `.replace(/[\n\t\s]+/g, '') + '\n';
 
     const bufferStr = appendToFile ? iconv.encode(data, 'win1251') : iconv.encode(meta + data, 'win1251');

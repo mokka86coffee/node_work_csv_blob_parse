@@ -28,7 +28,7 @@ function workingWithName (title, catalogTitle) {
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
     const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
     let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
-    console.log(dimensions);
+
     dimensions = {
         diametr: dimensions[0],
         posadMesto: dimensions[1],
