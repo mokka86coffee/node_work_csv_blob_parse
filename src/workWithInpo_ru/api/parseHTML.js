@@ -17,7 +17,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
 
-        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width, description } = workingWithName( name, catalogTitle );
+        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width, diapDiametrov } = workingWithName( name, catalogTitle );
 
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/abraziv_instr/${imgFileName}${addToIdx}.jpg`;
