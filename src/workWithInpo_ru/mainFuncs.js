@@ -11,12 +11,12 @@ console.clear();
 
 (async() => {
 
-    let catArr = [ 64, 499, 191 ], addToIdx = 0;
+    let catArr = [ 335 ], addToIdx = 0;
 
     for (let idx = 0, L = catArr.length; idx<L; idx++) {
         let URL = `http://www.inpo.ru/shop/S:${catArr[idx]}`,
-            catalogTitle = 'Лепестковые круги',
-            amirogen = 'Amiro_gen_90426;Amiro_gen_90353'
+            catalogTitle = 'Шлифлента бесконечная',
+            amirogen = 'Amiro_gen_90429;Amiro_gen_90353'
         ;
         
         let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
@@ -32,7 +32,7 @@ console.clear();
         
         addToIdx = addToIdx + newIdx; /* using addToIdx to determine if append to file*/
 
-        console.log(`\x1b[37m'Категория ${idx}, элементов - ]`, "\x1b[32m", newIdx, "]" );
+        console.log(`\x1b[37mКатегория ${idx+1}, элементов - `, "\x1b[32m", newIdx );
     }
 })();
 
