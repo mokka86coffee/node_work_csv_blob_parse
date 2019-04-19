@@ -32,8 +32,6 @@ function workingWithName (title, catalogTitle) {
         ? dimensionsBuff[0].match(/[\d,]{1,6}/gi)
         : title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0].match(/[\d,]{1,6}/gi);
 
-    console.log(dimensions);
-
     const width = dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,'');
 
     dimensions = {
