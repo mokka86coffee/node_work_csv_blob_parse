@@ -37,9 +37,8 @@ function workingWithName (title, catalogTitle) {
         diapDiametrov: reduceItemMath( dimensions[0], [200, 500], ['100 - 200','210 - 500'] ),
         diapPosad: reduceItemMath( dimensions[1], [2.9, 5], ['1,0 - 2,9','3,0 - 5,0'] ),
         diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
+        material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
     };
-
-    // console.log(dimensions);
 
     let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted
