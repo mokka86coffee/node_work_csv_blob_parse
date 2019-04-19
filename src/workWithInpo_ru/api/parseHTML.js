@@ -22,15 +22,17 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/abraziv_instr/${imgFileName}${addToIdx}.jpg`;
 
-        return res + `${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;
+        return res + (`${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;
         ${diametr};
         ${posadMesto};
-        ${width};
-        ${diapDiametrov};
-        ${diapPosad};
-        ${diapWidth};
-        ${material};
-        `.replace(/[\t\n]/gm,'') + '\n';    
+        ${width};`
+        // + `
+        // ${diapDiametrov};
+        // ${diapPosad};
+        // ${diapWidth};
+        // ${material};
+        // `
+        ).replace(/[\t\n]/gm,'') + '\n';    
             
     }, '');
 

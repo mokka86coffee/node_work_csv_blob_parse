@@ -27,14 +27,17 @@ function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
     
-    const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х?\s?[\d,]?/gi)[0];
-    let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
+    const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]+/gi);
+    let dimensions = dimensionsBuff
+        ? dimensionsBuff[0].match(/[\d,]{1,6}/gi)
+        : title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0].match(/[\d,]{1,6}/gi);
+
 
     dimensions = {
         diametr: dimensions[0],
         // posadMesto: dimensions[1],
         posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
-        width: dimensions[2],
+        width: dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,''),
         diapDiametrov: reduceItemMath( dimensions[0], [200, 500], ['100 - 200','210 - 500'] ),
         diapPosad: reduceItemMath( dimensions[1], [2.9, 5], ['1,0 - 2,9','3,0 - 5,0'] ),
         // diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
@@ -47,7 +50,7 @@ function workingWithName (title, catalogTitle) {
                     .replace(/\(.+?\)/,'') // deleted '(F**)'
                     .match(/.+?[\s\(]{1}/g);
 
-    const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
+    // const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
     // const shlifzernoFilter = reduceItemMath( plotnost.replace(/[\D]/g,''), [16, 100], ['4Н - 16Н','25Н - 100Н'] );
     // const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
 
@@ -57,7 +60,7 @@ function workingWithName (title, catalogTitle) {
     title = title.replace(/(&#39)/img,'\'');
     title = title.replace(/(\n|\s{2,})/img,' ');
 
-    let description = `${title}', нормальный электрокорунд, материал - ${plotnost}`;
+    let description = `${title}', нормальный электрокорунд`;
 
     let htmlBody = `<h2>Описание</h2> <p>${description}</p>`
     let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
