@@ -13,7 +13,7 @@ function priceCalculation(price) {
 
 function reduceItemRegexp (str, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
-        if ( (new RegExp(str)).test(chkArr[i]) ) return resArr[i]
+        if ( (new RegExp(chkArr[i])).test(str) ) return resArr[i]
     }
 } // transform value
 

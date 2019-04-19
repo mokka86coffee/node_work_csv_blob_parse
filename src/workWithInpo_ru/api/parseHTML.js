@@ -17,7 +17,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         const sku = getInfo('sku', el);
         const price = getInfo('price', el);
 
-        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width, diapDiametrov, diapPosad, diapWidth, shlifzernoFilter } = workingWithName( name, catalogTitle );
+        const { title, htmlBody, seoTitle, seoKeywords, diametr, posadMesto, width, diapDiametrov, diapPosad, diapWidth, material } = workingWithName( name, catalogTitle );
 
         let imgFileName = idTitle + '_zzmain';
         let imgLink = `rashodniki/abraziv_instr/${imgFileName}${addToIdx}.jpg`;
@@ -29,6 +29,7 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         ${diapDiametrov};
         ${diapPosad};
         ${diapWidth};
+        ${material};
         `.replace(/[\t\n]/gm,'') + '\n';    
             
     }, '');
