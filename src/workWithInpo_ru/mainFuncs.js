@@ -15,7 +15,7 @@ console.clear();
 
     for (let idx = 0, L = catArr.length; idx<L; idx++) {
         let URL = `http://www.inpo.ru/shop/S:${catArr[idx]}`,
-            catalogTitle = 'Лепестковые круги_',
+            catalogTitle = 'Лепестковые круги',
             amirogen = 'Amiro_gen_90426;Amiro_gen_90353'
         ;
         
