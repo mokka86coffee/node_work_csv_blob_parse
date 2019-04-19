@@ -32,6 +32,8 @@ function workingWithName (title, catalogTitle) {
         ? dimensionsBuff[0].match(/[\d,]{1,6}/gi)
         : title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0].match(/[\d,]{1,6}/gi);
 
+    console.log(dimensions);
+
     const width = dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,'');
 
     dimensions = {
@@ -39,9 +41,9 @@ function workingWithName (title, catalogTitle) {
         posadMesto: dimensions[1],
         // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width,
-        diapDiametrov: reduceItemMath( dimensions[0], [80, 150, 300], ['50 - 80','90 - 150', '160 - 300'] ),
-        diapPosad: reduceItemMath( dimensions[1], [25, 60], ['10 - 25','26 - 60'] ),
-        diapWidth: reduceItemMath( width, [20, 50, 250], ['6 - 20','21 - 50', '51 - 250'] ),
+        diapDiametrov: reduceItemMath( dimensions[0], [600, 2000], ['400 - 600','610 - 2000'] ),
+        diapPosad: reduceItemMath( dimensions[1], [80, 150], ['30 - 80','81 - 150'] ),
+        // diapWidth: reduceItemMath( width, [20, 50, 250], ['6 - 20','21 - 50', '51 - 250'] ),
         // material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
     };
 
