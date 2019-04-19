@@ -34,10 +34,12 @@ function workingWithName (title, catalogTitle) {
         // posadMesto: dimensions[1],
         posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width: dimensions[2],
-        // diapDiametrov: reduceItemMath( dimensions[0], [150, 230], ['100 - 150','180 - 230'] ),
-        // diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1 - 10','20 - 40'] ),
-        // diapWidth: reduceItemMath( dimensions[2], [30, 60], ['20 - 30','31 - 60'] ),
+        diapDiametrov: reduceItemMath( dimensions[0], [200, 210], ['100 - 200','210 - 500'] ),
+        diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1,0 - 2,9','3,0 - 5,0'] ),
+        diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
     };
+
+    console.log(dimensions);
 
     let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted

@@ -26,6 +26,9 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         ${diametr};
         ${posadMesto};
         ${width};
+        ${diapDiametrov};
+        ${diapPosad};
+        ${diapWidth};
         `.replace(/[\t\n]/gm,'') + '\n';    
             
     }, '');
