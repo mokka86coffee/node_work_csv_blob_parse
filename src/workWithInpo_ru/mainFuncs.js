@@ -11,14 +11,13 @@ console.clear();
 
 (async() => {
 
-let catArr = [ 64, 499, 191 ], addToIdx = 0;
+    let catArr = [ 64, 499, 191 ], addToIdx = 0;
 
     for (let idx = 0, L = catArr.length; idx<L; idx++) {
         let URL = `http://www.inpo.ru/shop/S:${catArr[idx]}`,
             catalogTitle = 'Лепестковые круги_',
             amirogen = 'Amiro_gen_90426;Amiro_gen_90353'
         ;
-        console.log('\naddToIdx - ', addToIdx);
         
         let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
         console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
@@ -31,7 +30,7 @@ let catArr = [ 64, 499, 191 ], addToIdx = 0;
         
         await writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
         
-        addToIdx = newIdx; /* using addToIdx to determine if append to file*/
+        addToIdx = addToIdx + newIdx; /* using addToIdx to determine if append to file*/
 
     }
 })();

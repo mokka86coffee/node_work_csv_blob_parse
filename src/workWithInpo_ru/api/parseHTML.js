@@ -33,10 +33,9 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         `.replace(/[\t\n]/gm,'') + '\n';    
             
     }, '');
-    
-    addToIdx = tableRows.length;
+
     console.log("\x1b[37m",'Всего элементов - ', "\x1b[32m", tableRows.length );
-    return { data, addToIdx};
+    return { data, newIdx: tableRows.length };
 
 }
 

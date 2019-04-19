@@ -26,7 +26,7 @@ function reduceItemMath (param, chkArr, resArr) {
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    console.log(title);
+    
     const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х?\s?[\d,]?/gi)[0];
     let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
 
