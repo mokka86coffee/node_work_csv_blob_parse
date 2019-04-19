@@ -24,12 +24,10 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
 
         return res + (`${amirogen};${idTitle}${idx + addToIdx};${title};${htmlBody};${price};${imgLink};${imgLink};${imgLink};${sku};${seoTitle};${seoKeywords};${title};false;Китай;На складе;
         ${diametr};
-        ${posadMesto};
-        ${width};`
+        ${posadMesto};`
         + `
         ${diapDiametrov};
         ${diapPosad};
-        ${diapWidth};
         `
         ).replace(/[\t\n]/gm,'') + '\n';    
             
