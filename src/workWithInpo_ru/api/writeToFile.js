@@ -13,6 +13,9 @@ module.exports = async (data, fileName, appendToFile) => {
     CATALOG_CUSTOM_FIELD_488;
     CATALOG_CUSTOM_FIELD_489;
     CATALOG_CUSTOM_FIELD_490;
+    CATALOG_CUSTOM_FIELD_491;
+    CATALOG_CUSTOM_FIELD_492;
+    CATALOG_CUSTOM_FIELD_493;
     `.replace(/[\n\t\s]+/g, '') + '\n';
 
     const bufferStr = appendToFile ? iconv.encode(data, 'win1251') : iconv.encode(meta + data, 'win1251');
@@ -33,10 +36,8 @@ module.exports = async (data, fileName, appendToFile) => {
 
 function getImgsNamesFromFile(way) {
     fs.readFile(way, 'utf8', (err, data) => {
-        let readArr = data.split('_zzmain')
         .map( el => el.substring(0, el.indexOf('\.')) )
         .reduce( (names,el) => ~names.indexOf(el) || ~el.indexOf('META') ? names : names.concat(el), [] )
-        console.log('\x1b[36m%s\x1b[0m', readArr.join(' \/ '));
     });
 }
 

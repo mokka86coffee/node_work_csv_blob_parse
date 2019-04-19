@@ -20,7 +20,7 @@ console.clear();
         ;
         
         let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
-        console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
+        // console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
         
         let html = (await needle('get', URL)).body;
         

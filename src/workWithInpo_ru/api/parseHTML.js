@@ -1,5 +1,5 @@
 const parserHtml = require('../../../querySelector_NodeJS_edition');
-const { priceCalculation, reduceItem, workingWithName } = require('./transformHtmlToValues');
+const { priceCalculation, workingWithName } = require('./transformHtmlToValues');
 // My modules
 
 module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.+' ) => {
@@ -26,12 +26,11 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
         ${diametr};
         ${posadMesto};
         ${width};`
-        // + `
-        // ${diapDiametrov};
-        // ${diapPosad};
-        // ${diapWidth};
-        // ${material};
-        // `
+        + `
+        ${diapDiametrov};
+        ${diapPosad};
+        ${diapWidth};
+        `
         ).replace(/[\t\n]/gm,'') + '\n';    
             
     }, '');

@@ -32,17 +32,20 @@ function workingWithName (title, catalogTitle) {
         ? dimensionsBuff[0].match(/[\d,]{1,6}/gi)
         : title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0].match(/[\d,]{1,6}/gi);
 
+    const width = dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,'');
 
     dimensions = {
         diametr: dimensions[0],
-        // posadMesto: dimensions[1],
-        posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
-        width: dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,''),
-        diapDiametrov: reduceItemMath( dimensions[0], [200, 500], ['100 - 200','210 - 500'] ),
-        diapPosad: reduceItemMath( dimensions[1], [2.9, 5], ['1,0 - 2,9','3,0 - 5,0'] ),
-        // diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
-        material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
+        posadMesto: dimensions[1],
+        // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
+        width,
+        diapDiametrov: reduceItemMath( dimensions[0], [80, 150, 300], ['50 - 80','90 - 150', '160 - 300'] ),
+        diapPosad: reduceItemMath( dimensions[1], [25, 40], ['10 - 25','26 - 40'] ),
+        diapWidth: reduceItemMath( width, [20, 50, 150], ['6 - 20','21 - 50', '51 - 150'] ),
+        // material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
     };
+
+    // console.log(dimensions.diametr, dimensions.posadMesto, dimensions.width);
 
     let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted
