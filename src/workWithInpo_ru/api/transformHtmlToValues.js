@@ -34,9 +34,9 @@ function workingWithName (title, catalogTitle) {
         posadMesto: dimensions[1],
         // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width: dimensions[2],
-        diapDiametrov: reduceItemMath( dimensions[0], [150, 230], ['100 - 150','180 - 230'] ),
-        diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1 - 10','20 - 40'] ),
-        diapWidth: reduceItemMath( dimensions[2], [30, 60], ['20 - 30','31 - 60'] ),
+        // diapDiametrov: reduceItemMath( dimensions[0], [150, 230], ['100 - 150','180 - 230'] ),
+        // diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1 - 10','20 - 40'] ),
+        // diapWidth: reduceItemMath( dimensions[2], [30, 60], ['20 - 30','31 - 60'] ),
     };
 
     let buffer = title
@@ -46,8 +46,7 @@ function workingWithName (title, catalogTitle) {
                     .match(/.+?[\s\(]{1}/g);
 
     const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
-    const shlifzernoFilter = reduceItemMath( plotnost.replace(/[\D]/g,''), [16, 100], ['4Н - 16Н','25Н - 100Н'] );
-
+    // const shlifzernoFilter = reduceItemMath( plotnost.replace(/[\D]/g,''), [16, 100], ['4Н - 16Н','25Н - 100Н'] );
     // const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
 
 
@@ -64,7 +63,7 @@ function workingWithName (title, catalogTitle) {
     
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions, shlifzernoFilter };
+    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions };
 } // splitting title into several different values
 
 
