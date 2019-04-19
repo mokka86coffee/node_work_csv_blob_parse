@@ -10,10 +10,10 @@ console.clear();
 
 (async() => {
 
-let URL = `http://www.inpo.ru/shop/S:${282}`,
-    catalogTitle = 'Вулканитовые отрезные круги',
+let URL = `http://www.inpo.ru/shop/S:${303}`,
+    catalogTitle = 'Зачистные круги',
     addToIdx = 0, 
-    amirogen = 'Amiro_gen_90423;Amiro_gen_90353'
+    amirogen = 'Amiro_gen_90424;Amiro_gen_90353'
 ;
 
 let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });

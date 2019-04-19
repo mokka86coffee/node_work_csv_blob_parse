@@ -46,20 +46,20 @@ function workingWithName (title, catalogTitle) {
     const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
     const shlifzernoFilter = reduceItemMath( plotnost.replace(/[\D]/g,''), [16, 100], ['4Н - 16Н','25Н - 100Н'] );
 
-    const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
+    // const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
 
-    let description = `${title}', нормальный электрокорунд, плотность - ${plotnost}, твердость - ${tverdost}`;
 
-    title = title.replace(/(cnic|;)/img,'');
-    title = title.replace(/&quot{1}(\s)?(&quot)?/img,' ');
+    title = title.replace(/cnic/img,'');
+    title = title.replace(/&quot;/img,' ');
     title = title.replace(/(&#39)/img,'\'');
     title = title.replace(/(\n|\s{2,})/img,' ');
+
+    let description = `${title}', нормальный электрокорунд, материал - ${plotnost}`;
 
     let htmlBody = `<h2>Описание</h2> <p>${description}</p>`
     let seoTitle = title + ' - ' + catalogTitle + " - Каталог оборудования | Станкопромышленная компания";
     let seoKeywords = title.replace(/[\s]+/gi,',').replace(/\(.+\)+?/gi, '').replace(/,{2,}/gi,',');
     
-    // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
     return { title, htmlBody, seoTitle, seoKeywords, ...dimensions, shlifzernoFilter };
