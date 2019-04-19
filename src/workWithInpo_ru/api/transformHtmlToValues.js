@@ -31,8 +31,8 @@ function workingWithName (title, catalogTitle) {
 
     dimensions = {
         diametr: dimensions[0],
-        posadMesto: dimensions[1],
-        // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
+        // posadMesto: dimensions[1],
+        posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width: dimensions[2],
         // diapDiametrov: reduceItemMath( dimensions[0], [150, 230], ['100 - 150','180 - 230'] ),
         // diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1 - 10','20 - 40'] ),
