@@ -12,16 +12,13 @@ function priceCalculation(price) {
     else if (price >= 30000) return +price*0.25 + +price;
 } // Counting price
 
-// function reduceItem (param) {
-//     if (/0/.test(param)) return `0°1' - 0°9'`;
-//     else if (/1/.test(param)) return `1°1' - 1°9'`;
-//     else if (/2/.test(param)) return `2°1' - 2°9'`;
-//     else if (/3/.test(param)) return `3°1' - 3°9'`;
-//     else if (/4/.test(param)) return `4°1' - 4°9'`;
-//     return `5°1' - 5°9'`;
-// } // transform value
+function reduceItemRegexp (param, chkArr, resArr) {
+    for(let i = 0, L = chkArr.length; i<L; i++) {
+        if ( param.includes(chkArr[i]) ) return resArr[i]
+    }
+} // transform value
 
-function reduceItem (param, chkArr, resArr) {
+function reduceItemMath (param, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
         if ( chkArr[i] >= +param.replace(',','.') ) return resArr[i]
     }
@@ -36,9 +33,10 @@ function workingWithName (title, catalogTitle) {
         diametr: dimensions[0],
         posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0',
         width: dimensions[2],
-        diapDiametrov: reduceItem( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
-        diapPosad: reduceItem( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
-        diapWidth: reduceItem( dimensions[2], [32, 127], ['20 - 32','76 - 127'] )
+        diapDiametrov: reduceItemMath( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
+        diapPosad: reduceItemMath( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
+        diapWidth: reduceItemMath( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
+        
     };
 
     let buffer = title
