@@ -11,16 +11,14 @@ console.clear();
 
 (async() => {
 
-const allCategs = [
-    
-]
+let catArr = [ 64, 499, 191 ], addToIdx = 0;
 
-for (let i = 0, L = allCategs.length; i<L; i++) {
-    let URL = `http://www.inpo.ru/shop/S:${191}`,
+    for (let idx = 0, L = catArr.length; idx<L; idx++) {
+        let URL = `http://www.inpo.ru/shop/S:${catArr[idx]}`,
             catalogTitle = 'Лепестковые круги_',
-            addToIdx = 30, 
             amirogen = 'Amiro_gen_90426;Amiro_gen_90353'
         ;
+        console.log('\naddToIdx - ', addToIdx);
         
         let idTitle = slugify(delUnwritableSymbs(catalogTitle), { separator: '_' });
         console.log("\x1b[37m", 'Картинка - ', '\x1b[33m', idTitle + '_zzmain' + addToIdx);
@@ -29,11 +27,12 @@ for (let i = 0, L = allCategs.length; i<L; i++) {
         
         amirogen += ';' + catalogTitle + ';false';
         
-        let data = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
+        let { data, newIdx } = parseHTML(html, catalogTitle, addToIdx, amirogen, idTitle, '');
         
-        writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
-        /* using addToIdx to determine if append to file*/
+        await writeToCSVFile(data, delUnwritableSymbs(catalogTitle) + '\.csv', addToIdx); 
         
+        addToIdx = newIdx; /* using addToIdx to determine if append to file*/
+
     }
 })();
 
