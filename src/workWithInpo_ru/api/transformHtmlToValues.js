@@ -23,7 +23,7 @@ function priceCalculation(price) {
 
 function reduceItem (param, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
-        if ( chkArr[i] <= +param.replace(',','.') ) return resArr[i]
+        if ( chkArr[i] >= +param.replace(',','.') ) return resArr[i]
     }
 } // transform value
 
@@ -38,9 +38,6 @@ function workingWithName (title, catalogTitle) {
         width: dimensions[2],
         diapDiametrov: reduceItem( dimensions[0], [175, 300], ['125-175','200-300'] )
     };
-
-
-
 
     let buffer = title
                     .substr( title.indexOf(dimensionsBuff) ) // name deleted
