@@ -26,7 +26,8 @@ function reduceItemMath (param, chkArr, resArr) {
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
-    const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
+    console.log(title);
+    const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х?\s?[\d,]?/gi)[0];
     let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
 
     dimensions = {
@@ -36,7 +37,7 @@ function workingWithName (title, catalogTitle) {
         width: dimensions[2],
         diapDiametrov: reduceItemMath( dimensions[0], [200, 500], ['100 - 200','210 - 500'] ),
         diapPosad: reduceItemMath( dimensions[1], [2.9, 5], ['1,0 - 2,9','3,0 - 5,0'] ),
-        diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
+        // diapWidth: reduceItemMath( dimensions[2], [30, 40], ['20 - 30','31 - 40'] ),
         material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
     };
 
