@@ -35,7 +35,6 @@ module.exports =  (html, catalogTitle, addToIdx, amirogen, idTitle, testStr = '.
             
     }, '');
 
-    console.log("\x1b[37m",'Всего элементов - ', "\x1b[32m", tableRows.length );
     return { data, newIdx: tableRows.length };
 
 }

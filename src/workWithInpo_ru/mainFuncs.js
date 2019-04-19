@@ -32,6 +32,7 @@ console.clear();
         
         addToIdx = addToIdx + newIdx; /* using addToIdx to determine if append to file*/
 
+        console.log(`\x1b[37m'Категория ${idx}, элементов - ]`, "\x1b[32m", newIdx, "]" );
     }
 })();
 

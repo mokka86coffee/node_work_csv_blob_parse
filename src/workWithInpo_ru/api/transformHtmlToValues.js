@@ -40,7 +40,7 @@ function workingWithName (title, catalogTitle) {
         // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width,
         diapDiametrov: reduceItemMath( dimensions[0], [80, 150, 300], ['50 - 80','90 - 150', '160 - 300'] ),
-        diapPosad: reduceItemMath( dimensions[1], [25, 40], ['10 - 25','26 - 40'] ),
+        diapPosad: reduceItemMath( dimensions[1], [25, 60], ['10 - 25','26 - 60'] ),
         diapWidth: reduceItemMath( width, [20, 50, 150], ['6 - 20','21 - 50', '51 - 150'] ),
         // material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
     };
