@@ -28,13 +28,15 @@ function workingWithName (title, catalogTitle) {
     // let material = name.match(/кл.т/gi)[0].replace(/Z{1}\s?={1}\s?\d{1,3}\s/,'');
     const dimensionsBuff = title.match(/[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}\s?х{1}\s?[\d,]{1,5}/gi)[0];
     let dimensions = dimensionsBuff.match(/[\d,]{1,6}/gi);
+    console.log(dimensions);
     dimensions = {
         diametr: dimensions[0],
-        posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0',
+        posadMesto: dimensions[1],
+        // posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0', // adding ',0'
         width: dimensions[2],
-        diapDiametrov: reduceItemMath( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
-        diapPosad: reduceItemMath( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
-        diapWidth: reduceItemMath( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
+        diapDiametrov: reduceItemMath( dimensions[0], [150, 230], ['100 - 150','180 - 230'] ),
+        diapPosad: reduceItemMath( dimensions[1], [10, 40], ['1 - 10','20 - 40'] ),
+        diapWidth: reduceItemMath( dimensions[2], [30, 60], ['20 - 30','31 - 60'] ),
     };
 
     let buffer = title
