@@ -36,7 +36,9 @@ function workingWithName (title, catalogTitle) {
         diametr: dimensions[0],
         posadMesto: /,/.test(dimensions[1]) ? dimensions[1] : dimensions[1] + ',0',
         width: dimensions[2],
-        diapDiametrov: reduceItem( dimensions[0], [175, 300], ['125-175','200-300'] )
+        diapDiametrov: reduceItem( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
+        diapPosad: reduceItem( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
+        diapWidth: reduceItem( dimensions[2], [32, 127], ['20 - 32','76 - 127'] )
     };
 
     let buffer = title
