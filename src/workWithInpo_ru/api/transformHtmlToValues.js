@@ -20,7 +20,7 @@ function reduceItemRegexp (str, chkArr, resArr) {
 
 function reduceItemMath (param, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
-        if ( chkArr[i] >= +param.replace(',','.') ) return resArr[i]
+        if ( chkArr[i] >= +param.replace(/,/,'.') ) return resArr[i]
     }
 } // transform value
 
@@ -36,8 +36,6 @@ function workingWithName (title, catalogTitle) {
         diapDiametrov: reduceItemMath( dimensions[0], [175, 300], ['125 - 175','200 - 300'] ),
         diapPosad: reduceItemMath( dimensions[1], [10, 100], ['1,2 - 10','11 - 100'] ),
         diapWidth: reduceItemMath( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
-        shlifzerno: reduceItemRegexp( dimensions[2], [32, 127], ['20 - 32','76 - 127'] ),
-
     };
 
     let buffer = title
@@ -47,6 +45,8 @@ function workingWithName (title, catalogTitle) {
                     .match(/.+?[\s\(]{1}/g);
 
     const plotnost = buffer[1] ? buffer[1].replace('(','').trim() : buffer[0].replace('(','').trim();
+    const shlifzernoFilter = reduceItemMath( plotnost.replace(/[^\D]/g,''), [16, 100], ['20 - 32','76 - 127'] );
+
     const tverdost = buffer[2] ? buffer[2].replace('(','').trim() : '*';
 
     let description = `${title}', нормальный электрокорунд, плотность - ${plotnost}, твердость - ${tverdost}`;
@@ -63,7 +63,7 @@ function workingWithName (title, catalogTitle) {
     // let ugolZubaDiap = reduceItem(ugolZuba);
     // fs.appendFileSync('new.json', `${modulZubaDiap}\n`);
 
-    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions, description };
+    return { title, htmlBody, seoTitle, seoKeywords, ...dimensions, shlifzernoFilter };
 } // splitting title into several different values
 
 
