@@ -15,13 +15,19 @@ function reduceItemRegexp (str, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
         if ( (new RegExp(chkArr[i])).test(str) ) return resArr[i]
     }
-} // transform value
+} // regexp test str
+
+function reduceItemFind (str, regexp) {
+    const founded = str.match(new RegExp(regexp));
+    if ( founded ) return founded[0];
+} // regexp test str
 
 function reduceItemMath (param, chkArr, resArr) {
     for(let i = 0, L = chkArr.length; i<L; i++) {
         if ( chkArr[i] >= +param.replace(/,/,'.') ) return resArr[i]
     }
-} // transform value
+} // define group for filter
+
 
 function workingWithName (title, catalogTitle) {
     // let kolvoZubiev = name.match(/Z{1}\s?={1}\s?\d{1,3}/gi)[0].replace(/Z{1}\s?={1}\s?/,'');
