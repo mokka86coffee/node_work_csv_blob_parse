@@ -18,7 +18,7 @@ function reduceItemRegexp (str, chkArr, resArr) {
 } // regexp test str
 
 function reduceItemFind (str, regexp) {
-    const founded = str.match(new RegExp(regexp));
+    const founded = str.match(new RegExp(regexp, 'gim'));
     if ( founded ) return founded[0];
 } // regexp test str
 
@@ -40,6 +40,10 @@ function workingWithName (title, catalogTitle) {
 
     const width = dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,'');
 
+    let zernistost = reduceItemFind(title, 'Р{1}\\s?\\d{1,3}');
+    zernistost = reduceItemMath(zernistost.replace(/[\sР]/,''), [60, 180], ['Р10 - Р70', 'Р80 - Р180'])
+    const reliefnost = reduceItemFind(title, '\\d{1,3}\\s?П{1}');
+
     dimensions = {
         diametr: dimensions[0],
         posadMesto: dimensions[1],
@@ -48,7 +52,9 @@ function workingWithName (title, catalogTitle) {
         diapDiametrov: reduceItemMath( dimensions[0], [600, 2000], ['400 - 600','610 - 2000'] ),
         diapPosad: reduceItemMath( dimensions[1], [80, 150], ['30 - 80','81 - 150'] ),
         // diapWidth: reduceItemMath( width, [20, 50, 250], ['6 - 20','21 - 50', '51 - 250'] ),
-        // material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] )
+        // material: reduceItemRegexp( title, ['метал', 'камн', 'рельс'], ['Для металла', 'Для камня', 'Для рельс'] ),
+        zernistost: zernistost ? zernistost.replace(/[\s]/g, '') : ' - ',
+        reliefnost: reliefnost ? reliefnost.replace(/[\s]/g, '') : ' - '
     };
 
     // console.log(dimensions.diametr, dimensions.posadMesto, dimensions.width);
