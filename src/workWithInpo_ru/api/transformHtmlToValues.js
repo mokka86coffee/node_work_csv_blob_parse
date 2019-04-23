@@ -41,7 +41,8 @@ function workingWithName (title, catalogTitle) {
     const width = dimensions[2] ? dimensions[2] : title.match(/[РАP]{1}\s?[\d]+/)[0].replace(/\D/,'');
 
     let zernistost = reduceItemFind(title, 'Р{1}\\s?\\d{1,3}');
-    zernistost = reduceItemMath(zernistost.replace(/[\sР]/,''), [60, 180], ['Р10 - Р70', 'Р80 - Р180'])
+    if ( zernistost ) zernistost = reduceItemMath(zernistost.replace(/[\sР]/,''), [60, 180], ['Р10 - Р70', 'Р80 - Р180'])
+    
     const reliefnost = reduceItemFind(title, '\\d{1,3}\\s?П{1}');
 
     dimensions = {
