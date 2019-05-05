@@ -46,7 +46,7 @@ class ResponseTransform {
 
         const header = fs.readFileSync(`${way}/src/Client/components/header.php`).toString()
         const footer = fs.readFileSync(`${way}/src/Client/components/footer.php`).toString()
-
+ 
         html = html.replace(
             /<\?php include\(.+header.+\); \?>/g,
             header
