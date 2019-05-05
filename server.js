@@ -99,10 +99,10 @@ class ResponseTransform {
         this.resp.writeHead( 200, { 'Content-Type': mimeType ? mimeType : 'text/html' } )
 
         {
-            console.log('way - ', way)
-            console.log('mimeType - ', mimeType)
-            console.log('url - ', this.url)
-            console.log()
+            // console.log('way - ', way)
+            // console.log('mimeType - ', mimeType)
+            // console.log('url - ', this.url)
+            // console.log()
         } //логирование
 
         const isHTML = fileType === 'html' ? 'utf8' : null
