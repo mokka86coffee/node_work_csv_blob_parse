@@ -123,15 +123,15 @@ class ResponseTransform {
         } 
         else if ( fileType === 'dir' ) {
 
-                this.resp.write(`<style>a{padding: 10px;color: #20576d;}</style>`)
-                
-                const url = this.url.replace(/.+\//, '')
-        
-                fs.readdirSync(way)
-                    .filter( name => /\.html/.test(name) || !/\./.test(name) )
-                    .forEach( name => 
-                        this.resp.write(`<a href="${url}/${name}">${name}</a>`)
-                    )
+            this.resp.write(`<style>a{padding: 10px;color: #20576d;}</style>`)
+            
+            const url = this.url.replace(/.+\//, '')
+    
+            fs.readdirSync(way)
+                .filter( name => /\.html/.test(name) || !/\./.test(name) )
+                .forEach( name => 
+                    this.resp.write(`<a href="${url}/${name}">${name}</a>`)
+                )
 
             this.resp.end()
         } 
