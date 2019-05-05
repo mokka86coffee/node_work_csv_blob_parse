@@ -282,4 +282,4 @@ function transformInclude(html) {
 */
 } // функциональное решение
 
-console.log('Сервер запущен на localhost:2000')
+console.log('Сайт запущен на localhost:2000, все страницы из html_templates открываются через ')
