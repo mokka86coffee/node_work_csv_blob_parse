@@ -1,7 +1,7 @@
 const http = require('http')
 const fs = require('fs')
 const path = require('path')
- 
+
 class ResponseTransform {
     constructor(resp, url){
         this.resp = resp
@@ -40,13 +40,13 @@ class ResponseTransform {
         this.url = url
     }
 
-    transformInclude(html) {
+    transformPHPInclude(html) {
 
         const { way } = this
 
         const header = fs.readFileSync(`${way}/src/Client/components/header.php`).toString()
         const footer = fs.readFileSync(`${way}/src/Client/components/footer.php`).toString()
- 
+
         html = html.replace(
             /<\?php include\(.+header.+\); \?>/g,
             header
@@ -60,14 +60,13 @@ class ResponseTransform {
         return html
     }
 
-    testReq(){
+    testRequest(){
 
         const { url, mimeTypes } = this
 
         const key = Object.keys( mimeTypes )
-            .filter( type => RegExp(type.replace(/\./g,'\\.')).test(url) )
+            .filter( type => RegExp( type.replace(/\./g,'\\.') ).test(url) )
             .toString()
-
         
         if ( key && key !== '.html' ) {
             this.mimeType = mimeTypes[key]
@@ -77,7 +76,6 @@ class ResponseTransform {
         else if ( key === '.html' ) {
             this.mimeType = mimeTypes[key]
             ResponseTransform.prototype.localway = path.dirname(url)
-            this.fileType = 'html'
             this.url = 'src/Client/html_templates/' + url 
         } 
 
@@ -87,16 +85,17 @@ class ResponseTransform {
         
         else {
             this.url = 'src/Client/html_templates/' + url
-            this.fileType = 'dir'
+            this.mimeType = 'dir'
         }
 
     }
 
-    writeResp() {
-        const { mimeType, fileType } = this
+    writeResponse() {
+        const { mimeType } = this
         const way = this.way + this.url
         
-        this.resp.writeHead( 200, { 'Content-Type': mimeType ? mimeType : 'text/html' } )
+        const isKnownFile = !mimeType.match(/(unknown|dir)/)
+        this.resp.writeHead( 200, { 'Content-Type': isKnownFile ? mimeType : 'text/html' } )
 
         {
             // console.log('way - ', way)
@@ -105,23 +104,19 @@ class ResponseTransform {
             // console.log()
         } //логирование
 
-        const isHTML = fileType === 'html' ? 'utf8' : null
+        const isHTML = mimeType.includes( 'html' ) ? 'utf8' : null
 
-        if ( mimeType && mimeType !== 'unknown') { 
+        if ( isKnownFile ) { 
+
             fs.readFile(way, isHTML, (err, data) => {
-                if (err) { 
-                    this.resp.end(''); 
-                    return
-                }
 
-                if ( isHTML ) data = this.transformInclude(data)
+                if ( isHTML ) data = this.transformPHPInclude(data)
 
-                this.resp.write(data)
-                this.resp.end()
+                this.resp.end( !err ? data : '' )
             })
                     
         } 
-        else if ( fileType === 'dir' ) {
+        else if ( mimeType === 'dir' ) {
 
             this.resp.write(`<style>a{padding: 10px;color: #20576d;}</style>`)
             
@@ -143,14 +138,16 @@ class ResponseTransform {
 }
 
 
-http.createServer( (req, resp) => {
-    let url = req.url.substr(1)
 
-    const RespTransform = new ResponseTransform(resp, url)
 
-    RespTransform.testReq()
+http.createServer( (request, response) => {
+    const url = request.url.substr(1)
+
+    const RespTransform = new ResponseTransform(response, url)
+
+    RespTransform.testRequest()
     
-    RespTransform.writeResp()
+    RespTransform.writeResponse()
 
 }).listen(2000)
 
